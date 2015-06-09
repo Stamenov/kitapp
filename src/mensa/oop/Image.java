@@ -1,10 +1,10 @@
 package mensa.oop;
 
-public class Image {
+public final class Image {
 	// THESE FIELDS SHOULD BE IMMUTABLE
-	private int userid;
-	private String url;
-	private int hashCode;
+	private final int userid;
+	private final String url;
+	private final int hashCode;
 	
 	public Image(int userid, String url) {
 		this.userid = userid;
