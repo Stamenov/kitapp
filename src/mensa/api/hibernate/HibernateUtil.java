@@ -13,9 +13,8 @@ public class HibernateUtil {
             // Create the SessionFactory from hibernate.cfg.xml
         	
         	Configuration config = new Configuration().configure();
-        	config.addResource("mensa.api.hibernate.dto.Event.class");
-        	System.out.println("5");
-        	//Crashes after this line, why??
+        	config.addAnnotatedClass(mensa.api.hibernate.dto.Event.class);
+
             return config.buildSessionFactory(
 			    new StandardServiceRegistryBuilder().applySettings(config.getProperties()).build() );
         }
