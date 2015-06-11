@@ -12,16 +12,8 @@ public class HibernateUtil {
         try {
             // Create the SessionFactory from hibernate.cfg.xml
         	
-        	System.out.println("1");
-        	new Configuration();
-        	System.out.println("2");
         	Configuration config = new Configuration().configure();
-        	System.out.println("3");
-        	new StandardServiceRegistryBuilder();
-        	System.out.println("4");
-        	new StandardServiceRegistryBuilder().build();
         	System.out.println("5");
-        	System.out.println("6");
         	//Crashes after this line, why??
             return config.buildSessionFactory(
 			    new StandardServiceRegistryBuilder().applySettings(config.getProperties()).build() );
@@ -34,6 +26,7 @@ public class HibernateUtil {
     }
 
     public static SessionFactory getSessionFactory() {
+    	System.out.println("6");
         return sessionFactory;
     }
 
