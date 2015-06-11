@@ -1,4 +1,4 @@
-package mensa.hibernate;
+package mensa.api.hibernate;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
@@ -15,7 +15,7 @@ public class HibernateUtil {
         	System.out.println("1");
         	new Configuration();
         	System.out.println("2");
-        	new Configuration().configure();
+        	Configuration config = new Configuration().configure();
         	System.out.println("3");
         	new StandardServiceRegistryBuilder();
         	System.out.println("4");
@@ -23,8 +23,8 @@ public class HibernateUtil {
         	System.out.println("5");
         	System.out.println("6");
         	//Crashes after this line, why??
-            return new Configuration().configure().buildSessionFactory(
-			    new StandardServiceRegistryBuilder().build() );
+            return config.buildSessionFactory(
+			    new StandardServiceRegistryBuilder().applySettings(config.getProperties()).build() );
         }
         catch (Throwable ex) {
             // Make sure you log the exception, as it might be swallowed

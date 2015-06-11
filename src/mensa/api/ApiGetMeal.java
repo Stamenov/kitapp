@@ -2,8 +2,8 @@ package mensa.api;
 
 import java.util.Date;
 
-import mensa.hibernate.HibernateUtil;
-import mensa.hibernate.dto.Event;
+import mensa.api.hibernate.HibernateUtil;
+import mensa.api.hibernate.dto.Event;
 
 import org.hibernate.Session;
 

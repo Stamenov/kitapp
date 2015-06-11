@@ -67,11 +67,6 @@
     	<artifactId>hibernate-core</artifactId>
     	<version>5.0.0.CR1</version>
 	</dependency>
-	<dependency>
-		<groupId>org.hibernate</groupId>
-		<artifactId>hibernate-annotations</artifactId>
-		<version>3.5.6-Final</version>
-	</dependency>
   	<dependency>
   		<groupId>com.sun.jersey</groupId>
   		<artifactId>jersey-server</artifactId>

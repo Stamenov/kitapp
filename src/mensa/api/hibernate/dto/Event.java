@@ -21,7 +21,7 @@
  * 51 Franklin Street, Fifth Floor
  * Boston, MA  02110-1301  USA
  */
-package mensa.hibernate.dto;
+package mensa.api.hibernate.dto;
 
 import java.util.Date;
 import javax.persistence.Column;
