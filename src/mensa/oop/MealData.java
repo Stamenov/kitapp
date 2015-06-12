@@ -1,9 +1,13 @@
 package mensa.oop;
 
 import java.util.HashSet;
-import java.util.Set;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+@Entity
 public class MealData {	
+	private int id;
 	private RatingList ratings;
 	private ImageList images;
 	private HashSet<Tag> tags;
@@ -48,4 +52,27 @@ public class MealData {
 			meal.setData(data);
 		}
 	}
+	
+
+	@Id
+	private int getId() {
+		return id;
+	};	
+	
+	public RatingList getRatings() {
+		return ratings;
+	}
+
+	public void setRatings(RatingList ratings) {
+		this.ratings = ratings;
+	}
+
+	public ImageList getImages() {
+		return images;
+	}
+
+	public void setImages(ImageList images) {
+		this.images = images;
+	}
+	
 }

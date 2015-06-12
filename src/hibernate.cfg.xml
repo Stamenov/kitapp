@@ -21,6 +21,9 @@
 		<property name="hibernate.hbm2ddl.auto">create</property>
        	
        	<!-- name the annotated entity classes -->
-        <mapping class="mensa.hibernate.dto.Event"></mapping>
+        <mapping class="mensa.api.hibernate.dto.Event"></mapping>
+        <mapping class="mensa.oop.Meal"></mapping>
+        <mapping class="mensa.oop.MealData"></mapping>
+        <mapping class="mensa.oop.Image"></mapping>
     </session-factory>
 </hibernate-configuration>

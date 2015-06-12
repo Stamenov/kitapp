@@ -1,7 +1,12 @@
 package mensa.oop;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+
+@Entity
 public final class Image {
 	// THESE FIELDS SHOULD BE IMMUTABLE
+	private int id;
 	private final int userid;
 	private final String url;
 	private final int hashCode;
@@ -31,5 +36,14 @@ public final class Image {
 	@Override
 	public  int hashCode() {
 		return hashCode;
+	}	
+
+	@Id
+	private int getId() {
+		return id;
+	};
+	
+	private void setId(int id) {
+		this.id = id;
 	}
 }
