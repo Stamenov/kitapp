@@ -9,6 +9,8 @@ public class Meal {
 
 	private int id;
 	private String name;
+	private MealData data;	
+
 	public String getName() {
 		return name;
 	}
@@ -16,8 +18,6 @@ public class Meal {
 	public void setName(String name) {
 		this.name = name;
 	}
-
-	private MealData data;
 	
 	@Id @GeneratedValue
 	public int getId() {

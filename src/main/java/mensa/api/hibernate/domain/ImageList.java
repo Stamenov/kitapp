@@ -1,15 +1,21 @@
 package mensa.api.hibernate.domain;
 
 import java.util.HashSet;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 @Entity
 public class ImageList {
-	private int id;
-	private HashSet<Image> images = new HashSet<Image>();
+	private int id;	
+	private Set<Image> images = new HashSet<Image>();
 	
 	public static ImageList merge(ImageList first, ImageList second) {
 		ImageList result = new ImageList();
@@ -32,4 +38,16 @@ public class ImageList {
 	public void setId(int id) {
 		this.id = id;
 	}
+
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinTable(name = "imageListToImage")
+	public Set<Image> getImages() {
+		return images;
+	}
+
+	public void setImages(Set<Image> images) {
+		this.images = images;
+	}
+	
+	
 }
