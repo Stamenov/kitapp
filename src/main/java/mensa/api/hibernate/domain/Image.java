@@ -1,5 +1,6 @@
 package mensa.api.hibernate.domain;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -49,6 +50,7 @@ public final class Image {
 		this.id = id;
 	}
 
+	@Column
 	public int getUserid() {
 		return userid;
 	}
@@ -57,6 +59,7 @@ public final class Image {
 		this.userid = userid;
 	}
 
+	@Column
 	public String getUrl() {
 		return url;
 	}
