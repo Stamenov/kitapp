@@ -15,6 +15,12 @@ public class HibernateUtil {
         	Configuration config = new Configuration().configure();
         	config.addAnnotatedClass(mensa.api.hibernate.domain.Image.class);
         	//
+        	
+        	
+        	
+        	
+        	///////////
+       
         	//malo komit
             return config.buildSessionFactory(
 			    new StandardServiceRegistryBuilder().applySettings(config.getProperties()).build() );
