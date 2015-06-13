@@ -1,6 +1,7 @@
 package mensa.api.hibernate.domain;
 
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 @Entity
@@ -18,10 +19,14 @@ public class Meal {
 
 	private MealData data;
 	
-	@Id
-	private int getId() {
+	@Id @GeneratedValue
+	public int getId() {
 		return id;
 	};
+
+	public void setId(int id) {
+		this.id = id;
+	}
 
 	public MealData getData() {
 		return data;

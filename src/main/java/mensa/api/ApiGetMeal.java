@@ -45,7 +45,10 @@ public class ApiGetMeal {
 		HibernateUtil.shutdown();
 	}
 	
-	public void createMockMenu() {
+	public void createMockMenu() {		
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		session.beginTransaction();
+		
 		HashSet<Tag> tags1 = new HashSet<Tag>();
 		tags1.add(Tag.MIT_URANIUM);		
 		Meal meal1 = new Meal();
@@ -75,20 +78,22 @@ public class ApiGetMeal {
 		
 		images1.putImage(new Image(1000, "testurl"));
 		
+		// ACTION
 		
-		Session session = HibernateUtil.getSessionFactory().openSession();
-		session.beginTransaction();
+		session.save(images1);
 		
-		// iny mysql console:
+		Image image = new Image(1000, "testurl");
+		image.setUrl("yoo1");
+		session.save(image);
+		image.setUrl("yoo2");
+		
+		// in mysql console:
 		// use hibernatedb
 		// show tables
 		// show columns FROM tablename / describe tablename
+		// select * from tablename
 		session.save(new Image(1000, "testurl"));
 		session.save(new Image(1000, "test2url"));
-		//session.save(meal2);
-		
-//		session.save(meal1);
-//		session.save(meal2);		
 
 		session.getTransaction().commit();
 		HibernateUtil.shutdown();
