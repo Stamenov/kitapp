@@ -13,9 +13,6 @@ public class HibernateUtil {
             // Create the SessionFactory from hibernate.cfg.xml
         	
         	Configuration config = new Configuration().configure();
-        	config.addAnnotatedClass(mensa.api.hibernate.dto.Event.class);
-        	//config.addAnnotatedClass(mensa.oop.Meal.class);
-        	//config.addAnnotatedClass(mensa.oop.MealData.class);
         	config.addAnnotatedClass(mensa.api.hibernate.domain.Image.class);
 
             return config.buildSessionFactory(
