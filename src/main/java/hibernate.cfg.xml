@@ -25,5 +25,6 @@
         <mapping class="mensa.oop.Meal"></mapping>
         <mapping class="mensa.oop.MealData"></mapping>
         <mapping class="mensa.oop.Image"></mapping>
+        <mapping resource="mensa/api/hibernate/domain/Image.hbm.xml"/>        
     </session-factory>
 </hibernate-configuration>

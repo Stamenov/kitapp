@@ -1,4 +1,4 @@
-package mensa.oop;
+package mensa.api.hibernate.domain;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;

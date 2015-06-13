@@ -1,4 +1,5 @@
-package mensa.oop;
+package mensa.api.hibernate.domain;
+
 
 import java.util.LinkedList;
 

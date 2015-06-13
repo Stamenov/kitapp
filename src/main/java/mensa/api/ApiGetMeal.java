@@ -1,6 +1,6 @@
 package mensa.api;
 
-import mensa.oop.*;
+import mensa.api.hibernate.domain.*;
 
 import java.util.Date;
 import java.util.HashSet;
@@ -27,7 +27,10 @@ public class ApiGetMeal {
 		//testHibernate();
 		createMockMenu();
 		
-		return new Meal("asd", Integer.parseInt(mealID));
+		Meal meal = new Meal();
+		meal.setName("asd");
+		return meal;
+		//return new Meal(Integer.parseInt(mealID));
 	}
 	
 	public void testHibernate() {
@@ -45,7 +48,7 @@ public class ApiGetMeal {
 	public void createMockMenu() {
 		HashSet<Tag> tags1 = new HashSet<Tag>();
 		tags1.add(Tag.MIT_URANIUM);		
-		mensa.oop.Meal meal1 = new mensa.oop.Meal();
+		Meal meal1 = new Meal();
 		meal1.setName("Spaghetti Con Carne");
 		MealData data1 = new MealData(meal1, tags1);		
 		meal1.setData(data1);
@@ -54,7 +57,7 @@ public class ApiGetMeal {
 		HashSet<Tag> tags2 = new HashSet<Tag>();
 		tags2.add(Tag.VEGETARISCH);		
 		tags2.add(Tag.EXTRA_GESUND);		
-		mensa.oop.Meal meal2 = new mensa.oop.Meal();
+		Meal meal2 = new Meal();
 		meal2.setName("Salat Gruen");
 		MealData data2 = new MealData(meal2, tags2);		
 		meal2.setData(data2);
@@ -79,8 +82,9 @@ public class ApiGetMeal {
 		// iny mysql console:
 		// use hibernatedb
 		// show tables
-		// show columns FROM tablename
+		// show columns FROM tablename / describe tablename
 		session.save(new Image(1000, "testurl"));
+		session.save(new Image(1000, "test2url"));
 		//session.save(meal2);
 		
 //		session.save(meal1);
