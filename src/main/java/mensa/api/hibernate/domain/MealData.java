@@ -1,36 +1,43 @@
 package mensa.api.hibernate.domain;
 
 import java.util.HashSet;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
 @Entity
 public class MealData {	
 	private int id;
-	private RatingList ratings;
-	private ImageList images;
-	private HashSet<Tag> tags;
-	private HashSet<Meal> meals;
+	private Set<Rating> ratings;
+	private Set<Image> images;
+	private Set<Tag> tags;
+	//private Set<Meal> meals;
 	
 	public MealData(Meal meal, HashSet<Tag> tags){
-		meals = new HashSet<Meal>();
-		meals.add(meal);
-		ratings = new RatingList();
-		images = new ImageList();
+	//	meals = new HashSet<Meal>();
+	//	meals.add(meal);
+		ratings = new HashSet<Rating>();
+		images = new HashSet<Image>();
 		this.tags = tags;
 	}
 	
 	/**
-	 * For meging; Given two MealData objects, creates a third object that has their merged fields.
+	 * For merging; Given two MealData objects, creates a third object that has their merged fields.
 	 * @param first
 	 * @param second
 	 */
 	private MealData(MealData first, MealData second) {
-		meals = new HashSet<Meal>();
-		meals.addAll(first.meals);
-		meals.addAll(second.meals);
+	//	meals = new HashSet<Meal>();
+	//	meals.addAll(first.meals);
+	//	meals.addAll(second.meals);
 		
 		tags = new HashSet<Tag>();
 		if (!first.tags.containsAll(second.tags) || !second.tags.containsAll(first.tags)) {
@@ -39,41 +46,72 @@ public class MealData {
 			tags.addAll(first.tags);
 		}
 		
-		images = ImageList.merge(first.images, second.images);
-		ratings = RatingList.merge(first.ratings, second.ratings);
+		images = new HashSet<Image>();
+		images.addAll(first.images);
+		images.addAll(second.images);
 		
-		
+		ratings = new HashSet<Rating>();
+		ratings.addAll(first.ratings);
+		ratings.addAll(second.ratings);
 	}	
 
 	public static void merge(MealData first, MealData second) {
 		MealData data = new MealData(first, second);
 		// make data contain merged ratings etc
 		
-		for (Meal meal : data.meals) {
-			meal.setData(data);
-		}
+	//	for (Meal meal : data.meals) {
+	//		meal.setData(data);
+	//	}
 	}
 	
 
 	@Id @GeneratedValue
-	private int getId() {
+	public int getId() {
 		return id;
 	};	
+
+	public void setId(int id) {
+		this.id = id;
+	}
 	
-	public RatingList getRatings() {
-		return ratings;
-	}
-
-	public void setRatings(RatingList ratings) {
-		this.ratings = ratings;
-	}
-
-	public ImageList getImages() {
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinTable(name = "imageListToImage")
+	public Set<Image> getImages() {
 		return images;
 	}
 
-	public void setImages(ImageList images) {
+	public void setImages(Set<Image> images) {
 		this.images = images;
 	}
 	
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinTable(name = "ratingListToRating")
+	public Set<Rating> getRatings() {
+		return ratings;
+	}
+
+	public void setRatings(Set<Rating> ratings) {
+		this.ratings = ratings;
+	}
+	
+	@Enumerated(EnumType.STRING)
+	@OneToMany(cascade = CascadeType.ALL)
+	@JoinTable(name = "enumListToEnum")
+	public Set<Tag> getTags() {
+		return tags;
+	}
+
+	public void setTags(Set<Tag> tags) {
+		this.tags = tags;
+	}
+
+//	@ManyToMany(cascade = CascadeType.ALL)
+//	@JoinTable(name = "menuListToMenu")
+//	public Set<Meal> getMeals() {
+//		return meals;
+//	}
+//
+//	public void setMeals(Set<Meal> meals) {
+//		this.meals = meals;
+//	}	
 }

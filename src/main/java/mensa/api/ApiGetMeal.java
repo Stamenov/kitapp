@@ -65,22 +65,16 @@ public class ApiGetMeal {
 		MealData data2 = new MealData(meal2, tags2);		
 		meal2.setData(data2);
 		
-		ImageList images1 = new ImageList();
-		ImageList images2 = new ImageList();
+		data1.setImages(new HashSet<Image>());
+		data1.setRatings(new HashSet<Rating>());
+		data2.setImages(new HashSet<Image>());
+		data2.setRatings(new HashSet<Rating>());
 		
-		RatingList ratings1 = new RatingList();
-		RatingList ratings2 = new RatingList();
-		
-		data1.setImages(images1);
-		data1.setRatings(ratings1);
-		data2.setImages(images2);
-		data2.setRatings(ratings2);
-		
-		images1.putImage(new Image(1000, "testurl"));
+		data1.getImages().add(new Image(1000, "testurl"));
 		
 		// ACTION
 		
-		session.save(images1);
+		session.save(data1);
 		
 		Image image = new Image(1000, "testurl");
 		image.setUrl("yoo1");
