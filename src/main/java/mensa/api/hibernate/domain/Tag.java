@@ -4,5 +4,5 @@ import javax.persistence.Entity;
 
 @Entity
 public enum Tag {
-	VEGETARISCH, MIT_URANIUM, EXTRA_GESUND
+	VEGETARISCH, MIT_URANIUM, EXTRA_GESUND, PFERDESCHWANZ
 }
