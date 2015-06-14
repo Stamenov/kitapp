@@ -6,11 +6,10 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
@@ -21,11 +20,11 @@ public class MealData {
 	private Set<Rating> ratings;
 	private Set<Image> images;
 	private Set<Tag> tags;
-	//private Set<Meal> meals;
+	private Set<Meal> meals;
 	
 	public MealData(Meal meal, HashSet<Tag> tags){
-	//	meals = new HashSet<Meal>();
-	//	meals.add(meal);
+		meals = new HashSet<Meal>();
+		meals.add(meal);
 		ratings = new HashSet<Rating>();
 		images = new HashSet<Image>();
 		this.tags = tags;
@@ -37,9 +36,9 @@ public class MealData {
 	 * @param second
 	 */
 	private MealData(MealData first, MealData second) {
-	//	meals = new HashSet<Meal>();
-	//	meals.addAll(first.meals);
-	//	meals.addAll(second.meals);
+		meals = new HashSet<Meal>();
+		meals.addAll(first.meals);
+		meals.addAll(second.meals);
 		
 		tags = new HashSet<Tag>();
 		if (!first.tags.containsAll(second.tags) || !second.tags.containsAll(first.tags)) {
@@ -61,9 +60,9 @@ public class MealData {
 		MealData data = new MealData(first, second);
 		// make data contain merged ratings etc
 		
-	//	for (Meal meal : data.meals) {
-	//		meal.setData(data);
-	//	}
+		for (Meal meal : data.meals) {
+			meal.setData(data);
+		}
 	}
 	
 
@@ -106,13 +105,12 @@ public class MealData {
 		this.tags = tags;
 	}
 
-//	@ManyToMany(cascade = CascadeType.ALL)
-//	@JoinTable(name = "menuListToMenu")
-//	public Set<Meal> getMeals() {
-//		return meals;
-//	}
-//
-//	public void setMeals(Set<Meal> meals) {
-//		this.meals = meals;
-//	}	
+	@OneToMany(mappedBy = "data")
+	public Set<Meal> getMeals() {
+		return meals;
+	}
+
+	public void setMeals(Set<Meal> meals) {
+		this.meals = meals;
+	}	
 }

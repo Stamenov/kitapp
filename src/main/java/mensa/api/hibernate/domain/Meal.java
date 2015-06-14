@@ -3,6 +3,9 @@ package mensa.api.hibernate.domain;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class Meal {
@@ -28,6 +31,7 @@ public class Meal {
 		this.id = id;
 	}
 
+	@ManyToOne
 	public MealData getData() {
 		return data;
 	}
