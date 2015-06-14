@@ -75,6 +75,7 @@ public class ApiGetMeal {
 		// ACTION
 		
 		session.save(data1);
+		session.save(data2);
 		
 		Image image = new Image(1000, "testurl");
 		image.setUrl("yoo1");

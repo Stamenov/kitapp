@@ -4,9 +4,11 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinTable;
@@ -94,9 +96,8 @@ public class MealData {
 		this.ratings = ratings;
 	}
 	
-	@Enumerated(EnumType.STRING)
-	@OneToMany(cascade = CascadeType.ALL)
-	@JoinTable(name = "enumListToEnum")
+	@ElementCollection(fetch=FetchType.EAGER)
+    @JoinTable(name="tags")
 	public Set<Tag> getTags() {
 		return tags;
 	}
