@@ -26,7 +26,7 @@ public class ApiMealGetter {
 		
 		Meal meal = new Meal();
 		meal.setName("asda");
-		meal.setData(new MealData(meal, new HashSet<Tag>()));
+		meal.setData(new MealData(meal, new Tags()));
 		return meal;
 		//return new Meal(Integer.parseInt(mealID));
 	}
@@ -35,17 +35,14 @@ public class ApiMealGetter {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction();
 		
-		HashSet<Tag> tags1 = new HashSet<Tag>();
-		tags1.add(Tag.MIT_URANIUM);		
+		Tags tags1 = new Tags();	
 		Meal meal1 = new Meal();
 		meal1.setName("Spaghetti Con Carne");
 		MealData data1 = new MealData(meal1, tags1);		
 		meal1.setData(data1);
 		
 
-		HashSet<Tag> tags2 = new HashSet<Tag>();
-		tags2.add(Tag.VEGETARISCH);		
-		tags2.add(Tag.EXTRA_GESUND);		
+		Tags tags2 = new Tags();	
 		Meal meal2 = new Meal();
 		meal2.setName("Salat Gruen");
 		MealData data2 = new MealData(meal2, tags2);		

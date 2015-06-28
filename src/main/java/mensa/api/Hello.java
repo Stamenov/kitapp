@@ -7,19 +7,6 @@ import javax.ws.rs.core.MediaType;
 
 @Path("/json/")
 public class Hello {
- 
-		@GET
-		@Path("/track")
-		@Produces(MediaType.APPLICATION_JSON)
-		public Track getTrackInJSON() {
-	 
-			Track track = new Track();
-			track.setTitle("Enter Sandman");
-			track.setSinger("Metallica");
-	 
-			return track;
-	 
-		}
 	 
 		@GET
 		@Path("/meal/{mealID}/")

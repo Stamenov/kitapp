@@ -1,8 +1,11 @@
 package mensa.api.hibernate.domain;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 @Entity
 public class Offer {
@@ -13,9 +16,27 @@ public class Offer {
 	@Id @GeneratedValue
 	private int getId() {
 		return id;
-	};	
+	};
 
 	public void setId(int id) {
 		this.id = id;
+	}
+
+	@ManyToOne(cascade = CascadeType.ALL)
+	public Meal getMeal() {
+		return meal;
+	}
+
+	public void setMeal(Meal meal) {
+		this.meal = meal;
+	}
+
+	@OneToOne(cascade = CascadeType.ALL)
+	public Price getPrice() {
+		return price;
+	}
+
+	public void setPrice(Price price) {
+		this.price = price;
 	}
 }

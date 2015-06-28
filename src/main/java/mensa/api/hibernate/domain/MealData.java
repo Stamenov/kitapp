@@ -13,6 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
@@ -22,10 +23,10 @@ public class MealData {
 	private int id;
 	private Set<Rating> ratings;
 	private Set<Image> images;
-	private Set<Tag> tags;
+	private Tags tags;
 	private Set<Meal> meals;
 	
-	public MealData(Meal meal, HashSet<Tag> tags){
+	public MealData(Meal meal, Tags tags){
 		meals = new HashSet<Meal>();
 		meals.add(meal);
 		ratings = new HashSet<Rating>();
@@ -43,11 +44,10 @@ public class MealData {
 		meals.addAll(first.meals);
 		meals.addAll(second.meals);
 		
-		tags = new HashSet<Tag>();
-		if (!first.tags.containsAll(second.tags) || !second.tags.containsAll(first.tags)) {
+		if (!first.tags.equals(second.tags)) {
 			throw new IllegalArgumentException("Tags of both meals should be equal!");
 		} else {
-			tags.addAll(first.tags);
+			tags = first.tags.clone();
 		}
 		
 		images = new HashSet<Image>();
@@ -98,17 +98,16 @@ public class MealData {
 		this.ratings = ratings;
 	}
 	
-	@ElementCollection(fetch=FetchType.EAGER)
-    @JoinTable(name="tags")
-	public Set<Tag> getTags() {
+	@OneToOne(cascade = CascadeType.ALL)
+	public Tags getTags() {
 		return tags;
 	}
 
-	public void setTags(Set<Tag> tags) {
+	public void setTags(Tags tags) {
 		this.tags = tags;
 	}
 
-	@OneToMany(mappedBy = "data")
+	@OneToMany(mappedBy = "data", cascade = CascadeType.ALL)
 	@JsonIgnore
 	public Set<Meal> getMeals() {
 		return meals;

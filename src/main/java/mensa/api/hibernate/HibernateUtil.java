@@ -15,8 +15,11 @@ public class HibernateUtil {
         	Configuration config = new Configuration().configure();
         	config.addAnnotatedClass(mensa.api.hibernate.domain.Image.class);
         	config.addAnnotatedClass(mensa.api.hibernate.domain.Rating.class);
+        	config.addAnnotatedClass(mensa.api.hibernate.domain.Tags.class);
         	config.addAnnotatedClass(mensa.api.hibernate.domain.MealData.class);
         	config.addAnnotatedClass(mensa.api.hibernate.domain.Meal.class);
+        	config.addAnnotatedClass(mensa.api.hibernate.domain.Price.class);
+        	config.addAnnotatedClass(mensa.api.hibernate.domain.Offer.class);
 
             return config.buildSessionFactory(
 			    new StandardServiceRegistryBuilder().applySettings(config.getProperties()).build() );
