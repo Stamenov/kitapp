@@ -2,7 +2,6 @@ package mensa.api;
 
 import mensa.api.hibernate.domain.*;
 
-import java.util.Date;
 import java.util.HashSet;
 
 import mensa.api.hibernate.HibernateUtil;
@@ -16,7 +15,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 @Path("/meal/")
-public class ApiGetMeal {
+public class ApiMealGetter {
 	
 	@GET
 	@Path("/{mealID:[0-9]*}/")
@@ -32,7 +31,7 @@ public class ApiGetMeal {
 		//return new Meal(Integer.parseInt(mealID));
 	}
 	
-	public void createMockMenu() {		
+	public void createMockMenu() {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction();
 		
