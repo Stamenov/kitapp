@@ -6,7 +6,6 @@ import java.util.Date;
 import java.util.HashSet;
 
 import mensa.api.hibernate.HibernateUtil;
-import mensa.api.hibernate.dto.Event;
 
 import org.hibernate.Session;
 
@@ -24,25 +23,13 @@ public class ApiGetMeal {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Meal getMealById(@PathParam("mealID") String mealID){
 		
-		//testHibernate();
 		createMockMenu();
 		
 		Meal meal = new Meal();
 		meal.setName("asda");
+		meal.setData(new MealData(meal, new HashSet<Tag>()));
 		return meal;
 		//return new Meal(Integer.parseInt(mealID));
-	}
-	
-	public void testHibernate() {
-
-		Session session = HibernateUtil.getSessionFactory().openSession();
-		session.beginTransaction();
-
-		Event emp = new Event("yesy", new Date());
-		session.save(emp);
-
-		session.getTransaction().commit();
-		HibernateUtil.shutdown();
 	}
 	
 	public void createMockMenu() {		

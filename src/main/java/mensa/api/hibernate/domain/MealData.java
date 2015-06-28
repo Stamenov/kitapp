@@ -14,6 +14,9 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
+
 @Entity
 public class MealData {	
 	private int id;
@@ -106,6 +109,7 @@ public class MealData {
 	}
 
 	@OneToMany(mappedBy = "data")
+	@JsonIgnore
 	public Set<Meal> getMeals() {
 		return meals;
 	}
