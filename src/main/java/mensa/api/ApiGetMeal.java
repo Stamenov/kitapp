@@ -28,7 +28,7 @@ public class ApiGetMeal {
 		createMockMenu();
 		
 		Meal meal = new Meal();
-		meal.setName("asd");
+		meal.setName("asda");
 		return meal;
 		//return new Meal(Integer.parseInt(mealID));
 	}
