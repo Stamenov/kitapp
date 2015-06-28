@@ -10,16 +10,34 @@ import javax.persistence.OneToOne;
 @Entity
 public class Offer {
 	private int id;
+	private int timestamp;
+	private Line line;
 	private Meal meal;
 	private Price price;
 	
 	@Id @GeneratedValue
 	private int getId() {
 		return id;
-	};
+	};	
 
 	public void setId(int id) {
 		this.id = id;
+	}
+	
+	public int getTimestamp() {
+		return timestamp;
+	}
+
+	public void setTimestamp(int timestamp) {
+		this.timestamp = timestamp;
+	}
+
+	public Line getLine() {
+		return line;
+	}
+
+	public void setLine(Line line) {
+		this.line = line;
 	}
 
 	@ManyToOne(cascade = CascadeType.ALL)
