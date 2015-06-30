@@ -7,11 +7,24 @@ import javax.persistence.Id;
 @Entity
 public class Price {
 	private int id;
-	private int studentPrice;
-	private int professorPrice;
-	private int childPrice;
-	private int visitorPrice;
+	private double studentPrice;
+	private double visitorPrice;
+	private double workerPrice;
+	private double childPrice;
 	
+	public Price() {
+		
+	}
+
+	public Price(double studentPrice, double visitorPrice, double workerPrice,
+			double childPrice) {
+		super();
+		this.studentPrice = studentPrice;
+		this.visitorPrice = visitorPrice;
+		this.workerPrice = workerPrice;
+		this.childPrice = childPrice;
+	}
+
 	@Id @GeneratedValue
 	private int getId() {
 		return id;
@@ -21,35 +34,35 @@ public class Price {
 		this.id = id;
 	}
 
-	public int getStudentPrice() {
+	public double getStudentPrice() {
 		return studentPrice;
 	}
 
-	public void setStudentPrice(int studentPrice) {
+	public void setStudentPrice(double studentPrice) {
 		this.studentPrice = studentPrice;
 	}
 
-	public int getProfessorPrice() {
-		return professorPrice;
+	public double getWorkerPrice() {
+		return workerPrice;
 	}
 
-	public void setProfessorPrice(int professorPrice) {
-		this.professorPrice = professorPrice;
+	public void setWorkerPrice(double workerPrice) {
+		this.workerPrice = workerPrice;
 	}
 
-	public int getChildPrice() {
+	public double getChildPrice() {
 		return childPrice;
 	}
 
-	public void setChildPrice(int childPrice) {
+	public void setChildPrice(double childPrice) {
 		this.childPrice = childPrice;
 	}
 
-	public int getVisitorPrice() {
+	public double getVisitorPrice() {
 		return visitorPrice;
 	}
 
-	public void setVisitorPrice(int visitorPrice) {
+	public void setVisitorPrice(double visitorPrice) {
 		this.visitorPrice = visitorPrice;
 	}
 }

@@ -14,7 +14,24 @@ public class Tags implements Cloneable {
 	private boolean cow_aw;
 	private boolean vegan;
 	private boolean veg;
-	private String add;
+	private String add;	
+	
+	public Tags() {
+		
+	}
+	
+	public Tags(boolean bio, boolean fish, boolean pork, boolean cow,
+			boolean cow_aw, boolean vegan, boolean veg, String add) {
+		super();
+		this.bio = bio;
+		this.fish = fish;
+		this.pork = pork;
+		this.cow = cow;
+		this.cow_aw = cow_aw;
+		this.vegan = vegan;
+		this.veg = veg;
+		this.add = add;
+	}
 
 	@Id @GeneratedValue
 	private int getId() {
