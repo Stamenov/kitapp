@@ -64,7 +64,6 @@ public class ApiPlanGetter {
 		session.save(result[0]);
 
 		session.getTransaction().commit();
-		HibernateUtil.shutdown();
 		
 		return result;
 	}

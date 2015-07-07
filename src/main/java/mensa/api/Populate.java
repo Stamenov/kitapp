@@ -1,5 +1,14 @@
 package mensa.api;
 
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+
+import javax.servlet.ServletContextEvent;
+import javax.servlet.ServletContextListener;
+import javax.servlet.annotation.WebListener;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -16,7 +25,29 @@ import mensa.api.hibernate.domain.Price;
 import mensa.api.hibernate.domain.Tags;
 
 @Path("/populate/")
-public class Populate {
+@WebListener
+public class Populate extends TimerTask implements ServletContextListener{
+
+	@Override
+	public void contextDestroyed(ServletContextEvent arg0) {
+		// do nuffin
+	}
+
+	@Override
+	public void contextInitialized(ServletContextEvent arg0) {
+		ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+		scheduler.scheduleAtFixedRate(this, 0, 168, TimeUnit.HOURS);
+		
+		//Timer time = new Timer(); // Instantiate Timer Object
+	    //long dayInMilliseconds = 1000 * 60 * 60 * 24;
+		//time.schedule(this, 0, dayInMilliseconds);
+	}
+	
+	public void run(){
+		System.out.println("populate triggered!");
+		makeMockData();
+	}
+	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public Offer[][] makeMockData(){
@@ -155,7 +186,7 @@ public class Populate {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction();
 		
-		for (int i = 0; i < 3; i++) {
+		for (int i = 0; i < 4; i++) {
 			for (int j = 0; ; j++) {	
 				if (names[i][j] == null)
 					break;
@@ -180,7 +211,7 @@ public class Populate {
 		
 
 		session.getTransaction().commit();
-		HibernateUtil.shutdown();
+		//HibernateUtil.shutdown();
 		
 		
 		/////////////////////////////////////////////////////////////

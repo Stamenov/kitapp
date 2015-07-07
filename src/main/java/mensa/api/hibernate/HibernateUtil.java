@@ -20,7 +20,7 @@ public class HibernateUtil {
         	config.addAnnotatedClass(mensa.api.hibernate.domain.Meal.class);
         	config.addAnnotatedClass(mensa.api.hibernate.domain.Price.class);
         	config.addAnnotatedClass(mensa.api.hibernate.domain.Offer.class);
-
+        	
             return config.buildSessionFactory(
 			    new StandardServiceRegistryBuilder().applySettings(config.getProperties()).build() );
         }
@@ -32,7 +32,6 @@ public class HibernateUtil {
     }
 
     public static SessionFactory getSessionFactory() {
-    	System.out.println("6");
         return sessionFactory;
     }
 
