@@ -26,6 +26,10 @@ public class MealData {
 	private Tags tags;
 	private Set<Meal> meals;
 	
+	public MealData() {
+		
+	}
+	
 	public MealData(Meal meal, Tags tags){
 		meals = new HashSet<Meal>();
 		meals.add(meal);

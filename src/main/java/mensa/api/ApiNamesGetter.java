@@ -9,7 +9,9 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import org.hibernate.Criteria;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 import mensa.api.hibernate.HibernateUtil;
 import mensa.api.hibernate.domain.Meal;
@@ -21,9 +23,13 @@ public class ApiNamesGetter {
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<String> getNames(){
 		List<String> result = new ArrayList<String>();
-
+		
 		Session session = HibernateUtil.getSessionFactory().openSession();
-		session.beginTransaction();
+		Transaction tx = session.beginTransaction();
+		
+		Criteria cr = session.createCriteria(Meal.class);
+		List meals = cr.list();
+		System.out.println(meals.size());
 		
 		Iterator<Meal> it = session.createCriteria(Meal.class).list().iterator();
         session.getTransaction().commit();
