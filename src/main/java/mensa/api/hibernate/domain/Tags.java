@@ -106,6 +106,16 @@ public class Tags implements Cloneable {
 		this.add = add;
 	}
 
+	public static boolean equals(Tags tags1, Tags tags2){
+		if (tags1.bio == tags2.bio && tags1.fish == tags2.fish && tags1.pork == tags2.pork 
+				&& tags1.cow == tags2.cow && tags1.cow_aw == tags2.cow_aw &&  tags1.vegan == tags2.vegan 
+					&&  tags1.veg == tags2.veg &&  tags1.add.equals(tags2.add)) {
+			return true;
+		} else {
+			return false;			
+		}
+	}
+	
 	/**
 	 * Perform shallow copy.
 	 */

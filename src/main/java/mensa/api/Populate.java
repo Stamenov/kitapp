@@ -200,6 +200,7 @@ public class Populate extends TimerTask implements ServletContextListener{
 				meal.setName(names[i][j]);
 				
 				MealData data = new MealData(meal, tags[i][j]);				
+				data.setActive();
 				
 				meal.setData(data);
 				offer.setMeal(meal);

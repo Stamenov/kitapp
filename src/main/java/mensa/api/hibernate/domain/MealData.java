@@ -25,6 +25,7 @@ public class MealData {
 	private Set<Image> images;
 	private Tags tags;
 	private Set<Meal> meals;
+	private boolean active;
 	
 	public MealData() {
 		
@@ -36,6 +37,7 @@ public class MealData {
 		ratings = new HashSet<Rating>();
 		images = new HashSet<Image>();
 		this.tags = tags;
+		active = false;
 	}
 	
 	/**
@@ -48,36 +50,38 @@ public class MealData {
 		meals.addAll(first.meals);
 		meals.addAll(second.meals);
 		
-		if (!first.tags.equals(second.tags)) {
+		if (!Tags.equals(first.getTags(), second.getTags())) {
 			throw new IllegalArgumentException("Tags of both meals should be equal!");
 		} else {
 			tags = first.tags.clone();
 		}
 		
 		images = new HashSet<Image>();
-		images.addAll(first.images);
+		images.addAll(first.images);	
 		images.addAll(second.images);
 		
 		ratings = new HashSet<Rating>();
 		ratings.addAll(first.ratings);
 		ratings.addAll(second.ratings);
+		active = false;
 	}	
 
-	public static void merge(MealData first, MealData second) {
+	public static MealData merge(MealData first, MealData second) {
 		MealData data = new MealData(first, second);
 		// make data contain merged ratings etc
 		
 		for (Meal meal : data.meals) {
 			meal.setData(data);
 		}
+		return data;
 	}
 	
-
+	
 	@Id @GeneratedValue
 	public int getId() {
 		return id;
 	};	
-
+	
 	public void setId(int id) {
 		this.id = id;
 	}
@@ -119,5 +123,9 @@ public class MealData {
 
 	public void setMeals(Set<Meal> meals) {
 		this.meals = meals;
-	}	
+	}
+	
+	public void setActive(){
+		this.active = true;
+	}
 }
