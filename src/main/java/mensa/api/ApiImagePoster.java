@@ -1,5 +1,5 @@
 package mensa.api;
 
-public class ApiImagePutter {
+public class ApiImagePoster {
 	//TODO
 }

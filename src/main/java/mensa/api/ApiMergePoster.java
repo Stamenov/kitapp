@@ -14,7 +14,7 @@ import org.codehaus.jackson.annotate.JsonProperty;
 import org.hibernate.Session;
 
 @Path("/merge/")
-public class ApiMergePutter {
+public class ApiMergePoster {
 
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
