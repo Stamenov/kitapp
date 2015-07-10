@@ -68,7 +68,7 @@ public class ApiAdminPannel {
 			session.getTransaction().commit();
 			
 			ArrayList<MealData> oldMealDatas = new ArrayList<MealData>();
-			System.out.println("=====================>"+mealData.getMeals().size()+"<====================");
+
 			session.beginTransaction();
 			for(Meal meal: mealData.getMeals()){
 				oldMealDatas.add(meal.getData());
@@ -79,6 +79,9 @@ public class ApiAdminPannel {
 
 			session.beginTransaction();
 			for(MealData data: oldMealDatas){
+				Set<Meal> emptySet = new HashSet<Meal>();
+				data.setMeals(emptySet);
+				session.update(data);
 				session.delete(data);	
 			}
 			session.getTransaction().commit();
