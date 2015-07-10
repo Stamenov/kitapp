@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
@@ -109,7 +110,8 @@ public class MealData {
 		this.tags = tags;
 	}
 
-	@OneToMany(mappedBy = "data", cascade = CascadeType.ALL)
+	@ManyToMany(cascade = CascadeType.ALL)
+	@JoinTable(name="dataToMeal")
 	@JsonIgnore
 	public Set<Meal> getMeals() {
 		return meals;

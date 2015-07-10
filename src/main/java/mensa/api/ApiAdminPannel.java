@@ -68,19 +68,15 @@ public class ApiAdminPannel {
 			session.getTransaction().commit();
 			
 			ArrayList<MealData> oldMealDatas = new ArrayList<MealData>();
-			MealData currData;
-			for(Meal meal: mealData.getMeals()){
-				currData = meal.getData();
-				oldMealDatas.add(currData);
-			}
+			System.out.println("=====================>"+mealData.getMeals().size()+"<====================");
 			session.beginTransaction();
 			for(Meal meal: mealData.getMeals()){
+				oldMealDatas.add(meal.getData());
 				meal.setData(mealData);
 				session.update(meal);
 			}
 			session.getTransaction().commit();			
 
-			session.flush();
 			session.beginTransaction();
 			for(MealData data: oldMealDatas){
 				session.delete(data);	
