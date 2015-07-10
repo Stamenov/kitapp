@@ -4,19 +4,15 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
-import javax.persistence.ElementCollection;
+import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
-import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 
 @Entity
 public class MealData {	
@@ -25,6 +21,7 @@ public class MealData {
 	private Set<Image> images;
 	private Tags tags;
 	private Set<Meal> meals;
+	
 	private boolean active;
 	
 	public MealData() {
@@ -68,11 +65,9 @@ public class MealData {
 
 	public static MealData merge(MealData first, MealData second) {
 		MealData data = new MealData(first, second);
-		// make data contain merged ratings etc
-		
-		for (Meal meal : data.meals) {
-			meal.setData(data);
-		}
+//		for(Meal meal: data.getMeals()){
+//			 meal.setData(data);
+//		}
 		return data;
 	}
 	
@@ -125,7 +120,12 @@ public class MealData {
 		this.meals = meals;
 	}
 	
-	public void setActive(){
-		this.active = true;
+	@Column(name = "active")
+	public boolean getActive(){
+		return this.active;
+	}
+	
+	public void setActive(boolean active){
+		this.active = active; 
 	}
 }

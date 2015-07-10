@@ -27,10 +27,11 @@ public class ApiMergePutter {
 		Meal meal1 = (Meal) session.get(Meal.class, meals.getMeal1Id());
 		Meal meal2 = (Meal) session.get(Meal.class, meals.getMeal2Id());
 		
+		System.out.println(meal1.getId() + "   ||||||||||||||||||  " + meal2.getId());
+		
 		MealData mergedMealData = MealData.merge(meal1.getData(), meal2.getData());
-		Session session2 = HibernateUtil.getSessionFactory().openSession();
-		session2.beginTransaction();
-		session2.save(mergedMealData);
+		session.save(mergedMealData);
+		session.getTransaction().commit();
 		
 		return mergedMealData;
 	}

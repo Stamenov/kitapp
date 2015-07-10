@@ -1,6 +1,5 @@
 package mensa.api;
 
-import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -14,8 +13,6 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import org.hibernate.Session;
-
 import mensa.api.hibernate.HibernateUtil;
 import mensa.api.hibernate.domain.Line;
 import mensa.api.hibernate.domain.Meal;
@@ -23,6 +20,8 @@ import mensa.api.hibernate.domain.MealData;
 import mensa.api.hibernate.domain.Offer;
 import mensa.api.hibernate.domain.Price;
 import mensa.api.hibernate.domain.Tags;
+
+import org.hibernate.Session;
 
 @Path("/populate/")
 @WebListener
@@ -200,7 +199,7 @@ public class Populate extends TimerTask implements ServletContextListener{
 				meal.setName(names[i][j]);
 				
 				MealData data = new MealData(meal, tags[i][j]);				
-				data.setActive();
+				data.setActive(true);
 				
 				meal.setData(data);
 				offer.setMeal(meal);

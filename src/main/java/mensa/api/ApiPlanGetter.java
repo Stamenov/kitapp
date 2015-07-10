@@ -32,7 +32,7 @@ public class ApiPlanGetter {
 		offerCriteria.add(Restrictions.between("timestamp", timestampFrom, timestampTo));
 
 		List resultList = offerCriteria.list();
-		System.out.println(resultList.size());
+
 		Iterator<Offer> it = resultList.iterator();
 		
         session.getTransaction().commit();
