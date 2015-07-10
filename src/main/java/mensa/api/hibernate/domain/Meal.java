@@ -34,8 +34,9 @@ public class Meal {
 	public MealData getData() {
 		return data;
 	}
-	
+		
 	public void setData(MealData data) {
 		this.data = data;
 	}
 }
+

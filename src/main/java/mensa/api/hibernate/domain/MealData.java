@@ -50,7 +50,8 @@ public class MealData {
 		if (!Tags.equals(first.getTags(), second.getTags())) {
 			throw new IllegalArgumentException("Tags of both meals should be equal!");
 		} else {
-			tags = first.tags.clone();
+			
+			tags = first.getTags().clone();
 		}
 		
 		images = new HashSet<Image>();
@@ -65,9 +66,7 @@ public class MealData {
 
 	public static MealData merge(MealData first, MealData second) {
 		MealData data = new MealData(first, second);
-//		for(Meal meal: data.getMeals()){
-//			 meal.setData(data);
-//		}
+		
 		return data;
 	}
 	

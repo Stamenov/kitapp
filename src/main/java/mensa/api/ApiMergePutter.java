@@ -26,7 +26,7 @@ public class ApiMergePutter {
 		
 		Meal meal1 = (Meal) session.get(Meal.class, meals.getMeal1Id());
 		Meal meal2 = (Meal) session.get(Meal.class, meals.getMeal2Id());
-		
+
 		System.out.println(meal1.getId() + "   ||||||||||||||||||  " + meal2.getId());
 		
 		MealData mergedMealData = MealData.merge(meal1.getData(), meal2.getData());

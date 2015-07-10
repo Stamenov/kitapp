@@ -121,15 +121,16 @@ public class Tags implements Cloneable {
 	 */
 	public Tags clone() {
 		// having a clone method is bad coding style? or not?
-		Tags result = null;
+		Tags result = new Tags();
 		
-		try {
-			result = (Tags) super.clone();
-		} catch (CloneNotSupportedException e) {
-			System.out.println("Internally to Tags, a CloneNotSupportedException "
-					+ "was thrown when trying to clone Tags. Did you inherit from Tags?");
-			e.printStackTrace();
-		}
+		result.setAdd(this.add);
+		result.setBio(this.bio);
+		result.setCow(this.cow);
+		result.setCow_aw(this.cow_aw);
+		result.setFish(this.fish);
+		result.setPork(this.pork);
+		result.setVeg(this.veg);
+		result.setVegan(this.vegan);
 		
 		return result;
 	}
