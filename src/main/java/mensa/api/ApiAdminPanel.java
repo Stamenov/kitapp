@@ -23,7 +23,7 @@ import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 
 @Path("/admin/")
-public class ApiAdminPannel {
+public class ApiAdminPanel {
 	
 	@GET
 	@Path("/inactiveMealData/")
