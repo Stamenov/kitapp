@@ -19,7 +19,6 @@ import mensa.api.hibernate.domain.MealData;
 
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.hibernate.Criteria;
-import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 
@@ -81,14 +80,12 @@ public class ApiAdminPannel {
 			}
 			session.getTransaction().commit();			
 
-//			session.flush();
-//			session.beginTransaction();
-//			for(MealData data: oldMealDatas){
-//				String hql = "DELETE FROM mealdata WHERE id = :mealdata_id";
-//				Query query = session.createQuery(hql);
-//				query.setParameter("mealdata_id", data.getId()).executeUpdate();
-//			}
-//			session.getTransaction().commit();
+			session.flush();
+			session.beginTransaction();
+			for(MealData data: oldMealDatas){
+				session.delete(data);	
+			}
+			session.getTransaction().commit();
 			
 				
 		} else {
@@ -97,9 +94,9 @@ public class ApiAdminPannel {
 			session.update(mealData);
 			session.getTransaction().commit();
 		
-//			session.beginTransaction();
-//		    session.delete(mealData);
-//			session.getTransaction().commit();
+			session.beginTransaction();
+		    session.delete(mealData);
+			session.getTransaction().commit();
 		}
 		
 		return mealData;
