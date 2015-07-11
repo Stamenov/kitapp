@@ -26,11 +26,11 @@ import org.hibernate.criterion.Restrictions;
 public class ApiAdminPanel {
 	
 	@GET
-	@Path("/inactiveMealData/")
+	@Path("/mergingMeals/")
 	@Produces(MediaType.APPLICATION_JSON)
-	public ArrayList<MealData> getInactiveMealDatas(){
+	public ArrayList<ArrayList<Meal>> getInactiveMealDatas(){
 		
-		ArrayList<MealData> result = new ArrayList<MealData>();
+		ArrayList<ArrayList<Meal>> result = new ArrayList<ArrayList<Meal>>();
 
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction();
@@ -39,14 +39,19 @@ public class ApiAdminPanel {
 		inactiveMealData.add(Restrictions.eq("active", Boolean.FALSE));
 
 		List resultList = inactiveMealData.list();
-
 		Iterator<MealData> it = resultList.iterator();
-		
         session.getTransaction().commit();
+
         
+        ArrayList<Meal> currMeals;
 		while(it.hasNext()) {
+			currMeals = new ArrayList<Meal>();
 			MealData next = it.next();
-			result.add(next);
+			currMeals.addAll(next.getMeals());
+			for(Meal currMeal: currMeals){
+				currMeal.setData(next);
+			}
+			result.add(currMeals);
 		}
 		return result;
 	}
@@ -71,14 +76,19 @@ public class ApiAdminPanel {
 
 			session.beginTransaction();
 			for(Meal meal: mealData.getMeals()){
-				oldMealDatas.add(meal.getData());
+				if(!oldMealDatas.contains(meal.getData())) {
+					oldMealDatas.add(meal.getData());
+				}
 				meal.setData(mealData);
 				session.update(meal);
 			}
 			session.getTransaction().commit();			
 
 			session.beginTransaction();
+			System.out.println("==================~~~~~~~~~~~~~~~~~~~~~~"+oldMealDatas.size());
+
 			for(MealData data: oldMealDatas){
+				System.out.println("==============================>>>>>>>.."+data.getId());
 				Set<Meal> emptySet = new HashSet<Meal>();
 				data.setMeals(emptySet);
 				session.update(data);
