@@ -8,10 +8,12 @@ import java.util.Set;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.OPTIONS;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import mensa.api.hibernate.HibernateUtil;
 import mensa.api.hibernate.domain.Meal;
@@ -28,7 +30,7 @@ public class ApiAdminPanel {
 	@GET
 	@Path("/mergingMeals/")
 	@Produces(MediaType.APPLICATION_JSON)
-	public ArrayList<ArrayList<Meal>> getInactiveMealDatas(){
+	public Response getInactiveMealDatas(){
 		
 		ArrayList<ArrayList<Meal>> result = new ArrayList<ArrayList<Meal>>();
 
@@ -53,14 +55,22 @@ public class ApiAdminPanel {
 			}
 			result.add(currMeals);
 		}
-		return result;
+		return Response.ok(result).header("Access-Control-Allow-Origin", "*").build();
 	}
+	
+	 @OPTIONS
+	 @Path("/finalizeMerge/")
+	 public Response getOptions() {
+		 return Response.ok()
+		  .header("Access-Control-Allow-Origin", "*")
+	      .header("Access-Control-Allow-Methods", "POST, GET, PUT, UPDATE, OPTIONS")
+	      .header("Access-Control-Allow-Headers", "Content-Type, Accept, X-Requested-With").build();
+	  }
 	
 	@POST
 	@Path("/finalizeMerge/")
 	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_JSON)
-	public MealData finalizeMerge(MergingResponse mealDataResponse){
+	public Response finalizeMerge(MergingResponse mealDataResponse){
 		
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction();
@@ -85,10 +95,8 @@ public class ApiAdminPanel {
 			session.getTransaction().commit();			
 
 			session.beginTransaction();
-			System.out.println("==================~~~~~~~~~~~~~~~~~~~~~~"+oldMealDatas.size());
 
 			for(MealData data: oldMealDatas){
-				System.out.println("==============================>>>>>>>.."+data.getId());
 				Set<Meal> emptySet = new HashSet<Meal>();
 				data.setMeals(emptySet);
 				session.update(data);
@@ -108,7 +116,8 @@ public class ApiAdminPanel {
 			session.getTransaction().commit();
 		}
 		
-		return mealData;
+		return Response.ok("success").build();
+
 	}
 	
 	private static class MergingResponse{
