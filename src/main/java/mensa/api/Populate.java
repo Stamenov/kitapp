@@ -1,5 +1,13 @@
 package mensa.api;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLConnection;
+import java.util.List;
 import java.util.TimerTask;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -8,24 +16,26 @@ import java.util.concurrent.TimeUnit;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
-import javax.ws.rs.GET;
 import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
 
 import mensa.api.hibernate.HibernateUtil;
-import mensa.api.hibernate.domain.Line;
 import mensa.api.hibernate.domain.Meal;
-import mensa.api.hibernate.domain.MealData;
 import mensa.api.hibernate.domain.Offer;
-import mensa.api.hibernate.domain.Price;
-import mensa.api.hibernate.domain.Tags;
+import mensa.api.studentenwerk.Data;
 
 import org.hibernate.Session;
+import org.hibernate.criterion.Restrictions;
+
+import com.google.gson.Gson;
 
 @Path("/populate/")
 @WebListener
 public class Populate extends TimerTask implements ServletContextListener{
+	
+	final static String API_URL = "https://www.studentenwerk-karlsruhe.de/json_interface/canteen/";
+	final static String CHARSET = java.nio.charset.StandardCharsets.UTF_8.name();
+	final static String USER = "jsonapi";
+	final static String PASSWORD = "AhVai6OoCh3Quoo6ji";
 
 	@Override
 	public void contextDestroyed(ServletContextEvent arg0) {
@@ -44,177 +54,125 @@ public class Populate extends TimerTask implements ServletContextListener{
 	
 	public void run(){
 		System.out.println("populate triggered!");
-		makeMockData();
-	}
-	
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
-	public Offer[][] makeMockData(){
 		
-		// Mon-Fri for two weeks
-		int[] timestamps = new int[10];
-		timestamps[0] = 1435528800;
-		timestamps[1] = 1435615200;
-		timestamps[2] = 1435701600;
-		timestamps[3] = 1435788000;
-		timestamps[4] = 1435874400;
-		timestamps[5] = 1436133600;
-		timestamps[6] = 1436220000;
-		timestamps[7] = 1436306400;
-		timestamps[8] = 1436392800;
-		timestamps[9] = 1436479200;
-		
-		// First index is line
-		String[][] names = new String[4][10];
-		Tags[][] tags = new Tags[4][10];
-		Price[][] prices = new Price[4][10];
-		Offer[][] offers = new Offer[4][10];
-		
-		// ADD DATA -----------------------------------------------------------
-		names[0][0] = "Käseknacker mit Ketchup und Nudelsalat";
-		tags[0][0] = new Tags(false, false, true, false, false, false, false, "");
-		prices[0][0] = new Price(2.6, 3.85, 3.15, 2.95);		
-
-		names[0][1] = "Blumenkohl in Käse Sahnesoße mit Salzkartoffeln";
-		tags[0][1] = new Tags(false,false,false,false,false,false,true, "");
-		prices[0][1] = new Price(2.6, 3.85, 3.15, 2.95);
-		
-		names[0][2] = "Dessert: Sahnefruchtjoghurt";
-		tags[0][2] = new Tags(false, false, false, false, false, false, true,"");
-		prices[0][2] = new Price(0,0,0,0);
-		
-		names[0][3] = "oder auf Wunsch Obst";
-		tags[0][3] = new Tags(false,false,false,false,false,true,false, "");
-		prices[0][3] = new Price(0,0,0,0);
-		
-
-		names[1][0] = "Schweinerückensteak mit Café de Paris-Soße";
-		tags[1][0] = new Tags(false,false,true,false,false,false,false, "");
-		prices[1][0] = new Price(2.2, 4.85, 3.25, 2.55);
-		
-		names[1][1] = "Pommes";
-		tags[1][1] = new Tags(false, false,false,false,false,true,false, "");
-		prices[1][1] = new Price(0.95, 1.2, 0.95, 0.95);
-		
-		names[1][2] = "Kaisergemüse";
-		tags[1][2] = new Tags(false,false,false,false,false,true,false, "");
-		prices[1][2] = new Price(0.8,1,0.8,0.8);
-		
-		names[1][3] = "Blattsalat Karottensalat Top-Fit-Salat";
-		tags[1][3] = new Tags(false,false,false,false,false,true,false, "");
-		prices[1][3] = new Price(0.8,1,0.8,0.8);
-		
-		names[1][4] = "Stracciatella-Creme";
-		tags[1][4] = new Tags(false,false,false,false,false,false,true, "");
-		prices[1][4] = new Price(0.75, 0.95, 0.75, 0.75);
-		
-		names[1][5] = "Apfeltasche";
-		tags[1][5] = new Tags(false,false,false,false,false,true,false, "");
-		prices[1][5] = new Price(0.75,0.75,0.75,0.75);
-		
-		names[1][6] = "Teigwaren";
-		tags[1][6] = new Tags(false,false,false,false,false,true,false, "");
-		prices[1][6] = new Price(0.75, 0.95, 0.75, 0.75);
-		
-		
-		names[2][0] = "Käseknacker mit Ketchup und Nudelsalat";
-		tags[2][0] = new Tags(false, false, true, false, false, false, false, "");
-		prices[2][0] = new Price(2.6, 3.85, 3.15, 2.95);
-		
-		names[2][1] = "Gemüseschnitzel mit Curryreis mit Kräutersoße";
-		tags[2][1] = new Tags(false,false,false,false,false,false,true, "");
-		prices[2][1] = new Price(2.55, 5.6, 3.75, 2.95);
-		
-		names[2][2] = "Blattsalat Gärtnerinsalat Kretasalat";
-		tags[2][2] = new Tags(false,false,false,false,false,true,false, "");
-		prices[2][2] = new Price(0.8, 1, 0.8, 0.8);
-		
-		names[2][3] = "Himbeerquark";
-		tags[2][3] = new Tags(false,false,false,false,false,false,true, "");
-		prices[2][3] = new Price(0.75, 0.95, 0.75, 0.75);
-		
-		names[2][4] = "Apfeltasche";
-		tags[2][4] = new Tags(false,false,false,false,false,true,false, "");
-		prices[2][4] = new Price(0.75,0.75,0.75,0.75);
-		
-		
-		names[3][0] = "Käseknacker mit Ketchup und Nudelsalat";
-		tags[3][0] = new Tags(false, false, true, false, false, false, false, "");
-		prices[3][0] = new Price(2.6, 3.85, 3.15, 2.95);
-		
-		names[3][1] = "Spinatspätzle mit frischen Champignons";
-		tags[3][1] = new Tags(false,false,false,false,false,false,true, "");
-		prices[3][1] = new Price(2.25, 4.95, 3.3, 2.6);
-		
-		names[3][2] = "Hähnchen Cordon bleu mit Putenschinken und Bratensoße";
-		tags[3][2] = new Tags(false,false,false,false,false,false,false, "");
-		prices[3][2] = new Price(2.2,4.85, 3.25, 2.55);
-		
-		names[3][3] = "Pommes";
-		tags[3][3] = new Tags(false, false,false,false,false,true,false, "");
-		prices[3][3] = new Price(0.95, 1.2, 0.95, 0.95);
-		
-		names[3][4] = "Leipziger Allerlei-Gemüse";
-		tags[3][4] = new Tags(false,false,false,false,false,true,false, "");
-		prices[3][4] = new Price(0.8, 1.0, 0.8, 0.8);
-		
-		names[3][5] = "Blattsalat Gärtnerinsalat Kretasalat";
-		tags[3][5] = new Tags(false, false,false,false,false,true,false, "");
-		prices[3][5] = new Price(0.8, 1.0, 0.8, 0.8);
-		
-		names[3][6] = "Himbeerquark";
-		tags[3][6] = new Tags(false,false,false,false,false,false,true, "");
-		prices[3][6] = new Price(0.75, 0.95, 0.75, 0.75);
-		
-		names[3][7] = "Dampfkartoffeln";
-		tags[3][7] = new Tags(false,false,false,false,false,true,false, "");
-		prices[3][7] = new Price(0.75, 0.95, 0.75, 0.75);
-		
-		names[3][8] = "Apfeltasche";
-		tags[3][8] = new Tags(false,false,false,false,false,true,false, "");
-		prices[3][8] = new Price(0.75, 0.75, 0.75, 0.75);
-		
-		names[3][8] = "Eierflockensuppe";
-		tags[3][8] = new Tags(false,false,false,false,false,false,true, "");
-		prices[3][8] = new Price(0.45, 0.45, 0.45, 0.45);
-		
-		// END DATA -----------------------------------------------------------
-
-		// CREATE OBJECTS AND SAVE IN DB
-		
-		Session session = HibernateUtil.getSessionFactory().openSession();
-		session.beginTransaction();
-		
-		for (int i = 0; i < 4; i++) {
-			for (int j = 0; ; j++) {	
-				if (names[i][j] == null)
-					break;
-				
-				Offer offer = new Offer();
-				offer.setLine(Line.values()[i]);
-				offer.setPrice(prices[i][j]);
-				offer.setTimestamp(timestamps[0]);
-				
-				Meal meal = new Meal();
-				meal.setName(names[i][j]);
-				
-				MealData data = new MealData(meal, tags[i][j]);				
-				data.setActive(true);
-				
-				meal.setData(data);
-				offer.setMeal(meal);
-					
-				offers[i][j] = offer;		
-				session.save(offers[i][j]);
-			}
+		// Fetch data from SW API:
+		String json = httpGet(USER, PASSWORD, API_URL, true);
+		if (json == null) {
+			System.out.println("Data could not be fetched from Studentenwerk."
+					+ "The updating of the database has been cancelled and no changes have been made.");
+			return;
 		}
 		
+		// Parse data:
+		Gson gson = new Gson();
+		Data d;
+		
+		/**
+		 *  There is a risk that the official SW API may change in format.
+		 *  Instead of trying to predict all the different ways someone may change the API,
+		 *  we just give up and ask for programmer attention if an oddity happens.
+		 */
+		try {
+			d = gson.fromJson(json, Data.class);
+		} catch (Exception e) {
+			System.out.println("The parser for dynamic data from Studentenwerk "
+					+ "has failed. The mensa API may have changed."
+					+ "The updating of the database has been cancelled and no changes have been made.");
+			e.printStackTrace();
+			return;
+		}
+		
+		List<Offer> offers = d.getOffers();
+		if (offers == null){
+			System.out.println("The data retrieved is not parsable."
+					+ "The updating of the database has been cancelled and no changes have been made.");
+			return;
+		}
 
-		session.getTransaction().commit();
-		//HibernateUtil.shutdown();
+		Session session = HibernateUtil.getSessionFactory().openSession();
 		
+		for (Offer offer: offers) {
+			session.beginTransaction();
+			List<Meal> mealsInDB = session.createCriteria(Meal.class)
+			.add( Restrictions.like("name", offer.getMeal().getName())).list();
+			session.getTransaction().commit();
+			
+			if (!mealsInDB.isEmpty()) {
+				offer.setMeal(mealsInDB.get(0));
+			}
+
+			session.beginTransaction();
+			
+			session.save(offer);
+			
+			session.getTransaction().commit();
+		}
 		
-		/////////////////////////////////////////////////////////////
-		return offers;
+		System.out.println("done");
+	}
+	
+	public static String httpGet(String user, String pwd, String urlWithParameters, boolean returnResponse) {
+	    URL url = null;
+	    try {
+	        url = new URL(urlWithParameters);
+	    } catch (MalformedURLException e) {
+	        System.out.println("MalformedUrlException: " + e.getMessage());
+	        e.printStackTrace();
+	        return null;
+	    }
+
+	    URLConnection uc = null;
+	    try {
+	        uc = url.openConnection();
+	    } catch (IOException e) {
+	        System.out.println("IOException: " + e.getMessage());
+	        e.printStackTrace();
+	        return null;
+	    }
+
+
+	    String userpass = user + ":" + pwd;
+	    String basicAuth = "Basic " + javax.xml.bind.DatatypeConverter.printBase64Binary(userpass.getBytes());
+
+	    uc.setRequestProperty("Authorization", basicAuth);
+	    InputStream is = null;
+	    try {
+	        is = uc.getInputStream();
+	    } catch (IOException e) {
+	        System.out.println("IOException: " + e.getMessage());
+	        e.printStackTrace();
+	        return null;
+	    }
+	    if (returnResponse) {
+	        BufferedReader buffReader = new BufferedReader(new InputStreamReader(is));
+	        StringBuffer response = new StringBuffer();
+
+	        String line = null;
+	        try {
+	            line = buffReader.readLine();
+	        } catch (IOException e) {
+	            e.printStackTrace();
+	            return "-1";
+	        }
+	        while (line != null) {
+	            response.append(line);
+	            response.append('\n');
+	            try {
+	                line = buffReader.readLine();
+	            } catch (IOException e) {
+	                System.out.println(" IOException: " + e.getMessage());
+	                e.printStackTrace();
+	                return null;
+	            }
+	        }
+	        try {
+	            buffReader.close();
+	        } catch (IOException e) {
+	            e.printStackTrace();
+	            return null;
+	        }
+	        return response.toString();
+	    }
+	    return "0";
 	}
 }

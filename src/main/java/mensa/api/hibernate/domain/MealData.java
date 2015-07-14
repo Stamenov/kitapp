@@ -29,13 +29,13 @@ public class MealData {
 		
 	}
 	
-	public MealData(Meal meal, Tags tags){
+	public MealData(Meal meal, Tags tags, boolean active){
 		meals = new HashSet<Meal>();
 		meals.add(meal);
 		ratings = new HashSet<Rating>();
 		images = new HashSet<Image>();
 		this.tags = tags;
-		active = false;
+		this.active = active;
 	}
 	
 	/**
