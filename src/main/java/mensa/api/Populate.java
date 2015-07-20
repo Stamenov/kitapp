@@ -8,7 +8,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.List;
-import java.util.Scanner;
 import java.util.TimerTask;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -58,18 +57,7 @@ public class Populate extends TimerTask implements ServletContextListener{
 		
 		// Fetch data from SW API:
 		String json = httpGet(USER, PASSWORD, API_URL, true);
-		
-		// BEGIN static data -----------------------------------------------------------------
-//		System.out.println(Populate.class.getClassLoader().getResource("download").getPath());
-//		String json = null;
-//		try {
-//			json = new Scanner(Populate.class.getClassLoader().getResource("download").openStream(), "UTF-8").useDelimiter("\\A").next();
-//		} catch (IOException e1) {
-//			// TODO Auto-generated catch block
-//			e1.printStackTrace();
-//		}
-		// END static data -------------------------------------------------------------------
-		System.out.println("test");
+
 		if (json == null) {
 			System.out.println("Data could not be fetched from Studentenwerk."
 					+ "The updating of the database has been cancelled and no changes have been made.");
