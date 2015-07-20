@@ -2,14 +2,9 @@ package mensa.api;
 
 import mensa.api.hibernate.domain.*;
 
-import java.util.HashSet;
-import java.util.List;
-
 import mensa.api.hibernate.HibernateUtil;
 
-import org.hibernate.Criteria;
 import org.hibernate.Session;
-import org.hibernate.criterion.Restrictions;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
