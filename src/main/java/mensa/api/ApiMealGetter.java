@@ -16,13 +16,12 @@ import javax.ws.rs.core.MediaType;
 public class ApiMealGetter {
 	
 	@GET
-	@Path("/{mealID:[0-9]*}/")
+	@Path("/{mealID:[0-9]*}/{userID:[0-9]*}/")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Meal getMealById(@PathParam("mealID") String mealId){
+	public Meal getMealById(@PathParam("mealID") String mealid, @PathParam("userID") String userid){
 	
 		Session session = HibernateUtil.getSessionFactory().openSession();
-		session.beginTransaction();
-		Meal meal = (Meal) session.get(Meal.class, Integer.parseInt(mealId));
+		Meal meal = (Meal) session.get(Meal.class, Integer.parseInt(mealid));
 
 		return meal;
 	}	

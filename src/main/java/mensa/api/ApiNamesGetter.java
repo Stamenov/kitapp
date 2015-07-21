@@ -22,11 +22,8 @@ public class ApiNamesGetter {
 	public List<StringIdPair> getNames(){
 		List<StringIdPair> result = new ArrayList<StringIdPair>();
 		
-		Session session = HibernateUtil.getSessionFactory().openSession();
-		session.beginTransaction();
-		
+		Session session = HibernateUtil.getSessionFactory().openSession();		
 		Iterator<Meal> it = session.createCriteria(Meal.class).list().iterator();
-        session.getTransaction().commit();
 
 		while(it.hasNext()) {
 			Meal next = it.next();

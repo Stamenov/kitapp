@@ -26,7 +26,6 @@ public class ApiPlanGetter {
 		List<Offer> result = new ArrayList<Offer>();
 
 		Session session = HibernateUtil.getSessionFactory().openSession();
-		session.beginTransaction();
 		
 		Criteria offerCriteria = session.createCriteria(Offer.class);
 		offerCriteria.add(Restrictions.between("timestamp", timestampFrom, timestampTo));
@@ -34,8 +33,6 @@ public class ApiPlanGetter {
 		List resultList = offerCriteria.list();
 
 		Iterator<Offer> it = resultList.iterator();
-		
-        session.getTransaction().commit();
         
 		while(it.hasNext()) {
 			Offer next = it.next();
