@@ -8,7 +8,6 @@ import javax.ws.rs.core.MediaType;
 
 import mensa.api.hibernate.HibernateUtil;
 import mensa.api.hibernate.domain.Image;
-import mensa.api.hibernate.domain.MealData;
 
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.hibernate.Session;

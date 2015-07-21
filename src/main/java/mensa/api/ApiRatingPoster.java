@@ -33,9 +33,8 @@ public class ApiRatingPoster {
 		rating.setUserid(ratingReceived.userid);
 		rating.setValue(ratingReceived.value);
 		meal.getData().getRatings().add(rating);
-		session.merge(meal);
 		
-
+		session.merge(meal);
         session.getTransaction().commit();
         return meal;
 		

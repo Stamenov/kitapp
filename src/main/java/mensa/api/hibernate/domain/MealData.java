@@ -8,7 +8,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -18,7 +17,7 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 @Entity
 public class MealData {	
 	private int id;
-	private Set<Rating> ratings;
+	private RatingCollection ratings;
 	private Set<Image> images;
 	private Tags tags;
 	private Set<Meal> meals;
@@ -32,7 +31,7 @@ public class MealData {
 	public MealData(Meal meal, Tags tags, boolean active){
 		meals = new HashSet<Meal>();
 		meals.add(meal);
-		ratings = new HashSet<Rating>();
+		ratings = new RatingCollection();
 		images = new HashSet<Image>();
 		this.tags = tags;
 		this.active = active;
@@ -59,7 +58,7 @@ public class MealData {
 		images.addAll(first.images);	
 		images.addAll(second.images);
 		
-		ratings = new HashSet<Rating>();
+		ratings = new RatingCollection();
 		ratings.addAll(first.ratings);
 		ratings.addAll(second.ratings);
 		active = false;
@@ -82,7 +81,6 @@ public class MealData {
 	}
 	
 	@OneToMany(cascade = CascadeType.ALL)
-	@JoinTable(name = "imageListToImage")
 	public Set<Image> getImages() {
 		return images;
 	}
@@ -91,13 +89,12 @@ public class MealData {
 		this.images = images;
 	}
 	
-	@OneToMany(cascade = CascadeType.ALL)
-	@JoinTable(name = "ratingListToRating")
-	public Set<Rating> getRatings() {
+	@OneToOne(cascade = CascadeType.ALL)
+	public RatingCollection getRatings() {
 		return ratings;
 	}
 
-	public void setRatings(Set<Rating> ratings) {
+	public void setRatings(RatingCollection ratings) {
 		this.ratings = ratings;
 	}
 	
@@ -111,7 +108,6 @@ public class MealData {
 	}
 
 	@ManyToMany(cascade = CascadeType.ALL)
-	@JoinTable(name="dataToMeal")
 	@JsonIgnore
 	public Set<Meal> getMeals() {
 		return meals;
