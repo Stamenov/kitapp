@@ -44,12 +44,9 @@ public class Populate extends TimerTask implements ServletContextListener{
 
 	@Override
 	public void contextInitialized(ServletContextEvent arg0) {
+		// Poll mensa API daily; not necessary to do it so often but its cheap and could catch menu changes so why not?		
 		ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
-		scheduler.scheduleAtFixedRate(this, 0, 168, TimeUnit.HOURS);
-		
-		//Timer time = new Timer(); // Instantiate Timer Object
-	    //long dayInMilliseconds = 1000 * 60 * 60 * 24;
-		//time.schedule(this, 0, dayInMilliseconds);
+		scheduler.scheduleAtFixedRate(this, 0, 24, TimeUnit.HOURS);
 	}
 	
 	public void run(){
@@ -57,6 +54,7 @@ public class Populate extends TimerTask implements ServletContextListener{
 		
 		// Fetch data from SW API:
 		String json = httpGet(USER, PASSWORD, API_URL, true);
+
 		if (json == null) {
 			System.out.println("Data could not be fetched from Studentenwerk."
 					+ "The updating of the database has been cancelled and no changes have been made.");

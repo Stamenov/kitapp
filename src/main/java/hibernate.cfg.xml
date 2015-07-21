@@ -5,22 +5,22 @@
 <hibernate-configuration>
     <session-factory>
     
-    	<!-- Database connection settings; adjust these, particularly password and port (3306 is mysql default)
+    	<!-- Database connection settings; adjust these, particularly password and port (3306 is mysql default)-->
         <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
         <property name="hibernate.connection.url">jdbc:mysql://localhost/PSESoSe15Gruppe3</property>    
         <property name="hibernate.connection.password">DA7UpuPr5bem</property>
         <property name="hibernate.connection.username">PSESoSe15User3</property>
-         -->
-        <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
+         
+        <!--<property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
        	<property name="hibernate.connection.url">jdbc:mysql://localhost:3307/hibernatedb</property>    
         <property name="hibernate.connection.password">1234</property>
-        <property name="hibernate.connection.username">root</property>
+        <property name="hibernate.connection.username">root</property>-->
         
         <!-- Database type -->
        	<property name="hibernate.dialect">org.hibernate.dialect.MySQLDialect</property>  
 
 		<!-- echo SQL statements to console -->
-       	<property name="show_sql">true</property>
+       	<!--<property name="show_sql">true</property>-->
 
         <!-- Drop and re-create the database schema on startup -->
 		<property name="hibernate.hbm2ddl.auto">create</property>
