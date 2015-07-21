@@ -28,7 +28,7 @@ public class RatingRemovePoster {
 		cr.add(Restrictions.idEq(ratingKeys.mealid));
 
 		Meal meal = (Meal) cr.list().get(0);
-		meal.getData().getRatings().remove(ratingKeys.userid);
+		meal.getData().getRatings().remove(ratingKeys.userid); // TODO: REFACTOR
 		
 		session.merge(meal);
         session.getTransaction().commit();

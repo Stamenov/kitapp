@@ -46,7 +46,7 @@ public class Populate extends TimerTask implements ServletContextListener{
 	public void contextInitialized(ServletContextEvent arg0) {
 		// Poll mensa API daily; not necessary to do it so often but its cheap and could catch menu changes so why not?		
 		ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
-		scheduler.scheduleAtFixedRate(this, 0, 24, TimeUnit.HOURS);
+		scheduler.scheduleAtFixedRate(this, 0, 1, TimeUnit.MINUTES);
 	}
 	
 	public void run(){
@@ -88,6 +88,11 @@ public class Populate extends TimerTask implements ServletContextListener{
 		}
 
 		Session session = HibernateUtil.getSessionFactory().openSession();
+		
+		for (Offer offer: (List<Offer>) session.createCriteria(Offer.class).list()){
+			offer.setMeal(null);
+			session.delete(offer);
+		}
 		
 		for (Offer offer: offers) {
 			session.beginTransaction();
