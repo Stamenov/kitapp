@@ -7,6 +7,7 @@ import javax.persistence.Id;
 @Entity
 public final class Image {
 	// THESE FIELDS SHOULD BE IMMUTABLE
+	private boolean active;
 	private int id;
 	private int userid;
 	private String url;
@@ -15,6 +16,7 @@ public final class Image {
 	public Image(int userid, String url) {
 		this.userid = userid;
 		this.url = url;
+		this.active = false;
 		hashCode = userid * 37 ^ url.hashCode();
 	}
 	
@@ -62,5 +64,11 @@ public final class Image {
 
 	public void setUrl(String url) {
 		this.url = url;
+	}
+	public boolean getActive(){
+		return active;
+	}
+	public void setActive(boolean active){
+		this.active = active;
 	}
 }
