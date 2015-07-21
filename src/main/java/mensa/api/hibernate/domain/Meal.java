@@ -38,5 +38,9 @@ public class Meal {
 	public void setData(MealData data) {
 		this.data = data;
 	}
+	
+	public void setCurrentUser(int userid) {
+		data.setCurrentUser(userid);
+	}
 }
 

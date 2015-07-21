@@ -4,16 +4,21 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
+import mensa.api.hibernate.domain.serializers.RatingSerializer;
+
+import org.codehaus.jackson.map.annotate.JsonSerialize;
+
 @Entity
+@JsonSerialize(using = RatingSerializer.class)
 public class Rating {
 	private int id;
 	private int value;
 	private int userid;
-	
+
 	@Id @GeneratedValue
-	public int getId() {
+	private int getId() {
 		return id;
-	}
+	};	
 	public void setId(int id) {
 		this.id = id;
 	}
@@ -22,7 +27,7 @@ public class Rating {
 	}
 	public void setValue(int value) {
 		this.value = value;
-	}
+	}	
 	public int getUserid() {
 		return userid;
 	}

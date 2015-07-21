@@ -22,6 +22,8 @@ public class ApiMealGetter {
 	
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		Meal meal = (Meal) session.get(Meal.class, Integer.parseInt(mealid));
+		
+		meal.setCurrentUser( Integer.parseInt(userid) );
 
 		return meal;
 	}	

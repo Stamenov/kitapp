@@ -8,31 +8,27 @@ import javax.ws.rs.core.MediaType;
 
 import mensa.api.hibernate.HibernateUtil;
 import mensa.api.hibernate.domain.Meal;
-import mensa.api.hibernate.domain.Rating;
 
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 
-@Path("/rating/")
-public class ApiRatingPoster {
+@Path("/ratingRemove/")
+public class RatingRemovePoster {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Meal saveRating(RatingMeals ratingReceived){
+	public Meal removeRating(mealUserPair ratingKeys){
 		
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction();
 		
 		Criteria cr = session.createCriteria(Meal.class);
-		cr.add(Restrictions.idEq(ratingReceived.mealid));
+		cr.add(Restrictions.idEq(ratingKeys.mealid));
 
 		Meal meal = (Meal) cr.list().get(0);
-		Rating rating = new Rating();
-		rating.setUserid(ratingReceived.userid);
-		rating.setValue(ratingReceived.value);
-		meal.getData().getRatings().add(rating);
+		meal.getData().getRatings().remove(ratingKeys.userid);
 		
 		session.merge(meal);
         session.getTransaction().commit();
@@ -40,11 +36,9 @@ public class ApiRatingPoster {
 		
 	}
 	
-	private static class RatingMeals {
+	private static class mealUserPair {
 		@JsonProperty("mealid")
 		private int mealid;
-		@JsonProperty("value")
-		private int value;
 		@JsonProperty("userid")
 		private int userid;
 		
@@ -54,12 +48,6 @@ public class ApiRatingPoster {
 		public void setMealid(int mealid) {
 			this.mealid = mealid;
 		}
-		public int getValue() {
-			return value;
-		}
-		public void setValue(int value) {
-			this.value = value;
-		}
 		public int getUserid() {
 			return userid;
 		}
@@ -67,4 +55,5 @@ public class ApiRatingPoster {
 			this.userid = userid;
 		}
 	}
+
 }

@@ -1,14 +1,13 @@
 package mensa.api.hibernate.domain;
 
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.Transient;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 
@@ -18,8 +17,10 @@ public class RatingCollection {
 	private Map<Integer, Rating> ratings;
 	private int sum;
 	private double average;	
+	private Rating currentUserRating;
 
 	@Id @GeneratedValue
+	@JsonIgnore
 	public int getId() {
 		return id;
 	};
@@ -52,6 +53,17 @@ public class RatingCollection {
 		this.average = average;
 	}
 	
+	@Transient
+	public Rating getCurrentUserRating() {
+		return currentUserRating;
+	}
+	
+	public void setCurrentUserRating(int currentUser) {
+		this.currentUserRating = ratings.get(currentUser);
+	}
+
+	
+	
 	public void addAll(RatingCollection ratings) {
 		this.ratings.putAll(ratings.getRatings());
 	}
@@ -64,10 +76,17 @@ public class RatingCollection {
 		}
 
 		sum += rating.getValue();
-		average = ((double) sum) / ratings.size();
+		updateAverage();
 	}
 	
 	public void remove(int userid) {
-
+		Rating old = ratings.remove(userid);		
+		sum -= old.getValue();
+		
+		updateAverage();		
+	}
+	
+	private void updateAverage() {
+		average = ((double) sum) / ratings.size();
 	}
 }

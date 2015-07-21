@@ -124,5 +124,9 @@ public class MealData {
 	
 	public void setActive(boolean active){
 		this.active = active; 
+	}	
+
+	public void setCurrentUser(int userid) {
+		ratings.setCurrentUserRating(userid);
 	}
 }
