@@ -6,9 +6,12 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.FileSystems;
+
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
-import javax.ws.rs.OPTIONS;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -18,6 +21,7 @@ import javax.ws.rs.core.Response;
 import mensa.api.hibernate.HibernateUtil;
 import mensa.api.hibernate.domain.Meal;
 import mensa.api.hibernate.domain.MealData;
+import mensa.api.hibernate.domain.Image;
 
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.hibernate.Criteria;
@@ -42,8 +46,6 @@ public class ApiAdminPanel {
 
 		List resultList = inactiveMealData.list();
 		Iterator<MealData> it = resultList.iterator();
-        session.getTransaction().commit();
-
         
         ArrayList<Meal> currMeals;
 		while(it.hasNext()) {
@@ -55,18 +57,9 @@ public class ApiAdminPanel {
 			}
 			result.add(currMeals);
 		}
-		return Response.ok(result).header("Access-Control-Allow-Origin", "*").build();
+		return Response.ok(result).build();
 	}
-	
-	 @OPTIONS
-	 @Path("/finalizeMerge/")
-	 public Response getOptions() {
-		 return Response.ok()
-		  .header("Access-Control-Allow-Origin", "*")
-	      .header("Access-Control-Allow-Methods", "POST, GET, PUT, UPDATE, OPTIONS")
-	      .header("Access-Control-Allow-Headers", "Content-Type, Accept, X-Requested-With").build();
-	  }
-	
+		
 	@POST
 	@Path("/finalizeMerge/")
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -133,4 +126,69 @@ public class ApiAdminPanel {
 			return approved;
 		}
 	}
+	
+	@GET
+	@Path("/inactiveImages/")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response getInactiveImages(){
+		
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		session.beginTransaction();
+		
+		Criteria inactiveImage = session.createCriteria(Image.class);
+		inactiveImage.add(Restrictions.eq("active", Boolean.FALSE));
+
+		List imageList = inactiveImage.list();
+		Iterator<Image> it = imageList.iterator();
+		ArrayList<Image> imageArr = new ArrayList<Image>();
+		while(it.hasNext()) {
+			imageArr.add(it.next());
+		}
+		return Response.ok(imageArr).build();
+	}
+	@POST
+	@Path("/finalizeImagePost/")
+	@Consumes(MediaType.APPLICATION_JSON)
+	public Response finalizeImagePost(ImageResponse imageResponse) throws IOException{
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		session.beginTransaction();
+		
+		Image image = (Image) session.get(Image.class, imageResponse.getImageId());
+
+		if(imageResponse.getApproved()){
+			image.setActive(true);
+			session.update(image);
+			session.getTransaction().commit();
+		} else {
+			String imgUrl = image.getUrl();
+			String imgName = imgUrl.substring(imgUrl.lastIndexOf('/')+1, imgUrl.length());
+			
+			//no import because of collision of imports 'path'
+			java.nio.file.Path path = FileSystems.getDefault().getPath("/var/www/html/PSESoSe15Gruppe3-Daten/photos", imgName);
+	        //delete if exists
+	        try {
+	            boolean success = Files.deleteIfExists(path);
+	        } catch (IOException | SecurityException e) {
+	            throw e;
+	        }
+			session.delete(image);
+		}
+		return Response.ok().build();
+	}
+	
+	private static class ImageResponse{
+		@JsonProperty("imageId")
+		private int imageId;
+		@JsonProperty("approved")
+		private boolean approved;
+		
+		public int getImageId(){
+			return imageId;
+		}
+		public boolean getApproved(){
+			return approved;
+		}
+	}
+
+
 }

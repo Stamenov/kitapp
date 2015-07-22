@@ -88,6 +88,13 @@ public class MealData {
 	public void setImages(Set<Image> images) {
 		this.images = images;
 	}
+	/**
+	 * public add-er for image
+	 * @param image
+	 */
+	public void addImage(Image image) {
+		this.images.add(image);
+	}
 	
 	@OneToOne(cascade = CascadeType.ALL)
 	public RatingCollection getRatings() {
@@ -96,6 +103,13 @@ public class MealData {
 
 	public void setRatings(RatingCollection ratings) {
 		this.ratings = ratings;
+	}
+	/**
+	 * public add-er for ratings
+	 * @param rating
+	 */
+	public void addRating(Rating rating) {
+		this.ratings.add(rating);
 	}
 	
 	@OneToOne(cascade = CascadeType.ALL)

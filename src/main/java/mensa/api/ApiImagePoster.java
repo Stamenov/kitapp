@@ -8,6 +8,8 @@ import javax.ws.rs.core.MediaType;
 
 import mensa.api.hibernate.HibernateUtil;
 import mensa.api.hibernate.domain.Image;
+import mensa.api.hibernate.domain.Meal;
+import mensa.api.hibernate.domain.MealData;
 
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.hibernate.Session;
@@ -24,8 +26,16 @@ public class ApiImagePoster {
 		session.beginTransaction();
 		
 		Image image = new Image(imagePost.getUserId(), imagePost.getImagePath());
-		
 		session.save(image);
+		session.getTransaction().commit();
+		
+		session.beginTransaction();
+		
+		Meal meal = (Meal) session.get(Meal.class, imagePost.getMealId());
+		MealData data = meal.getData();
+		data.addImage(image);
+		
+		session.update(data);
 		session.getTransaction().commit();
 		
 		return image;

@@ -11,7 +11,11 @@ public final class Image {
 	private int id;
 	private int userid;
 	private String url;
-	private final int hashCode;
+	private int hashCode;
+	
+	public Image() {
+		
+	}
 	
 	public Image(int userid, String url) {
 		this.userid = userid;

@@ -32,7 +32,7 @@ public class ApiRatingPoster {
 		Rating rating = new Rating();
 		rating.setUserid(ratingReceived.userid);
 		rating.setValue(ratingReceived.value);
-		meal.getData().getRatings().add(rating);
+		meal.getData().addRating(rating);
 		
 		session.merge(meal);
         session.getTransaction().commit();
@@ -51,20 +51,11 @@ public class ApiRatingPoster {
 		public int getMealid() {
 			return mealid;
 		}
-		public void setMealid(int mealid) {
-			this.mealid = mealid;
-		}
 		public int getValue() {
 			return value;
 		}
-		public void setValue(int value) {
-			this.value = value;
-		}
 		public int getUserid() {
 			return userid;
-		}
-		public void setUserid(int userid) {
-			this.userid = userid;
 		}
 	}
 }

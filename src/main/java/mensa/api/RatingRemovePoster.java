@@ -45,14 +45,8 @@ public class RatingRemovePoster {
 		public int getMealid() {
 			return mealid;
 		}
-		public void setMealid(int mealid) {
-			this.mealid = mealid;
-		}
 		public int getUserid() {
 			return userid;
-		}
-		public void setUserid(int userid) {
-			this.userid = userid;
 		}
 	}
 
