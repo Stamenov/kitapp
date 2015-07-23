@@ -1,14 +1,14 @@
 package mensa.api;
 
+import java.io.IOException;
+import java.io.PrintStream;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.FileSystems;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
@@ -19,14 +19,15 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import mensa.api.hibernate.HibernateUtil;
+import mensa.api.hibernate.domain.Image;
 import mensa.api.hibernate.domain.Meal;
 import mensa.api.hibernate.domain.MealData;
-import mensa.api.hibernate.domain.Image;
 
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
+
 
 @Path("/admin/")
 public class ApiAdminPanel {
@@ -146,6 +147,7 @@ public class ApiAdminPanel {
 		}
 		return Response.ok(imageArr).build();
 	}
+	
 	@POST
 	@Path("/finalizeImagePost/")
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -163,14 +165,12 @@ public class ApiAdminPanel {
 			String imgUrl = image.getUrl();
 			String imgName = imgUrl.substring(imgUrl.lastIndexOf('/')+1, imgUrl.length());
 			
-			//no import because of collision of imports 'path'
-			java.nio.file.Path path = FileSystems.getDefault().getPath("/var/www/html/PSESoSe15Gruppe3-Daten/photos", imgName);
-	        //delete if exists
-	        try {
-	            boolean success = Files.deleteIfExists(path);
-	        } catch (IOException | SecurityException e) {
-	            throw e;
-	        }
+			String s = "ftp://s_stamen:3Pg7JTj7@i43pc164.ipd.kit.edu/var/www/html/PSESoSe15Gruppe3-Daten/photos/" + imgName;
+			URL u = new URL(s);
+			URLConnection uc = u.openConnection();
+			PrintStream ps = new PrintStream((uc.getOutputStream()));
+			ps.close();
+
 			session.delete(image);
 		}
 		return Response.ok().build();
@@ -189,6 +189,4 @@ public class ApiAdminPanel {
 			return approved;
 		}
 	}
-
-
 }
