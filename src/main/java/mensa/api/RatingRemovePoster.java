@@ -6,6 +6,8 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import mensa.api.OAuth.BadTokenException;
+import mensa.api.OAuth.Checker;
 import mensa.api.hibernate.HibernateUtil;
 import mensa.api.hibernate.domain.Meal;
 
@@ -19,34 +21,41 @@ public class RatingRemovePoster {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Meal removeRating(mealUserPair ratingKeys){
+	public Meal removeRating(Args args){
+		int userid;
+		try { 
+			userid = Checker.getUserid(args.getToken());	
+		} catch (BadTokenException e) {
+			return null;
+		}
 		
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction();
 		
 		Criteria cr = session.createCriteria(Meal.class);
-		cr.add(Restrictions.idEq(ratingKeys.mealid));
+		cr.add(Restrictions.idEq(args.getMealid()));
 
 		Meal meal = (Meal) cr.list().get(0);
-		meal.getData().getRatings().remove(ratingKeys.userid); // TODO: REFACTOR
+		meal.getData().getRatings().remove(userid); // TODO: REFACTOR
 		
 		session.merge(meal);
         session.getTransaction().commit();
+        
+		meal.setCurrentUser(userid);
         return meal;
-		
 	}
 	
-	private static class mealUserPair {
+	private static class Args {
+		@JsonProperty("token")
+		private String token;
 		@JsonProperty("mealid")
 		private int mealid;
-		@JsonProperty("userid")
-		private int userid;
-		
+
+		public String getToken() {
+			return token;
+		}		
 		public int getMealid() {
 			return mealid;
-		}
-		public int getUserid() {
-			return userid;
 		}
 	}
 

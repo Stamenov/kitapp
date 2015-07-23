@@ -22,10 +22,10 @@ public class ApiImagePoster {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Image postImage(ImagePost imagePost){
+	public Image postImage(Args args){
 		int userid;
 		try { 
-			userid = Checker.getUserid(imagePost.getToken());	
+			userid = Checker.getUserid(args.getToken());	
 		} catch (BadTokenException e) {
 			return null;
 		}
@@ -34,13 +34,13 @@ public class ApiImagePoster {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction();
 		
-		Image image = new Image(userid, imagePost.getImagePath());
+		Image image = new Image(userid, args.getImagePath());
 		session.save(image);
 		session.getTransaction().commit();
 		
 		session.beginTransaction();
 		
-		Meal meal = (Meal) session.get(Meal.class, imagePost.getMealId());
+		Meal meal = (Meal) session.get(Meal.class, args.getMealId());
 		MealData data = meal.getData();
 		data.addImage(image);
 		
@@ -50,7 +50,7 @@ public class ApiImagePoster {
 		return image;
 	}
 	
-	private static class ImagePost{
+	private static class Args{
 		@JsonProperty("token")
 		private String token;
 		@JsonProperty("mealId")

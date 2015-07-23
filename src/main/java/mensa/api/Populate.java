@@ -26,7 +26,6 @@ import mensa.api.studentenwerk.Data;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 
-import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken.Payload;
 import com.google.gson.Gson;
 
 @Path("/populate/")
