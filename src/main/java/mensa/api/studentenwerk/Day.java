@@ -17,7 +17,11 @@ public class Day {
 	private List<MealSW> l3;
 	private List<MealSW> l45;
 	private List<MealSW> schnitzelbar;
-	private List<MealSW> update;	
+	private List<MealSW> update;
+	private List<MealSW> abend;
+	private List<MealSW> aktion;
+	private List<MealSW> heisstheke;
+	private List<MealSW> nmtisch;
 
 	public List<Offer> getOffers(int timestamp) {
 		List<Offer> result = new ArrayList<Offer>();
@@ -29,6 +33,10 @@ public class Day {
 		allMeals.addAll(l45);
 		allMeals.addAll(schnitzelbar);
 		allMeals.addAll(update);
+		allMeals.addAll(abend);
+		allMeals.addAll(aktion);
+		allMeals.addAll(heisstheke);
+		allMeals.addAll(nmtisch);
 		
 		Iterator<MealSW> it = l1.iterator();
 		iterateAndExtractOffers(it, result, Line.l1, timestamp);
@@ -46,7 +54,19 @@ public class Day {
 		iterateAndExtractOffers(it, result, Line.schnitzelbar, timestamp);
 		
 		it = update.iterator();
-		iterateAndExtractOffers(it, result, Line.update, timestamp);
+		iterateAndExtractOffers(it, result, Line.update, timestamp);		
+
+		it = abend.iterator();
+		iterateAndExtractOffers(it, result, Line.abend, timestamp);
+		
+		it = aktion.iterator();
+		iterateAndExtractOffers(it, result, Line.aktion, timestamp);
+		
+		it = heisstheke.iterator();
+		iterateAndExtractOffers(it, result, Line.heisstheke, timestamp);
+		
+		it = nmtisch.iterator();
+		iterateAndExtractOffers(it, result, Line.nmtisch, timestamp);
 		
 		return result;
 	}

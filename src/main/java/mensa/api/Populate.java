@@ -61,7 +61,7 @@ public class Populate extends TimerTask implements ServletContextListener{
 					+ "The updating of the database has been cancelled and no changes have been made.");
 			return;
 		}
-		
+
 		// Parse data:
 		Gson gson = new Gson();
 		Data d;
