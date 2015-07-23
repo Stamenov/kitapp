@@ -6,6 +6,8 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import mensa.api.OAuth.BadTokenException;
+import mensa.api.OAuth.Checker;
 import mensa.api.hibernate.HibernateUtil;
 import mensa.api.hibernate.domain.Image;
 import mensa.api.hibernate.domain.Meal;
@@ -21,11 +23,18 @@ public class ApiImagePoster {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Image postImage(ImagePost imagePost){
+		int userid;
+		try { 
+			userid = Checker.getUserid(imagePost.getToken());	
+		} catch (BadTokenException e) {
+			return null;
+		}
+		
 		
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction();
 		
-		Image image = new Image(imagePost.getUserId(), imagePost.getImagePath());
+		Image image = new Image(userid, imagePost.getImagePath());
 		session.save(image);
 		session.getTransaction().commit();
 		
@@ -42,15 +51,15 @@ public class ApiImagePoster {
 	}
 	
 	private static class ImagePost{
-		@JsonProperty("userId")
-		private int userId;
+		@JsonProperty("token")
+		private String token;
 		@JsonProperty("mealId")
 		private int mealId;
 		@JsonProperty("imagePath")
 		private String imagePath;
 		
-		public int getUserId(){
-			return userId;
+		public String getToken(){
+			return token;
 		}
 		public int getMealId(){
 			return mealId;

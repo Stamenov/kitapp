@@ -40,7 +40,7 @@ public class Offer {
 		this.line = line;
 	}
 
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne(cascade = {CascadeType.ALL})
 	public Meal getMeal() {
 		return meal;
 	}
@@ -49,7 +49,7 @@ public class Offer {
 		this.meal = meal;
 	}
 
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne(cascade = {CascadeType.ALL})
 	public Price getPrice() {
 		return price;
 	}

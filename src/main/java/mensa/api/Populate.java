@@ -26,6 +26,7 @@ import mensa.api.studentenwerk.Data;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken.Payload;
 import com.google.gson.Gson;
 
 @Path("/populate/")
@@ -36,6 +37,7 @@ public class Populate extends TimerTask implements ServletContextListener{
 	final static String CHARSET = java.nio.charset.StandardCharsets.UTF_8.name();
 	final static String USER = "jsonapi";
 	final static String PASSWORD = "AhVai6OoCh3Quoo6ji";
+	final static int POLL_FREQUENCY_IN_HOURS = 24;
 
 	@Override
 	public void contextDestroyed(ServletContextEvent arg0) {
@@ -46,7 +48,7 @@ public class Populate extends TimerTask implements ServletContextListener{
 	public void contextInitialized(ServletContextEvent arg0) {
 		// Poll mensa API daily; not necessary to do it so often but its cheap and could catch menu changes so why not?		
 		ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
-		scheduler.scheduleAtFixedRate(this, 0, 1, TimeUnit.MINUTES);
+		scheduler.scheduleAtFixedRate(this, 0, POLL_FREQUENCY_IN_HOURS, TimeUnit.HOURS);
 	}
 	
 	public void run(){
