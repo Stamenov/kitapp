@@ -9,7 +9,7 @@
         <property name="hibernate.connection.url">jdbc:mysql://localhost/PSESoSe15Gruppe3</property>    
         <property name="hibernate.connection.password">DA7UpuPr5bem</property>
         <property name="hibernate.connection.username">PSESoSe15User3</property>-->
-        
+
         <property name="hibernate.connection.driver_class">com.mysql.jdbc.Driver</property>
        	<property name="hibernate.connection.url">jdbc:mysql://localhost:3307/hibernatedb</property>    
         <property name="hibernate.connection.password">1234</property>

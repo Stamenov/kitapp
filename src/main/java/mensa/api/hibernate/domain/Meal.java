@@ -39,7 +39,7 @@ public class Meal {
 		this.data = data;
 	}
 	
-	public void setCurrentUser(int userid) {
+	public void setCurrentUser(String userid) {
 		data.setCurrentUser(userid);
 	}
 }

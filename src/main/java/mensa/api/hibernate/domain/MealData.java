@@ -140,7 +140,7 @@ public class MealData {
 		this.active = active; 
 	}	
 
-	public void setCurrentUser(int userid) {
+	public void setCurrentUser(String userid) {
 		ratings.setCurrentUserRating(userid);
 	}
 }

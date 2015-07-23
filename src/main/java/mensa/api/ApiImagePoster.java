@@ -23,7 +23,7 @@ public class ApiImagePoster {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Image postImage(Args args){
-		int userid;
+		String userid;
 		try { 
 			userid = Checker.getUserid(args.getToken());	
 		} catch (BadTokenException e) {

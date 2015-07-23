@@ -25,7 +25,7 @@ public class ApiMealPoster {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Meal getMealById(Args args){
-		int userid;
+		String userid;
 		try { 
 			userid = Checker.getUserid(args.getToken());	
 		} catch (BadTokenException e) {

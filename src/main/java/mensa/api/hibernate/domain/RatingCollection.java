@@ -14,7 +14,7 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 @Entity
 public class RatingCollection {
 	private int id;
-	private Map<Integer, Rating> ratings;
+	private Map<String, Rating> ratings;
 	private int sum;
 	private double average;	
 	private Rating currentUserRating;
@@ -31,10 +31,10 @@ public class RatingCollection {
 
 	@OneToMany(cascade = CascadeType.ALL)
 	@JsonIgnore
-	public Map<Integer, Rating> getRatings() {
+	public Map<String, Rating> getRatings() {
 		return ratings;
 	}
-	public void setRatings(Map<Integer, Rating> ratings) {
+	public void setRatings(Map<String, Rating> ratings) {
 		this.ratings = ratings;
 	}
 	
@@ -58,7 +58,7 @@ public class RatingCollection {
 		return currentUserRating;
 	}
 	
-	public void setCurrentUserRating(int currentUser) {
+	public void setCurrentUserRating(String currentUser) {
 		this.currentUserRating = ratings.get(currentUser);
 	}
 
@@ -79,7 +79,7 @@ public class RatingCollection {
 		updateAverage();
 	}
 	
-	public void remove(int userid) {
+	public void remove(String userid) {
 		Rating old = ratings.remove(userid);		
 		sum -= old.getValue();
 		

@@ -54,21 +54,15 @@ public class Checker {
         return mProblem;
     }
     
-    public static int getUserid(String token) throws BadTokenException {
+    public static String getUserid(String token) throws BadTokenException {
     	Payload payload = checker.check(token);
-    	int userid;
+    	String userid;
     	
     	if (payload == null) {
     		System.out.println(checker.getProblem());
 			throw new BadTokenException();
     	} else {
-    		try {
-    			userid = Integer.parseInt(payload.getSubject());
-    		} catch (NumberFormatException e) {
-    			System.out.println("Google has returned a non-number in the subject field; This shouldn't be happening!");
-    			e.printStackTrace();
-    			throw new BadTokenException();
-    		}
+    		userid = payload.getSubject();    		
     	}
     	
     	return userid;

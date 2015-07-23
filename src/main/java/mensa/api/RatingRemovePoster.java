@@ -22,7 +22,7 @@ public class RatingRemovePoster {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Meal removeRating(Args args){
-		int userid;
+		String userid;
 		try { 
 			userid = Checker.getUserid(args.getToken());	
 		} catch (BadTokenException e) {

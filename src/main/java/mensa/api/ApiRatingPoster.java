@@ -23,7 +23,7 @@ public class ApiRatingPoster {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Meal saveRating(Args args){
-		int userid;
+		String userid;
 		try { 
 			userid = Checker.getUserid(args.getToken());	
 		} catch (BadTokenException e) {

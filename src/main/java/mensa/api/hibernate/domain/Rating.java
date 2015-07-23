@@ -13,7 +13,7 @@ import org.codehaus.jackson.map.annotate.JsonSerialize;
 public class Rating {
 	private int id;
 	private int value;
-	private int userid;
+	private String userid;
 
 	@Id @GeneratedValue
 	private int getId() {
@@ -28,10 +28,10 @@ public class Rating {
 	public void setValue(int value) {
 		this.value = value;
 	}	
-	public int getUserid() {
+	public String getUserid() {
 		return userid;
 	}
-	public void setUserid(int userid) {
+	public void setUserid(String userid) {
 		this.userid = userid;
 	}
 }

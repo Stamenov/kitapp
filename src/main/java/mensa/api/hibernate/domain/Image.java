@@ -9,7 +9,7 @@ public final class Image {
 	// THESE FIELDS SHOULD BE IMMUTABLE
 	private boolean active;
 	private int id;
-	private int userid;
+	private String userid;
 	private String url;
 	private int hashCode;
 	
@@ -17,11 +17,11 @@ public final class Image {
 		
 	}
 	
-	public Image(int userid, String url) {
+	public Image(String userid, String url) {
 		this.userid = userid;
 		this.url = url;
 		this.active = false;
-		hashCode = userid * 37 ^ url.hashCode();
+		//hashCode = userid * 37 ^ url.hashCode();
 	}
 	
 	@Override
@@ -54,11 +54,11 @@ public final class Image {
 		this.id = id;
 	}
 
-	public int getUserid() {
+	public String getUserid() {
 		return userid;
 	}
 
-	public void setUserid(int userid) {
+	public void setUserid(String userid) {
 		this.userid = userid;
 	}
 
