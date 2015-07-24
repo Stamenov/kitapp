@@ -23,7 +23,7 @@ import org.hibernate.criterion.Restrictions;
  * @author Martin Stamenov
  *
  */
-@Path("/admin/")
+@Path("/admin/mergingMeals/")
 public class Inactive {
 	/**
 	 * Deliver pending merging meals to the admin pannel as json objects

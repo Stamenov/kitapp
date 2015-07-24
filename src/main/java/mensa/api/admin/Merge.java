@@ -17,7 +17,7 @@ import mensa.api.hibernate.domain.MealData;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.hibernate.Session;
 
-@Path("/admin/")
+@Path("/admin/finalizeMerge/")
 public class Merge {
 
 	/**
@@ -27,7 +27,6 @@ public class Merge {
 	 * @return response object
 	 */
 	@POST
-	@Path("/finalizeMerge/")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response finalizeMerge(Args args){
 		

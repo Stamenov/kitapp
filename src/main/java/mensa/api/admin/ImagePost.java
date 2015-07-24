@@ -17,6 +17,7 @@ import mensa.api.hibernate.domain.Image;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.hibernate.Session;
 
+@Path("admin/finalizeImagePost/")
 public class ImagePost {
 	/**
 	 * Handle admin decision to publish or delete the img
@@ -25,7 +26,6 @@ public class ImagePost {
 	 * @throws IOException
 	 */
 	@POST
-	@Path("/finalizeImagePost/")
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response finalizeImagePost(Args args) throws IOException{
 		Session session = HibernateUtil.getSessionFactory().openSession();
