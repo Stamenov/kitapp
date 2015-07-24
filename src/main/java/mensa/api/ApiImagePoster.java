@@ -1,5 +1,15 @@
 package mensa.api;
 
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Base64;
+
+import javax.imageio.ImageIO;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -18,6 +28,9 @@ import org.hibernate.Session;
 @Path("/image/")
 public class ApiImagePoster {
 	
+	private final static String DIR_TO_SAVE_IMAGES_TO = "/var/www/html/PSESoSe15Gruppe3-Daten/photos";
+	private final static String DIR_TO_SAVE_TO_DB = "https://i43pc164.ipd.kit.edu/PSESoSe15Gruppe3-Daten/photos/";
+	
 	/**
 	 * Saves image in the db
 	 * @param args the img
@@ -32,40 +45,84 @@ public class ApiImagePoster {
 		} catch (BadTokenException e) {
 			return;
 		}
+
+		BufferedImage bufferedImage;
+		try {
+			bufferedImage = decodeBase64(args.getImage());
+		} catch (IOException e) {
+			System.out.println("This shouldn't be possible: Failed to decode received image due to IOError.");
+			e.printStackTrace();
+			return;
+		}
 		
+		// Generate random unused filename in specified dir; despite the method name, it is NOT a temp file.
+		File file = null;
+		try {
+			file = File.createTempFile("imgPoster", ".bmp", new File(DIR_TO_SAVE_IMAGES_TO));
+		} catch (IOException e1) {
+			System.out.println("IOError. Is the image path in ApiImagePoster.java set correctly? Exiting without saving the image.");
+			e1.printStackTrace();
+			return;
+		}
+		
+		FileOutputStream out = null;
+		try {
+			out = new FileOutputStream(file);
+		} catch (FileNotFoundException e) {
+			System.out.println("File.createTempFile failed to create a file? Exiting without saving the image.");
+			e.printStackTrace();
+			return;
+		}
+		
+		// Save image:
+		try {
+			ImageIO.write(bufferedImage, "png", out);
+		} catch (IOException e) {
+			System.out.println("Coudln't write file to specified directory? Exiting without saving the image.");
+			e.printStackTrace();
+			return;
+		}
+		
+		// Make sure there's a slash between dir and filename:
+		String slash = "";
+		if (!DIR_TO_SAVE_TO_DB.endsWith("/")) {
+			slash = "/";
+		}
+
 		Session session = HibernateUtil.getSessionFactory().openSession();
-		session.beginTransaction();
-		
-		Image image = new Image(userid, args.getImagePath());
+		Image image = new Image(userid, DIR_TO_SAVE_TO_DB + slash + file.getName());
 		session.save(image);
-		session.getTransaction().commit();
-		
-		session.beginTransaction();
 		
 		Meal meal = (Meal) session.get(Meal.class, args.getMealId());
 		MealData data = meal.getData();
 		data.addImage(image);
 		
 		session.update(data);
-		session.getTransaction().commit();
 	}
 	
 	private static class Args{
 		@JsonProperty("token")
 		private String token;
-		@JsonProperty("mealId")
-		private int mealId;
-		@JsonProperty("imagePath")
-		private String imagePath;
+		@JsonProperty("mealid")
+		private int mealid;
+		@JsonProperty("image")
+		private String image;
 		
 		public String getToken(){
 			return token;
 		}
 		public int getMealId(){
-			return mealId;
+			return mealid;
 		}
-		public String getImagePath(){
-			return imagePath;
+		public String getImage(){
+			return image;
 		}
+	}
+
+	private static BufferedImage decodeBase64(String input) throws IOException 
+	{
+	    byte[] decodedByte = Base64.getDecoder().decode(input);
+	    InputStream in = new ByteArrayInputStream(decodedByte);
+		return ImageIO.read(in);
 	}
 }

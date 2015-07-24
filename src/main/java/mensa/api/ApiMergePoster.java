@@ -32,6 +32,11 @@ public class ApiMergePoster {
 			return;
 		}
 		
+		// TODO: Exposed exception or response code??
+		if (args.getMealid1() == args.getMealid2()) {
+			throw new IllegalArgumentException("mealids can't be equal!");
+		}
+		
 		// TODO: Request throttling per user?
 		
 		Session session = HibernateUtil.getSessionFactory().openSession();

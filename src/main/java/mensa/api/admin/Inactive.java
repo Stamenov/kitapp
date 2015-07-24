@@ -30,7 +30,6 @@ public class Inactive {
 	 * @return arrayList of arrayLists grouped by the current meal, all within a response object
 	 */
 	@GET
-	@Path("/mergingMeals/")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getInactiveMealDatas(){
 		
