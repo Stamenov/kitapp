@@ -17,6 +17,10 @@ import mensa.api.hibernate.domain.Meal;
 @Path("/names/")
 public class ApiNamesGetter {
 
+	/**
+	 * Provides tuple of name and id 
+	 * @return list of tuples representing all meals in db
+	 */
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<StringIdPair> getNames(){

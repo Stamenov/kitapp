@@ -19,8 +19,15 @@ import org.hibernate.criterion.Restrictions;
 
 @Path("/plan/")
 public class ApiPlanGetter {
+	
+	/**
+	 * Provides list of offers for the specified timespan
+	 * @param timestampFrom
+	 * @param timestampTo
+	 * @return list of offers
+	 */
 	@GET
-	@Path("/{timestampFrom:[0-9]*}/{timestampTo:[0-9]*}/") //TODO Make it take two timestamps
+	@Path("/{timestampFrom:[0-9]*}/{timestampTo:[0-9]*}/")
 	@Produces(MediaType.APPLICATION_JSON)
 	public List<Offer> getPlanByTimestamps(@PathParam("timestampFrom") int timestampFrom, @PathParam("timestampTo") int timestampTo) {
 		List<Offer> result = new ArrayList<Offer>();

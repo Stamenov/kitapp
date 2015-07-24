@@ -28,6 +28,11 @@ import org.hibernate.criterion.Restrictions;
 
 import com.google.gson.Gson;
 
+/**
+ * Parses the Meal-Api to db 
+ * @author Petar Vutov
+ *
+ */
 @Path("/populate/")
 @WebListener
 public class Populate extends TimerTask implements ServletContextListener{
@@ -40,7 +45,7 @@ public class Populate extends TimerTask implements ServletContextListener{
 
 	@Override
 	public void contextDestroyed(ServletContextEvent arg0) {
-		// do nuffin
+
 	}
 
 	@Override

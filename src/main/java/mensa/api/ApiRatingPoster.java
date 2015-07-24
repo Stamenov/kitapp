@@ -19,6 +19,12 @@ import org.hibernate.criterion.Restrictions;
 
 @Path("/rating/")
 public class ApiRatingPoster {
+	
+	/**
+	 * Handles meal rating
+	 * @param args mealid, value, token
+	 * @return the meal
+	 */
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
@@ -27,6 +33,10 @@ public class ApiRatingPoster {
 		try { 
 			userid = Checker.getUserid(args.getToken());	
 		} catch (BadTokenException e) {
+			return null;
+		}
+		
+		if(!(args.getValue() >= 1 && args.getValue()<= 5)){
 			return null;
 		}
 		
@@ -47,7 +57,6 @@ public class ApiRatingPoster {
         
 		meal.setCurrentUser(userid);
         return meal;
-		
 	}
 	
 	private static class Args {

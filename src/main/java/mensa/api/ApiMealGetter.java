@@ -19,8 +19,13 @@ import org.codehaus.jackson.annotate.JsonProperty;
 import org.hibernate.Session;
 
 @Path("/meal/")
-public class ApiMealPoster {
+public class ApiMealGetter {
 
+	/**
+	 * Gets meal by id
+	 * @param args mealid, token
+	 * @return the meal
+	 */
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
@@ -50,7 +55,6 @@ public class ApiMealPoster {
 		return meal;
 	}	
 	
-
 	private static class Args{
 		@JsonProperty("token")
 		private String token;

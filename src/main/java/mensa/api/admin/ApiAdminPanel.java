@@ -1,4 +1,4 @@
-package mensa.api;
+package mensa.api.admin;
 
 import java.io.IOException;
 import java.io.PrintStream;
@@ -28,10 +28,18 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 
-
+/**
+ * API-class for the admin panel
+ * @author Martin Stamenov
+ *
+ */
 @Path("/admin/")
 public class ApiAdminPanel {
 	
+	/**
+	 * Deliver pending merging meals to the admin pannel as json objects
+	 * @return arrayList of arrayLists grouped by the current meal, all within a response object
+	 */
 	@GET
 	@Path("/mergingMeals/")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -60,7 +68,13 @@ public class ApiAdminPanel {
 		}
 		return Response.ok(result).build();
 	}
-		
+	
+	/**
+	 * Accepts a json-object telling if a merge is approved or not
+	 * Updates the meal-to-mealdata relations or deletes the pending mealdata
+	 * @param mealDataResponse
+	 * @return response object
+	 */
 	@POST
 	@Path("/finalizeMerge/")
 	@Consumes(MediaType.APPLICATION_JSON)
@@ -110,7 +124,7 @@ public class ApiAdminPanel {
 			session.getTransaction().commit();
 		}
 		
-		return Response.ok("success").build();
+		return Response.ok().build();
 
 	}
 	

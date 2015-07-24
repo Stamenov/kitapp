@@ -18,15 +18,18 @@ import org.hibernate.Session;
 @Path("/merge/")
 public class ApiMergePoster {
 
+	/**
+	 * Submitting merge suggestion
+	 * @param args mealid1, mealid2, token
+	 */
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_JSON)
-	public MealData mergeByIds(Args args){
+	public void mergeByIds(Args args){
 		String userid;
 		try { 
 			userid = Checker.getUserid(args.getToken());	
 		} catch (BadTokenException e) {
-			return null;
+			return;
 		}
 		
 		// TODO: Request throttling per user?
@@ -39,9 +42,7 @@ public class ApiMergePoster {
 		
 		MealData mergedMealData = MealData.merge(meal1.getData(), meal2.getData());
 		session.save(mergedMealData);
-		session.getTransaction().commit();
-		
-		return mergedMealData;
+		session.getTransaction().commit();		
 	}
 	
 	private static class Args{

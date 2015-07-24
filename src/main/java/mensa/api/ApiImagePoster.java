@@ -3,7 +3,6 @@ package mensa.api;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
 import mensa.api.OAuth.BadTokenException;
@@ -18,18 +17,21 @@ import org.hibernate.Session;
 
 @Path("/image/")
 public class ApiImagePoster {
+	
+	/**
+	 * Saves image in the db
+	 * @param args the img
+	 */
 	@Path("/post/")
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_JSON)
-	public Image postImage(Args args){
+	public void postImage(Args args){
 		String userid;
 		try { 
 			userid = Checker.getUserid(args.getToken());	
 		} catch (BadTokenException e) {
-			return null;
+			return;
 		}
-		
 		
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction();
@@ -46,8 +48,6 @@ public class ApiImagePoster {
 		
 		session.update(data);
 		session.getTransaction().commit();
-		
-		return image;
 	}
 	
 	private static class Args{
