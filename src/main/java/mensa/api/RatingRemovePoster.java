@@ -16,6 +16,11 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 
+/**
+ * Remover for the ratings
+ * @author Peter Vutov
+ *
+ */
 @Path("/ratingRemove/")
 public class RatingRemovePoster {
 	@POST

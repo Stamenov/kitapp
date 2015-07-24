@@ -4,6 +4,11 @@ import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 
+/**
+ * Util class for hibernate (db) operations
+ * @author Peter Vutov
+ *
+ */
 public class HibernateUtil {
 
     private static final SessionFactory sessionFactory = buildSessionFactory();

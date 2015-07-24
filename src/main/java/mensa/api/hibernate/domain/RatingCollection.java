@@ -1,5 +1,6 @@
 package mensa.api.hibernate.domain;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.persistence.CascadeType;
@@ -14,7 +15,7 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 @Entity
 public class RatingCollection {
 	private int id;
-	private Map<String, Rating> ratings;
+	private Map<String, Rating> ratings = new HashMap<String, Rating>();;
 	private int sum;
 	private double average;	
 	private Rating currentUserRating;
