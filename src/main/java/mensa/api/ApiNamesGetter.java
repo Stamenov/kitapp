@@ -32,8 +32,8 @@ public class ApiNamesGetter {
 
 		while(it.hasNext()) {
 			Meal next = it.next();
-			next.getId();
-			result.add(new StringIdPair(next.getName(), next.getId()));
+			next.getMealid();
+			result.add(new StringIdPair(next.getName(), next.getMealid()));
 		}
 		
 		return Response.ok().entity(result).build();
