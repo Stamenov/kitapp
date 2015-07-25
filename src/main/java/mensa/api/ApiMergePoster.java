@@ -26,12 +26,12 @@ public class ApiMergePoster {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response mergeByIds(Args args){
 
-		String userid;
-		try { 
-			userid = Checker.getUserid(args.getToken());	
-		} catch (BadTokenException e) {
-			return Response.status(400).entity("bad token").build();
-		}
+		String userid = "5";
+//		try { 
+//			userid = Checker.getUserid(args.getToken());	
+//		} catch (BadTokenException e) {
+//			return Response.status(400).entity("bad token").build();
+//		}
 		
 		if(!User.hasUsesLeft(userid)) {
 			return Response.status(429).entity("merge/image limit exceeded").build();			

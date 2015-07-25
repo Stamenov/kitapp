@@ -20,32 +20,32 @@ public class ApiNamesGetter {
 
 	/**
 	 * Provides tuple of name and id 
-	 * @return list of tuples representing all meals in db
+	 * @return Http response containing list of tuples representing all meals in db
 	 */
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getNames(){
-		List<StringIdPair> result = new ArrayList<StringIdPair>();
+	public Response getNames() {
+		List<StringMealidPair> result = new ArrayList<StringMealidPair>();
 		
 		Session session = HibernateUtil.getSessionFactory().openSession();		
 		Iterator<Meal> it = session.createCriteria(Meal.class).list().iterator();
 
-		while(it.hasNext()) {
+		while (it.hasNext()) {
 			Meal next = it.next();
 			next.getMealid();
-			result.add(new StringIdPair(next.getName(), next.getMealid()));
+			result.add(new StringMealidPair(next.getName(), next.getMealid()));
 		}
 		
 		return Response.ok().entity(result).build();
 	}
 	
-	private class StringIdPair {
-		public String name;
-		public int id;
-		public StringIdPair(String name, int id) {
+	private class StringMealidPair {
+		private String name;
+		private int mealid;
+		protected StringMealidPair(String name, int mealid) {
 			super();
 			this.name = name;
-			this.id = id;
+			this.mealid = mealid;
 		}
 	}
 }

@@ -5,11 +5,16 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 
 /**
- * Util class for hibernate (db) operations
- * @author Peter Vutov
- *
+ * Util class for hibernate (db) operations.
+ * @author Petar Vutov
  */
 public class HibernateUtil {
+
+	/**
+	* Utility class, do not initialize.
+	*/
+	private HibernateUtil() {
+	}
 
     private static final SessionFactory sessionFactory = buildSessionFactory();
 
@@ -30,9 +35,8 @@ public class HibernateUtil {
         	config.addAnnotatedClass(mensa.api.hibernate.domain.Offer.class);
         	
             return config.buildSessionFactory(
-			    new StandardServiceRegistryBuilder().applySettings(config.getProperties()).build() );
-        }
-        catch (Throwable ex) {
+			    new StandardServiceRegistryBuilder().applySettings(config.getProperties()).build());
+        } catch (Throwable ex) {
             // Make sure you log the exception, as it might be swallowed
             System.err.println("Initial SessionFactory creation failed." + ex);
             throw new ExceptionInInitializerError(ex);

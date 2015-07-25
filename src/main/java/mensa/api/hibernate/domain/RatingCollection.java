@@ -12,6 +12,9 @@ import javax.persistence.Transient;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 
+/**
+ * @author Petar Vutov
+ */
 @Entity
 public class RatingCollection {
 	private int id;
@@ -19,6 +22,13 @@ public class RatingCollection {
 	private int sum;
 	private double average;	
 	private Rating currentUserRating;
+
+	/**
+	 * Default constructor required by Hibernate.
+	 */
+	public RatingCollection() { 
+		
+	}
 
 	@Id @GeneratedValue
 	@JsonIgnore
@@ -72,7 +82,7 @@ public class RatingCollection {
 	public void add(Rating rating) {
 		Rating old = this.ratings.put(rating.getUserid(), rating);
 		
-		if(old != null) {
+		if (old != null) {
 			sum -= old.getValue();
 		}
 
@@ -80,11 +90,16 @@ public class RatingCollection {
 		updateAverage();
 	}
 	
+	/**
+	 * Remove the rating by the specified user.
+	 * @param userid
+	 */
 	public void remove(String userid) {
-		Rating old = ratings.remove(userid);		
-		sum -= old.getValue();
-		
-		updateAverage();		
+		Rating old = ratings.remove(userid);
+		if (old != null) {
+			sum -= old.getValue();			
+			updateAverage();	
+		}	
 	}
 	
 	private void updateAverage() {

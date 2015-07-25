@@ -4,18 +4,30 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
+/**
+ * Images are saved somewhere on a filesystem that is accessible from the internet.
+ * This class helps store the internet urls in the database.
+ * @author Petar Vutov
+ */
 @Entity
-public final class Image {
+public class Image {
 	private boolean active;
 	private int id;
 	private String userid;
 	private String url;
-	private int hashCode;
 	
+	/**	 
+	 * Default constructor required by Hibernate.
+	 */
 	public Image() {
 		
 	}
 	
+	/**
+	 * Shortcut constructor.
+	 * @param userid id of the user who originally uploaded the image.
+	 * @param url Address where the image is hosted.
+	 */
 	public Image(String userid, String url) {
 		this.userid = userid;
 		this.url = url;

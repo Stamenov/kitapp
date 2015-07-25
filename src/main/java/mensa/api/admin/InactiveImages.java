@@ -17,11 +17,19 @@ import mensa.api.hibernate.domain.Meal;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 
+/**
+ * Responsible for fetching all images awaiting admin review.
+ * @author Martin Stamenov
+ */
 @Path("/admin/inactiveImages/")
 public class InactiveImages {
+	/**
+	 * Fetches all inactive images.
+	 * @return An http response containing a list of images and the names of the meals they belong to.
+	 */
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getInactiveImages(){
+	public Response getInactiveImages() {
 		
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction();
@@ -35,7 +43,7 @@ public class InactiveImages {
 		Meal meal;
 		ImageWithMealName currImgWithName;
 		ImageProposal currImgProposal;
-		while(it.hasNext()){
+		while (it.hasNext()) {
 			currImgProposal = it.next();
 			meal = (Meal) session.get(Meal.class, currImgProposal.getMealid());
 			currImgWithName = new ImageWithMealName(currImgProposal.getUrl(), currImgProposal.getId(), meal.getName());
@@ -45,33 +53,33 @@ public class InactiveImages {
 		return Response.ok(imgsWithNames).build();
 	}
 	
-	private class ImageWithMealName{
+	private class ImageWithMealName {
 		private String url;
 		private int imageid;
 		private String mealName;
 		
-		public ImageWithMealName(String url, int imageid, String mealName){
+		public ImageWithMealName(String url, int imageid, String mealName) {
 			this.url = url;
 			this.imageid = imageid;
 			this.mealName = mealName;
 		}
 		
-		public String getUrl(){
+		public String getUrl() {
 			return url;
 		}
-		public int getImageid(){
+		public int getImageid() {
 			return imageid;
 		}
-		public String getMealName(){
+		public String getMealName() {
 			return mealName;
 		}
-		public void setUrl(String url){
+		public void setUrl(String url) {
 			this.url = url;
 		}
-		public void setImageid(int imageid){
+		public void setImageid(int imageid) {
 			this.imageid = imageid;
 		}
-		public void setMealName(String mealName){
+		public void setMealName(String mealName) {
 			this.mealName = mealName;
 		}
 		

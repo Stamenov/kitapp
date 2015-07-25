@@ -23,7 +23,7 @@ public class User {
 	private long accesstime;
 	
 	/**
-	 * Constructor for Hibernate.
+	 * Default constructor required by Hibernate.
 	 */
 	public User() {
 		

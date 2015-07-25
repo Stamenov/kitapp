@@ -9,6 +9,10 @@ import javax.persistence.OneToOne;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 
+/**
+ * An offer is a meal offered on a certain day, at a certain line with a certain pricing.
+ * @author Petar Vutov
+ */
 @Entity
 public class Offer {
 	private int id;
@@ -16,6 +20,13 @@ public class Offer {
 	private Line line;
 	private Meal meal;
 	private Price price;
+	
+	/**
+	 * Default constructor required by Hibernate.
+	 */
+	public Offer() {
+		
+	}
 	
 	@Id @GeneratedValue
 	@JsonIgnore

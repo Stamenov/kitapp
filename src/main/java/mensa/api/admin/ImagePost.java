@@ -21,11 +21,15 @@ import java.nio.file.FileSystems;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.hibernate.Session;
 
+/**
+ * Responsible for the final, admin-involved process of publishing an image.
+ * @author Martin Stamenov
+ */
 @Path("/admin/finalizeImagePost/")
 public class ImagePost {
 	/**
-	 * Handle admin decision to publish or delete the img
-	 * @param args json obj
+	 * Handle admin decision to publish or delete the image.
+	 * @param args A class containing the decision and the id of the image the decision relates to.
 	 * @return response object
 	 * @throws IOException
 	 */
@@ -37,7 +41,7 @@ public class ImagePost {
 		
 		ImageProposal imageProposal = (ImageProposal) session.get(ImageProposal.class, args.getImageId());
 		
-		if(args.getApproved()){
+		if (args.getApproved()) {
 	
 			Image image = new Image(imageProposal.getUserid(), imageProposal.getUrl());
 			session.save(image);
@@ -55,9 +59,10 @@ public class ImagePost {
 
 		} else {
 			String imgUrl = imageProposal.getUrl();
-			String imgName = imgUrl.substring(imgUrl.lastIndexOf('/')+1, imgUrl.length());
+			String imgName = imgUrl.substring(imgUrl.lastIndexOf('/') + 1, imgUrl.length());
 			
-			java.nio.file.Path path = FileSystems.getDefault().getPath("/var/www/html/PSESoSe15Gruppe3-Daten/photos", imgName);
+			java.nio.file.Path path = 
+					FileSystems.getDefault().getPath("/var/www/html/PSESoSe15Gruppe3-Daten/photos", imgName);
 			
 			//delete if exists
 	        try {
@@ -71,16 +76,16 @@ public class ImagePost {
 		return Response.ok().build();
 	}
 	
-	private static class Args{
+	private static class Args {
 		@JsonProperty("imageId")
 		private int imageId;
 		@JsonProperty("approved")
 		private boolean approved;
 		
-		public int getImageId(){
+		public int getImageId() {
 			return imageId;
 		}
-		public boolean getApproved(){
+		public boolean getApproved() {
 			return approved;
 		}
 	}

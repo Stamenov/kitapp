@@ -4,6 +4,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
+/**
+ * @author Petar Vutov
+ */
 @Entity
 public class Price {
 	private int id;
@@ -12,6 +15,9 @@ public class Price {
 	private double workerPrice;
 	private double childPrice;
 	
+	/**
+	 * Default constructor required by Hibernate.
+	 */
 	public Price() {
 		
 	}

@@ -18,15 +18,19 @@ import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 
+/**
+ * Responsible for fetching all merge proposals.
+ * @author Martin Stamenov
+ */
 @Path("/admin/mergingMeals/")
 public class InactiveMealData {
 	/**
-	 * Deliver pending merging meals to the admin pannel as json objects
-	 * @return arrayList of arrayLists grouped by the current meal, all within a response object
+	 * Deliver pending meal merges to the admin pannel as json objects.
+	 * @return arrayList of arrayLists grouped by the current meal, all within a response object.
 	 */
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getInactiveMealDatas(){
+	public Response getInactiveMealDatas() {
 		
 		ArrayList<ArrayList<Meal>> result = new ArrayList<ArrayList<Meal>>();
 
@@ -40,11 +44,11 @@ public class InactiveMealData {
 		Iterator<MealData> it = resultList.iterator();
         
         ArrayList<Meal> currMeals;
-		while(it.hasNext()) {
+		while (it.hasNext()) {
 			currMeals = new ArrayList<Meal>();
 			MealData next = it.next();
 			currMeals.addAll(next.getMeals());
-			for(Meal currMeal: currMeals){
+			for (Meal currMeal: currMeals) {
 				currMeal.setData(next);
 			}
 			result.add(currMeals);

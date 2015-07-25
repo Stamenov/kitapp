@@ -4,10 +4,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 /**
- * Stores the image with the mealid while it is inactive (not approved)
- * Helps for diplaying the image with the meal name
+ * Stores the image with the mealid while it is inactive (not approved).
+ * Helps for diplaying the image with the meal name.
  * @author Martin Stamenov
- *
  */
 @Entity
 public class ImageProposal {
@@ -16,7 +15,10 @@ public class ImageProposal {
 	private String userid;
 	private String url;
 	private int mealid;
-	
+
+	/**
+	 * Default constructor required by Hibernate.
+	 */
 	public ImageProposal(){
 		
 	}

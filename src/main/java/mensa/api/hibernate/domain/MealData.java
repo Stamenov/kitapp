@@ -14,6 +14,9 @@ import javax.persistence.OneToOne;
 
 import org.codehaus.jackson.annotate.JsonIgnore;
 
+/**
+ * @author Petar Vutov
+ */
 @Entity
 public class MealData {	
 	private int id;
@@ -24,11 +27,20 @@ public class MealData {
 	
 	private boolean active;
 	
+	/**
+	 * Default constructor required by Hibernate.
+	 */
 	public MealData() {
 		
 	}
 	
-	public MealData(Meal meal, Tags tags, boolean active){
+	/**
+	 * Shortcut constructor
+	 * @param meal The meal this data will be used by.
+	 * @param tags The tags of the meal.
+	 * @param active True if this is a merge proposal, false if not.
+	 */
+	public MealData(Meal meal, Tags tags, boolean active) {
 		meals = new HashSet<Meal>();
 		meals.add(meal);
 		ratings = new RatingCollection();
@@ -63,52 +75,33 @@ public class MealData {
 		ratings.addAll(second.ratings);
 		active = false;
 	}	
-
-	public static MealData merge(MealData first, MealData second) {
-		MealData data = new MealData(first, second);
-		
-		return data;
-	}
-	
-	public void rate(Rating rating) {
-		ratings.add(rating);
-	}	
-
-	public void unrate(String userid) {
-		ratings.remove(userid);
-	}	
 	
 	@Id @GeneratedValue
 	@JsonIgnore
 	public int getId() {
 		return id;
 	};	
-	
 	public void setId(int id) {
 		this.id = id;
-	}
-	
+	}	
 	@OneToMany(cascade = CascadeType.ALL)
 	public Set<Image> getImages() {
 		return images;
 	}
-
 	public void setImages(Set<Image> images) {
 		this.images = images;
 	}
 	/**
-	 * public add-er for image
+	 * public add-er for image.
 	 * @param image
 	 */
 	public void addImage(Image image) {
 		this.images.add(image);
-	}
-	
+	}	
 	@OneToOne(cascade = CascadeType.ALL)
 	public RatingCollection getRatings() {
 		return ratings;
-	}
-
+	}	
 	public void setRatings(RatingCollection ratings) {
 		this.ratings = ratings;
 	}
@@ -149,6 +142,38 @@ public class MealData {
 		this.active = active; 
 	}	
 
+	/**
+	 * Merge two meal data objects without changing them.
+	 * @param first 
+	 * @param second 
+	 * @return A data with the combined contents of both arguments.
+	 */
+	public static MealData merge(MealData first, MealData second) {
+		MealData data = new MealData(first, second);
+		
+		return data;
+	}
+
+	/**
+	 * Add a rating to this meal.
+	 * @param rating The rating to add.
+	 */
+	public void rate(Rating rating) {
+		ratings.add(rating);
+	}	
+	
+	/**
+	 * Remove a specified user's rating.
+	 * @param userid The user whose rating should be removed.
+	 */
+	public void unrate(String userid) {
+		ratings.remove(userid);
+	}	
+	
+	/**
+	 * Before exposing a meal to the app, transform batch data to user-specific fragments of it where appropriate.
+	 * @param userid The user the data is for.
+	 */
 	public void setCurrentUser(String userid) {
 		ratings.setCurrentUserRating(userid);
 	}

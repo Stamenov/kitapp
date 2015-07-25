@@ -8,12 +8,22 @@ import mensa.api.hibernate.domain.serializers.RatingSerializer;
 
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 
+/**
+ * @author Petar Vutov
+ */
 @Entity
 @JsonSerialize(using = RatingSerializer.class)
 public class Rating {
 	private int id;
 	private int value;
 	private String userid;
+	
+	/**
+	 * Default constructor required by Hibernate.
+	 */
+	public Rating() {
+		
+	}
 
 	@Id @GeneratedValue
 	private int getId() {

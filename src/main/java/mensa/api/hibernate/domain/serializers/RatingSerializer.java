@@ -19,7 +19,7 @@ public class RatingSerializer extends JsonSerializer<Rating> {
      * Serializes only the value field.
      */
     @Override
-    public void serialize(final Rating rating, final JsonGenerator generator, final SerializerProvider provider){
+    public void serialize(final Rating rating, final JsonGenerator generator, final SerializerProvider provider) {
     	
     	try {    		
 	    	if (rating == null) {

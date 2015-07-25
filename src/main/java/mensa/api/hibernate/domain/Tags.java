@@ -4,6 +4,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
+/**
+ * @author Petar Vutov
+ */
 @Entity
 public class Tags implements Cloneable {
 	private int id;
@@ -16,6 +19,9 @@ public class Tags implements Cloneable {
 	private boolean veg;
 	private String add;	
 	
+	/**
+	 * Default constructor required by Hibernate.
+	 */
 	public Tags() {
 		
 	}
