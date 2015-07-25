@@ -16,42 +16,42 @@ import mensa.api.hibernate.domain.User;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.hibernate.Session;
 
+/**
+ * Responsible for handling user requests for merging.
+ * @author Martin Stamenov
+ */
 @Path("/merge/")
 public class ApiMergePoster {
 	/**
 	 * Submitting merge suggestion
 	 * @param args mealid1, mealid2, token
+	 * @return An http response indicating success or failure in creating the merge suggestion.
 	 */
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response mergeByIds(Args args){
+	public Response mergeByIds(Args args) {
 
-		String userid = "5";
-//		try { 
-//			userid = Checker.getUserid(args.getToken());	
-//		} catch (BadTokenException e) {
-//			return Response.status(400).entity("bad token").build();
-//		}
-		
-		if(!User.hasUsesLeft(userid)) {
-			return Response.status(429).entity("merge/image limit exceeded").build();			
-		};
-		
-		// Mealids can't be equal:
-		if (args.getMealid1() == args.getMealid2()) {
-			System.out.println("Received merge request with equal mealids, exiting.");
-			return Response.status(400).build();
+		String userid;
+		try { 
+			userid = Checker.getUserid(args.getToken());	
+		} catch (BadTokenException e) {
+			return Response.status(400).entity("bad token").build();
 		}
 		
-		// TODO: Check if same request has been submitted already?
-		
-		// TODO: Request throttling per user?
+		if (!User.hasUsesLeft(userid)) {
+			return Response.status(429).entity("merge/image limit exceeded").build();			
+		}
 		
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction();
 		
 		Meal meal1 = (Meal) session.get(Meal.class, args.getMealid1());
 		Meal meal2 = (Meal) session.get(Meal.class, args.getMealid2());
+		
+		if (meal1.getData() == meal2.getData()) {
+			System.out.println("Received merge request of meals that are already merged or equal, exiting.");
+			return Response.status(400).entity("These meals are already merged.").build();
+		}
 		
 		MealData mergedMealData = MealData.merge(meal1.getData(), meal2.getData());
 		session.save(mergedMealData);
@@ -62,7 +62,7 @@ public class ApiMergePoster {
 		return Response.ok().build();
 	}
 	
-	private static class Args{
+	private static class Args {
 		@JsonProperty("token")
 		private String token;
 		@JsonProperty("mealid1")
@@ -70,15 +70,15 @@ public class ApiMergePoster {
 		@JsonProperty("mealid2")
 		private int mealid2;
 		
-		public String getToken(){
+		public String getToken() {
 			return token;
 		}
 		
-		public int getMealid1(){
+		public int getMealid1() {
 			return mealid1;
 		}
 		
-		public int getMealid2(){
+		public int getMealid2() {
 			return mealid2;
 		}
 	}
