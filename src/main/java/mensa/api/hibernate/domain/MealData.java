@@ -132,6 +132,7 @@ public class MealData {
 	}
 	
 	@Column(name = "active")
+	@JsonIgnore
 	public boolean getActive(){
 		return this.active;
 	}
