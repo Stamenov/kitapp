@@ -22,6 +22,7 @@ import mensa.api.hibernate.domain.ImageProposal;
 import mensa.api.hibernate.domain.Meal;
 import mensa.api.hibernate.domain.User;
 
+import org.apache.catalina.tribes.util.Arrays;
 import org.apache.commons.codec.binary.Base64;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.hibernate.Session;
@@ -38,7 +39,7 @@ public class ApiImagePoster {
 	 */
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response postImage(Args args){
+	public Response postImage(Args args) {
 		String userid;
 		try { 
 			userid = Checker.getUserid(args.getToken());	
@@ -46,13 +47,15 @@ public class ApiImagePoster {
 			return Response.status(400).entity("bad token").build();
 		}
 
-		if(!User.hasUsesLeft(userid)) {
+		if (!User.hasUsesLeft(userid)) {
 			return Response.status(429).entity("merge/image limit exceeded").build();			
-		};
+		}
 
 		BufferedImage bufferedImage;
+	    byte[] decodedByte = Base64.decodeBase64(args.getImage());
+	    InputStream in = new ByteArrayInputStream(decodedByte);
 		try {
-			bufferedImage = decodeBase64(args.getImage());
+		    bufferedImage = ImageIO.read(in);
 		} catch (IOException e) {
 			System.out.println("This shouldn't be possible: Failed to decode received image due to IOError.");
 			e.printStackTrace();
@@ -64,7 +67,8 @@ public class ApiImagePoster {
 		try {
 			file = File.createTempFile("imgPoster", ".bmp", new File(DIR_TO_SAVE_IMAGES_TO));
 		} catch (IOException e1) {
-			System.out.println("IOError. Is the image path in ApiImagePoster.java set correctly? Exiting without saving the image.");
+			System.out.println("IOError. Is the image path in ApiImagePoster.java set correctly? "
+					+ "Exiting without saving the image.");
 			e1.printStackTrace();
 			return Response.status(500).build();
 		}
@@ -97,7 +101,8 @@ public class ApiImagePoster {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction();
 
-		ImageProposal imageProposal = new ImageProposal(userid, args.getMealId(), DIR_TO_SAVE_TO_DB + slash + file.getName());
+		ImageProposal imageProposal = new ImageProposal(userid, args.getMealId(), 
+				DIR_TO_SAVE_TO_DB + slash + file.getName(), decodedByte);
 		session.save(imageProposal);
 		session.getTransaction().commit();
 		
@@ -106,7 +111,7 @@ public class ApiImagePoster {
 		return Response.ok("success").build();
 	}
 	
-	private static class Args{
+	private static class Args {
 		@JsonProperty("token")
 		private String token;
 		@JsonProperty("mealid")
@@ -114,21 +119,14 @@ public class ApiImagePoster {
 		@JsonProperty("image")
 		private String image;
 		
-		public String getToken(){
+		public String getToken() {
 			return token;
 		}
-		public int getMealId(){
+		public int getMealId() {
 			return mealid;
 		}
-		public String getImage(){
+		public String getImage() {
 			return image;
 		}
-	}
-
-	private static BufferedImage decodeBase64(String input) throws IOException 
-	{
-	    byte[] decodedByte = Base64.decodeBase64(input);
-	    InputStream in = new ByteArrayInputStream(decodedByte);
-		return ImageIO.read(in);
 	}
 }

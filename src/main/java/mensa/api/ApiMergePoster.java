@@ -53,6 +53,8 @@ public class ApiMergePoster {
 			return Response.status(400).entity("These meals are already merged.").build();
 		}
 		
+		//TODO CHECK if meals are involved in pending merges
+		
 		MealData mergedMealData = MealData.merge(meal1.getData(), meal2.getData());
 		session.save(mergedMealData);
 		session.getTransaction().commit();	

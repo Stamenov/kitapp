@@ -11,10 +11,10 @@ import javax.persistence.Id;
  */
 @Entity
 public class Image {
-	private boolean active;
 	private int id;
 	private String userid;
 	private String url;
+	private int hashCode;
 	
 	/**	 
 	 * Default constructor required by Hibernate.
@@ -27,12 +27,12 @@ public class Image {
 	 * Shortcut constructor.
 	 * @param userid id of the user who originally uploaded the image.
 	 * @param url Address where the image is hosted.
+	 * @param hashCode A hash representing the image.
 	 */
-	public Image(String userid, String url) {
+	public Image(String userid, String url, int hashCode) {
 		this.userid = userid;
 		this.url = url;
-		this.active = false;
-		//hashCode = userid * 37 ^ url.hashCode();
+		this.hashCode = hashCode;
 	}
 	
 	@Override
@@ -79,11 +79,5 @@ public class Image {
 
 	public void setUrl(String url) {
 		this.url = url;
-	}
-	public boolean getActive(){
-		return active;
-	}
-	public void setActive(boolean active){
-		this.active = active;
 	}
 }

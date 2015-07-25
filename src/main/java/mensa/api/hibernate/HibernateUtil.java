@@ -8,7 +8,7 @@ import org.hibernate.cfg.Configuration;
  * Util class for hibernate (db) operations.
  * @author Petar Vutov
  */
-public class HibernateUtil {
+public final class HibernateUtil {
 
 	/**
 	* Utility class, do not initialize.

@@ -35,7 +35,7 @@ public class ImagePost {
 	 */
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response finalizeImagePost(Args args) throws IOException{
+	public Response finalizeImagePost(Args args) throws IOException {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction();
 		
@@ -43,7 +43,7 @@ public class ImagePost {
 		
 		if (args.getApproved()) {
 	
-			Image image = new Image(imageProposal.getUserid(), imageProposal.getUrl());
+			Image image = new Image(imageProposal.getUserid(), imageProposal.getUrl(), imageProposal.getHashCode());
 			session.save(image);
 			session.getTransaction().commit();
 			
@@ -71,7 +71,9 @@ public class ImagePost {
 	        } catch (IOException | SecurityException e) {
 	            System.err.println(e);
 	        }
+			session.beginTransaction();
 			session.delete(imageProposal);
+			session.getTransaction().commit();
 		}
 		return Response.ok().build();
 	}

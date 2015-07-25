@@ -19,18 +19,22 @@ import mensa.api.hibernate.domain.Meal;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.hibernate.Session;
 
+/**
+ * Responsible for delivering details about specific meals to the app.
+ * @author Petar Vutov
+ */
 @Path("/meal/")
 public class ApiMealGetter {
 
 	/**
-	 * Gets meal by id
-	 * @param args mealid, token
-	 * @return the meal
+	 * Gets meal by id.
+	 * @param args A json object containing the mealid and token.
+	 * @return The meal.
 	 */
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response getMealById(Args args){
+	public Response getMealById(Args args) {
 		String userid;
 		try {
 			userid = Checker.getUserid(args.getToken());
@@ -41,22 +45,11 @@ public class ApiMealGetter {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		Meal meal = (Meal) session.get(Meal.class, args.getMealid());
 		
-		meal.setCurrentUser(userid);
-		
-		//temporarily exchange the img-set for a img-set with active imgs only
-		//dont save in db, just for api-purposes
-		Set<Image> currImages = meal.getData().getImages();
-		Set<Image> newImagesSet = new HashSet<Image>();
-		for(Image img: currImages){
-			if(img.getActive()){
-				newImagesSet.add(img);
-			}
-		}
-		meal.getData().setImages(newImagesSet);
+		meal.setCurrentUser(userid);		
 		return Response.ok().entity(meal).build();
 	}	
 	
-	private static class Args{
+	private static class Args {
 		@JsonProperty("token")
 		private String token;
 		@JsonProperty("mealid")
