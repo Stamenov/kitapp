@@ -18,7 +18,9 @@ public class HibernateUtil {
             // Create the SessionFactory from hibernate.cfg.xml
         	
         	Configuration config = new Configuration().configure();
+            config.addAnnotatedClass(mensa.api.hibernate.domain.User.class);
         	config.addAnnotatedClass(mensa.api.hibernate.domain.Image.class);
+        	config.addAnnotatedClass(mensa.api.hibernate.domain.ImageProposal.class);
         	config.addAnnotatedClass(mensa.api.hibernate.domain.Rating.class);
         	config.addAnnotatedClass(mensa.api.hibernate.domain.RatingCollection.class);
         	config.addAnnotatedClass(mensa.api.hibernate.domain.Tags.class);
@@ -26,7 +28,6 @@ public class HibernateUtil {
         	config.addAnnotatedClass(mensa.api.hibernate.domain.Meal.class);
         	config.addAnnotatedClass(mensa.api.hibernate.domain.Price.class);
         	config.addAnnotatedClass(mensa.api.hibernate.domain.Offer.class);
-        	config.addAnnotatedClass(mensa.api.hibernate.domain.ImageProposal.class);
         	
             return config.buildSessionFactory(
 			    new StandardServiceRegistryBuilder().applySettings(config.getProperties()).build() );

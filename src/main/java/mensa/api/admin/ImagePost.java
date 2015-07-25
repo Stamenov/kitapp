@@ -1,9 +1,6 @@
 package mensa.api.admin;
 
 import java.io.IOException;
-import java.io.PrintStream;
-import java.net.URL;
-import java.net.URLConnection;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -17,7 +14,6 @@ import mensa.api.hibernate.domain.ImageProposal;
 import mensa.api.hibernate.domain.Meal;
 import mensa.api.hibernate.domain.MealData;
 
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.FileSystems;
 
@@ -61,14 +57,9 @@ public class ImagePost {
 			String imgUrl = imageProposal.getUrl();
 			String imgName = imgUrl.substring(imgUrl.lastIndexOf('/')+1, imgUrl.length());
 			
-//			String s = "ftp://s_stamen:3Pg7JTj7@i43pc164.ipd.kit.edu/var/www/html/PSESoSe15Gruppe3-Daten/photos/" + imgName;
-//			URL u = new URL(s);
-//			URLConnection uc = u.openConnection();
-//			PrintStream ps = new PrintStream((uc.getOutputStream()));
-//			ps.close();
-			
 			java.nio.file.Path path = FileSystems.getDefault().getPath("/var/www/html/PSESoSe15Gruppe3-Daten/photos", imgName);
-			 //delete if exists
+			
+			//delete if exists
 	        try {
 	            boolean success = Files.deleteIfExists(path);
 	            System.out.println("Delete status: " + success);

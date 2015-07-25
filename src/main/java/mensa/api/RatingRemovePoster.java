@@ -13,9 +13,7 @@ import mensa.api.hibernate.HibernateUtil;
 import mensa.api.hibernate.domain.Meal;
 
 import org.codehaus.jackson.annotate.JsonProperty;
-import org.hibernate.Criteria;
 import org.hibernate.Session;
-import org.hibernate.criterion.Restrictions;
 
 /**
  * Remover for the ratings
@@ -32,17 +30,14 @@ public class RatingRemovePoster {
 		try { 
 			userid = Checker.getUserid(args.getToken());	
 		} catch (BadTokenException e) {
-			return Response.status(400).build();
+			return Response.status(400).entity("bad token").build();
 		}
 		
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction();
 		
-		Criteria cr = session.createCriteria(Meal.class);
-		cr.add(Restrictions.idEq(args.getMealid()));
-
-		Meal meal = (Meal) cr.list().get(0);
-		meal.getData().getRatings().remove(userid); // TODO: REFACTOR
+		Meal meal = (Meal) session.get(Meal.class, args.getMealid());
+		meal.unrate(userid);
 		
 		session.merge(meal);
         session.getTransaction().commit();

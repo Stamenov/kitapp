@@ -38,7 +38,7 @@ public class ApiPlanGetter {
 		Criteria offerCriteria = session.createCriteria(Offer.class);
 		offerCriteria.add(Restrictions.between("timestamp", timestampFrom, timestampTo));
 
-		List resultList = offerCriteria.list();
+		List<Offer> resultList = offerCriteria.list();
 
 		Iterator<Offer> it = resultList.iterator();
         

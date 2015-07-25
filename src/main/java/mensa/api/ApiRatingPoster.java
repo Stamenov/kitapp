@@ -1,5 +1,6 @@
 package mensa.api;
 
+
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -14,9 +15,7 @@ import mensa.api.hibernate.domain.Meal;
 import mensa.api.hibernate.domain.Rating;
 
 import org.codehaus.jackson.annotate.JsonProperty;
-import org.hibernate.Criteria;
 import org.hibernate.Session;
-import org.hibernate.criterion.Restrictions;
 
 @Path("/rating/")
 public class ApiRatingPoster {
@@ -34,7 +33,7 @@ public class ApiRatingPoster {
 		try { 
 			userid = Checker.getUserid(args.getToken());	
 		} catch (BadTokenException e) {
-			return Response.status(400).build();
+			return Response.status(400).entity("bad token").build();
 		}
 		
 		if(!(args.getValue() >= 1 && args.getValue()<= 5)){
@@ -43,15 +42,12 @@ public class ApiRatingPoster {
 		
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction();
-		
-		Criteria cr = session.createCriteria(Meal.class);
-		cr.add(Restrictions.idEq(args.getMealid()));
 
-		Meal meal = (Meal) cr.list().get(0);
+		Meal meal = (Meal) session.get(Meal.class, args.getMealid());
 		Rating rating = new Rating();
 		rating.setUserid(userid);
 		rating.setValue(args.value);
-		meal.getData().addRating(rating);
+		meal.rate(rating);
 		
 		session.merge(meal);
         session.getTransaction().commit();

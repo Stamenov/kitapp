@@ -36,7 +36,7 @@ public class InactiveMealData {
 		Criteria inactiveMealData = session.createCriteria(MealData.class);
 		inactiveMealData.add(Restrictions.eq("active", Boolean.FALSE));
 
-		List resultList = inactiveMealData.list();
+		List<MealData> resultList = inactiveMealData.list();
 		Iterator<MealData> it = resultList.iterator();
         
         ArrayList<Meal> currMeals;
