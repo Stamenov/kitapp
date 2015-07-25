@@ -19,7 +19,6 @@ public class Checker {
     private final GoogleIdTokenVerifier VERIFIER;
     private final GsonFactory JSON_FACTORY;
     private String mProblem = "Verification failed. (Time-out?)";
-    private static Checker checker = new Checker();
 
     public Checker() {
         NetHttpTransport transport = new NetHttpTransport();
@@ -55,6 +54,7 @@ public class Checker {
     }
     
     public static String getUserid(String token) throws BadTokenException {
+    	Checker checker = new Checker();
     	Payload payload = checker.check(token);
     	String userid;
     	
