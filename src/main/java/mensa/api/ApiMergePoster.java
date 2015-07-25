@@ -11,6 +11,7 @@ import mensa.api.OAuth.Checker;
 import mensa.api.hibernate.HibernateUtil;
 import mensa.api.hibernate.domain.Meal;
 import mensa.api.hibernate.domain.MealData;
+import mensa.api.hibernate.domain.User;
 
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.hibernate.Session;
@@ -31,6 +32,10 @@ public class ApiMergePoster {
 			return Response.status(400).entity("bad token").build();
 		}
 		
+		if(!User.hasUsesLeft(userid)) {
+			return Response.status(429).entity("merge/image limit exceeded").build();			
+		};
+		
 		// Mealids can't be equal:
 		if (args.getMealid1() == args.getMealid2()) {
 			System.out.println("Received merge request with equal mealids, exiting.");
@@ -49,7 +54,9 @@ public class ApiMergePoster {
 		
 		MealData mergedMealData = MealData.merge(meal1.getData(), meal2.getData());
 		session.save(mergedMealData);
-		session.getTransaction().commit();		
+		session.getTransaction().commit();	
+		
+		User.reportSuccess(userid);	
 
 		return Response.ok().build();
 	}

@@ -9,6 +9,11 @@ import org.codehaus.jackson.map.SerializerProvider;
 
 import mensa.api.hibernate.domain.Rating;
 
+/**
+ * A class responsible for adapting the domain model to what the app actually needs.
+ * @author Petar Vutov
+ *
+ */
 public class RatingSerializer extends JsonSerializer<Rating> {
     /**
      * Serializes only the value field.

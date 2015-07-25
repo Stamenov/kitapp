@@ -19,6 +19,8 @@ import mensa.api.OAuth.BadTokenException;
 import mensa.api.OAuth.Checker;
 import mensa.api.hibernate.HibernateUtil;
 import mensa.api.hibernate.domain.ImageProposal;
+import mensa.api.hibernate.domain.Meal;
+import mensa.api.hibernate.domain.User;
 
 import org.apache.commons.codec.binary.Base64;
 import org.codehaus.jackson.annotate.JsonProperty;
@@ -43,6 +45,10 @@ public class ApiImagePoster {
 		} catch (BadTokenException e) {
 			return Response.status(400).entity("bad token").build();
 		}
+
+		if(!User.hasUsesLeft(userid)) {
+			return Response.status(429).entity("merge/image limit exceeded").build();			
+		};
 
 		BufferedImage bufferedImage;
 		try {
@@ -94,6 +100,8 @@ public class ApiImagePoster {
 		ImageProposal imageProposal = new ImageProposal(userid, args.getMealId(), DIR_TO_SAVE_TO_DB + slash + file.getName());
 		session.save(imageProposal);
 		session.getTransaction().commit();
+		
+		User.reportSuccess(userid);
 		
 		return Response.ok("success").build();
 	}

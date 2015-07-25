@@ -45,6 +45,8 @@ public class Checker {
             mProblem = "Security issue: " + e.getLocalizedMessage();
         } catch (IOException e) {
             mProblem = "Network problem: " + e.getLocalizedMessage();
+        } catch (NullPointerException | IllegalArgumentException e) {
+        	mProblem = "Token not parsable" + e.getLocalizedMessage();
         }
         return payload;
     }
