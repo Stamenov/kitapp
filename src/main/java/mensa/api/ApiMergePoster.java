@@ -5,6 +5,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import mensa.api.OAuth.BadTokenException;
 import mensa.api.OAuth.Checker;
@@ -17,25 +18,27 @@ import org.hibernate.Session;
 
 @Path("/merge/")
 public class ApiMergePoster {
-
 	/**
 	 * Submitting merge suggestion
 	 * @param args mealid1, mealid2, token
 	 */
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
-	public void mergeByIds(Args args){
+	public Response mergeByIds(Args args){
 		String userid;
 		try { 
 			userid = Checker.getUserid(args.getToken());	
 		} catch (BadTokenException e) {
-			return;
+			return Response.status(400).build();
 		}
 		
-		// TODO: Exposed exception or response code??
+		// Mealids can't be equal:
 		if (args.getMealid1() == args.getMealid2()) {
-			throw new IllegalArgumentException("mealids can't be equal!");
+			System.out.println("Received merge request with equal mealids, exiting.");
+			return Response.status(400).build();
 		}
+		
+		// TODO: Check if same request has been submitted already?
 		
 		// TODO: Request throttling per user?
 		
@@ -48,6 +51,8 @@ public class ApiMergePoster {
 		MealData mergedMealData = MealData.merge(meal1.getData(), meal2.getData());
 		session.save(mergedMealData);
 		session.getTransaction().commit();		
+
+		return Response.ok().build();
 	}
 	
 	private static class Args{
