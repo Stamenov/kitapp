@@ -25,12 +25,12 @@ public class ApiMergePoster {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response mergeByIds(Args args){
-		String userid;
-		try { 
-			userid = Checker.getUserid(args.getToken());	
-		} catch (BadTokenException e) {
-			return Response.status(400).build();
-		}
+		String userid="1";
+//		try { 
+//			userid = Checker.getUserid(args.getToken());	
+//		} catch (BadTokenException e) {
+//			return Response.status(400).build();
+//		}
 		
 		// Mealids can't be equal:
 		if (args.getMealid1() == args.getMealid2()) {
@@ -56,16 +56,16 @@ public class ApiMergePoster {
 	}
 	
 	private static class Args{
-		@JsonProperty("token")
-		private String token;
+//		@JsonProperty("token")
+//		private String token;
 		@JsonProperty("mealid1")
 		private int mealid1;
 		@JsonProperty("mealid2")
 		private int mealid2;
 		
-		public String getToken(){
-			return token;
-		}
+//		public String getToken(){
+//			return token;
+//		}
 		
 		public int getMealid1(){
 			return mealid1;
