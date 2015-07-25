@@ -42,5 +42,13 @@ public class Meal {
 	public void setCurrentUser(String userid) {
 		data.setCurrentUser(userid);
 	}
+	
+	public void rate(Rating rating) {
+		data.rate(rating);
+	}
+	
+	public void unrate(String userid) {
+		data.unrate(userid);
+	}
 }
 

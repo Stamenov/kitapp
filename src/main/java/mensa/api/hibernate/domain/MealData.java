@@ -70,6 +70,13 @@ public class MealData {
 		return data;
 	}
 	
+	public void rate(Rating rating) {
+		ratings.add(rating);
+	}	
+
+	public void unrate(String userid) {
+		ratings.remove(userid);
+	}	
 	
 	@Id @GeneratedValue
 	@JsonIgnore

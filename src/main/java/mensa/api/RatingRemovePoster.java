@@ -37,7 +37,7 @@ public class RatingRemovePoster {
 		session.beginTransaction();
 		
 		Meal meal = (Meal) session.get(Meal.class, args.getMealid());
-		meal.getData().getRatings().remove(userid); // TODO: REFACTOR
+		meal.unrate(userid);
 		
 		session.merge(meal);
         session.getTransaction().commit();
