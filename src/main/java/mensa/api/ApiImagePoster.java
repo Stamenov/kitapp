@@ -35,7 +35,6 @@ public class ApiImagePoster {
 	 * Saves image in the db
 	 * @param args the img
 	 */
-	@Path("/post/")
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response postImage(Args args){

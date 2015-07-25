@@ -7,6 +7,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+
 @Entity
 public class Offer {
 	private int id;
@@ -16,6 +18,7 @@ public class Offer {
 	private Price price;
 	
 	@Id @GeneratedValue
+	@JsonIgnore
 	private int getId() {
 		return id;
 	};	

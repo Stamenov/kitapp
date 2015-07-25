@@ -72,6 +72,7 @@ public class MealData {
 	
 	
 	@Id @GeneratedValue
+	@JsonIgnore
 	public int getId() {
 		return id;
 	};	
