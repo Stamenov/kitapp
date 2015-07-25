@@ -9,7 +9,7 @@ import javax.persistence.ManyToOne;
 @Entity
 public class Meal {
 
-	private int id;
+	private int mealid;
 	private String name;
 	private MealData data;	
 
@@ -22,12 +22,12 @@ public class Meal {
 	}
 	
 	@Id @GeneratedValue
-	public int getId() {
-		return id;
+	public int getMealid() {
+		return mealid;
 	};
 
-	public void setId(int id) {
-		this.id = id;
+	public void setMealid(int mealid) {
+		this.mealid = mealid;
 	}
 
 	@ManyToOne(cascade = CascadeType.ALL)
