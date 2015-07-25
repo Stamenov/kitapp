@@ -26,6 +26,7 @@ public class HibernateUtil {
         	config.addAnnotatedClass(mensa.api.hibernate.domain.Meal.class);
         	config.addAnnotatedClass(mensa.api.hibernate.domain.Price.class);
         	config.addAnnotatedClass(mensa.api.hibernate.domain.Offer.class);
+        	config.addAnnotatedClass(mensa.api.hibernate.domain.ImageProposal.class);
         	
             return config.buildSessionFactory(
 			    new StandardServiceRegistryBuilder().applySettings(config.getProperties()).build() );

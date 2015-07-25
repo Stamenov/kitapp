@@ -18,9 +18,7 @@ import javax.ws.rs.core.Response;
 import mensa.api.OAuth.BadTokenException;
 import mensa.api.OAuth.Checker;
 import mensa.api.hibernate.HibernateUtil;
-import mensa.api.hibernate.domain.Image;
-import mensa.api.hibernate.domain.Meal;
-import mensa.api.hibernate.domain.MealData;
+import mensa.api.hibernate.domain.ImageProposal;
 
 import org.apache.commons.codec.binary.Base64;
 import org.codehaus.jackson.annotate.JsonProperty;
@@ -30,6 +28,7 @@ import org.hibernate.Session;
 public class ApiImagePoster {
 	private final static String DIR_TO_SAVE_IMAGES_TO = "/var/www/html/PSESoSe15Gruppe3-Daten/photos";
 	private final static String DIR_TO_SAVE_TO_DB = "https://i43pc164.ipd.kit.edu/PSESoSe15Gruppe3-Daten/photos/";
+	
 	
 	/**
 	 * Saves image in the db
@@ -63,6 +62,7 @@ public class ApiImagePoster {
 			e1.printStackTrace();
 			return Response.status(500).build();
 		}
+
 		
 		FileOutputStream out = null;
 		try {
@@ -89,16 +89,13 @@ public class ApiImagePoster {
 		}
 
 		Session session = HibernateUtil.getSessionFactory().openSession();
-		Image image = new Image(userid, DIR_TO_SAVE_TO_DB + slash + file.getName());
-		session.save(image);
-		
-		Meal meal = (Meal) session.get(Meal.class, args.getMealId());
-		MealData data = meal.getData();
-		data.addImage(image);
-		
-		session.update(data);
+		session.beginTransaction();
 
-		return Response.status(201).build();
+		ImageProposal imageProposal = new ImageProposal(userid, args.getMealId(), DIR_TO_SAVE_TO_DB + slash + file.getName());
+		session.save(imageProposal);
+		session.getTransaction().commit();
+		
+		return Response.ok("success").build();
 	}
 	
 	private static class Args{

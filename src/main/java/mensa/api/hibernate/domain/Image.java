@@ -6,7 +6,6 @@ import javax.persistence.Id;
 
 @Entity
 public final class Image {
-	// THESE FIELDS SHOULD BE IMMUTABLE
 	private boolean active;
 	private int id;
 	private String userid;
