@@ -11,13 +11,11 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import mensa.api.hibernate.HibernateUtil;
-import mensa.api.hibernate.domain.Image;
 import mensa.api.hibernate.domain.ImageProposal;
 import mensa.api.hibernate.domain.Meal;
 
 import org.hibernate.Criteria;
 import org.hibernate.Session;
-import org.hibernate.criterion.Restrictions;
 
 @Path("/admin/inactiveImages/")
 public class InactiveImages {
@@ -30,7 +28,7 @@ public class InactiveImages {
 		
 		Criteria inactiveImage = session.createCriteria(ImageProposal.class);
 
-		List imageList = inactiveImage.list();
+		List<ImageProposal> imageList = inactiveImage.list();
 		Iterator<ImageProposal> it = imageList.iterator();
 		
 		ArrayList<ImageWithMealName> imgsWithNames = new ArrayList<ImageWithMealName>();

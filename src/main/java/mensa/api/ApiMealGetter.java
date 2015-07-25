@@ -32,10 +32,10 @@ public class ApiMealGetter {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getMealById(Args args){
 		String userid;
-		try { 
-			userid = Checker.getUserid(args.getToken());	
+		try {
+			userid = Checker.getUserid(args.getToken());
 		} catch (BadTokenException e) {
-			return Response.status(400).build();
+			return Response.status(400).entity("bad token").build();
 		}
 	
 		Session session = HibernateUtil.getSessionFactory().openSession();

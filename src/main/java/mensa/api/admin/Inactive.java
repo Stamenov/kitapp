@@ -42,7 +42,7 @@ public class Inactive {
 		Criteria inactiveMealData = session.createCriteria(MealData.class);
 		inactiveMealData.add(Restrictions.eq("active", Boolean.FALSE));
 
-		List resultList = inactiveMealData.list();
+		List<MealData> resultList = inactiveMealData.list();
 		Iterator<MealData> it = resultList.iterator();
         
         ArrayList<Meal> currMeals;
@@ -71,7 +71,7 @@ public class Inactive {
 		Criteria inactiveImage = session.createCriteria(Image.class);
 		inactiveImage.add(Restrictions.eq("active", Boolean.FALSE));
 
-		List imageList = inactiveImage.list();
+		List<Image> imageList = inactiveImage.list();
 		Iterator<Image> it = imageList.iterator();
 		ArrayList<Image> imageArr = new ArrayList<Image>();
 		while(it.hasNext()) {

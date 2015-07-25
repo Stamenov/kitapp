@@ -41,7 +41,7 @@ public class ApiImagePoster {
 		try { 
 			userid = Checker.getUserid(args.getToken());	
 		} catch (BadTokenException e) {
-			return Response.status(400).build();
+			return Response.status(400).entity("bad token").build();
 		}
 
 		BufferedImage bufferedImage;
@@ -77,7 +77,7 @@ public class ApiImagePoster {
 		try {
 			ImageIO.write(bufferedImage, "png", out);
 		} catch (IOException e) {
-			System.out.println("Coudln't write file to specified directory? Exiting without saving the image.");
+			System.out.println("Couldn't write file to specified directory? Exiting without saving the image.");
 			e.printStackTrace();
 			return Response.status(500).build();
 		}
