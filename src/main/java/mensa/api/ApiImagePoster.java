@@ -7,13 +7,13 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.Base64;
 
 import javax.imageio.ImageIO;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import mensa.api.OAuth.BadTokenException;
 import mensa.api.OAuth.Checker;
@@ -22,12 +22,12 @@ import mensa.api.hibernate.domain.Image;
 import mensa.api.hibernate.domain.Meal;
 import mensa.api.hibernate.domain.MealData;
 
+import org.apache.commons.codec.binary.Base64;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.hibernate.Session;
 
 @Path("/image/")
 public class ApiImagePoster {
-	
 	private final static String DIR_TO_SAVE_IMAGES_TO = "/var/www/html/PSESoSe15Gruppe3-Daten/photos";
 	private final static String DIR_TO_SAVE_TO_DB = "https://i43pc164.ipd.kit.edu/PSESoSe15Gruppe3-Daten/photos/";
 	
@@ -38,12 +38,12 @@ public class ApiImagePoster {
 	@Path("/post/")
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
-	public void postImage(Args args){
+	public Response postImage(Args args){
 		String userid;
 		try { 
 			userid = Checker.getUserid(args.getToken());	
 		} catch (BadTokenException e) {
-			return;
+			return Response.status(400).build();
 		}
 
 		BufferedImage bufferedImage;
@@ -52,7 +52,7 @@ public class ApiImagePoster {
 		} catch (IOException e) {
 			System.out.println("This shouldn't be possible: Failed to decode received image due to IOError.");
 			e.printStackTrace();
-			return;
+			return Response.status(500).build();
 		}
 		
 		// Generate random unused filename in specified dir; despite the method name, it is NOT a temp file.
@@ -62,7 +62,7 @@ public class ApiImagePoster {
 		} catch (IOException e1) {
 			System.out.println("IOError. Is the image path in ApiImagePoster.java set correctly? Exiting without saving the image.");
 			e1.printStackTrace();
-			return;
+			return Response.status(500).build();
 		}
 		
 		FileOutputStream out = null;
@@ -71,7 +71,7 @@ public class ApiImagePoster {
 		} catch (FileNotFoundException e) {
 			System.out.println("File.createTempFile failed to create a file? Exiting without saving the image.");
 			e.printStackTrace();
-			return;
+			return Response.status(500).build();
 		}
 		
 		// Save image:
@@ -80,7 +80,7 @@ public class ApiImagePoster {
 		} catch (IOException e) {
 			System.out.println("Coudln't write file to specified directory? Exiting without saving the image.");
 			e.printStackTrace();
-			return;
+			return Response.status(500).build();
 		}
 		
 		// Make sure there's a slash between dir and filename:
@@ -98,6 +98,8 @@ public class ApiImagePoster {
 		data.addImage(image);
 		
 		session.update(data);
+
+		return Response.status(201).build();
 	}
 	
 	private static class Args{
@@ -121,7 +123,7 @@ public class ApiImagePoster {
 
 	private static BufferedImage decodeBase64(String input) throws IOException 
 	{
-	    byte[] decodedByte = Base64.getDecoder().decode(input);
+	    byte[] decodedByte = Base64.decodeBase64(input);
 	    InputStream in = new ByteArrayInputStream(decodedByte);
 		return ImageIO.read(in);
 	}

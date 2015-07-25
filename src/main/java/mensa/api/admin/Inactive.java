@@ -23,7 +23,7 @@ import org.hibernate.criterion.Restrictions;
  * @author Martin Stamenov
  *
  */
-@Path("/admin/mergingMeals/")
+@Path("admin")
 public class Inactive {
 	/**
 	 * Deliver pending merging meals to the admin pannel as json objects
@@ -31,6 +31,7 @@ public class Inactive {
 	 */
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
+	@Path("/admin/mergingMeals/")
 	public Response getInactiveMealDatas(){
 		
 		ArrayList<ArrayList<Meal>> result = new ArrayList<ArrayList<Meal>>();
@@ -60,7 +61,7 @@ public class Inactive {
 	
 	
 	@GET
-	@Path("/inactiveImages/")
+	@Path("/admin/inactiveImages/")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getInactiveImages(){
 		

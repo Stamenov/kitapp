@@ -5,6 +5,7 @@ import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import mensa.api.OAuth.BadTokenException;
 import mensa.api.OAuth.Checker;
@@ -28,16 +29,16 @@ public class ApiRatingPoster {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Meal saveRating(Args args){
+	public Response saveRating(Args args){
 		String userid;
 		try { 
 			userid = Checker.getUserid(args.getToken());	
 		} catch (BadTokenException e) {
-			return null;
+			return Response.status(400).build();
 		}
 		
 		if(!(args.getValue() >= 1 && args.getValue()<= 5)){
-			return null;
+			return Response.status(400).build();
 		}
 		
 		Session session = HibernateUtil.getSessionFactory().openSession();
@@ -56,7 +57,7 @@ public class ApiRatingPoster {
         session.getTransaction().commit();
         
 		meal.setCurrentUser(userid);
-        return meal;
+        return Response.ok().entity(meal).build();
 	}
 	
 	private static class Args {

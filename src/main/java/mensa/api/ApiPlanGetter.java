@@ -9,6 +9,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import mensa.api.hibernate.HibernateUtil;
 import mensa.api.hibernate.domain.Offer;
@@ -29,7 +30,7 @@ public class ApiPlanGetter {
 	@GET
 	@Path("/{timestampFrom:[0-9]*}/{timestampTo:[0-9]*}/")
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<Offer> getPlanByTimestamps(@PathParam("timestampFrom") int timestampFrom, @PathParam("timestampTo") int timestampTo) {
+	public Response getPlanByTimestamps(@PathParam("timestampFrom") int timestampFrom, @PathParam("timestampTo") int timestampTo) {
 		List<Offer> result = new ArrayList<Offer>();
 
 		Session session = HibernateUtil.getSessionFactory().openSession();
@@ -46,6 +47,6 @@ public class ApiPlanGetter {
 			result.add(next);
 		}
 
-		return result;
+		return Response.ok().entity(result).build();
 	}
 }

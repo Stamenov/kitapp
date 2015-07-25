@@ -107,5 +107,11 @@
         <artifactId>google-http-client-gson</artifactId>
         <version>1.15.0-rc</version>
     </dependency>
+    <dependency>
+		<groupId>commons-codec</groupId>
+		<artifactId>commons-codec</artifactId>
+		<version>1.9</version>
+	</dependency>
+    
   </dependencies>
 </project>

@@ -8,6 +8,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import org.hibernate.Session;
 
@@ -23,7 +24,7 @@ public class ApiNamesGetter {
 	 */
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<StringIdPair> getNames(){
+	public Response getNames(){
 		List<StringIdPair> result = new ArrayList<StringIdPair>();
 		
 		Session session = HibernateUtil.getSessionFactory().openSession();		
@@ -35,7 +36,7 @@ public class ApiNamesGetter {
 			result.add(new StringIdPair(next.getName(), next.getId()));
 		}
 		
-		return result;
+		return Response.ok().entity(result).build();
 	}
 	
 	private class StringIdPair {
