@@ -58,9 +58,7 @@ public class Populate extends TimerTask implements ServletContextListener {
 	 * Implements TimerTask.run, this is the method executed by the scheduler.
 	 * Populates the database.
 	 */
-	public void run() {
-		System.out.println("populate triggered!");
-		
+	public void run() {		
 		// Fetch data from SW API:
 		String json = httpGet(USER, PASSWORD, API_URL);
 
@@ -106,7 +104,7 @@ public class Populate extends TimerTask implements ServletContextListener {
 		for (Offer offer: offers) {
 			session.beginTransaction();
 			List<Meal> mealsInDB = session.createCriteria(Meal.class)
-			.add( Restrictions.like("name", offer.getMeal().getName())).list();
+			.add(Restrictions.like("name", offer.getMeal().getName())).list();
 			session.getTransaction().commit();
 			
 			if (!mealsInDB.isEmpty()) {
@@ -119,8 +117,6 @@ public class Populate extends TimerTask implements ServletContextListener {
 			
 			session.getTransaction().commit();
 		}
-		
-		System.out.println("done");
 	}
 	
 	/**

@@ -16,7 +16,7 @@ public final class HibernateUtil {
 	private HibernateUtil() {
 	}
 
-    private static final SessionFactory sessionFactory = buildSessionFactory();
+    private static final SessionFactory SESSION_FACTORY = buildSessionFactory();
 
     private static SessionFactory buildSessionFactory() {
         try {
@@ -36,19 +36,25 @@ public final class HibernateUtil {
         	
             return config.buildSessionFactory(
 			    new StandardServiceRegistryBuilder().applySettings(config.getProperties()).build());
-        } catch (Throwable ex) {
+        } catch (Throwable e) {
             // Make sure you log the exception, as it might be swallowed
-            System.err.println("Initial SessionFactory creation failed." + ex);
-            throw new ExceptionInInitializerError(ex);
+            System.err.println("Initial SessionFactory creation failed." + e);
+            throw new ExceptionInInitializerError(e);
         }
     }
-
+	
+	/**
+	* Get the session factory.
+	* @return SessionFactory the factory.
+	*/
     public static SessionFactory getSessionFactory() {
-        return sessionFactory;
+        return SESSION_FACTORY;
     }
 
+	/**
+	* Close caches and connection pools
+	*/
 	public static void shutdown() {
-		// Close caches and connection pools
 		getSessionFactory().close();
 	}
 }

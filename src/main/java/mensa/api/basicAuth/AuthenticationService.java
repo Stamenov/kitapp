@@ -5,11 +5,21 @@ import java.util.StringTokenizer;
 
 import org.apache.commons.codec.binary.Base64;
 
+/**
+ * Responsible for authenticating the admin panel.
+ * @author Martin Stamenov
+ */
 public class AuthenticationService {
+	/**
+	 * Authenticate.
+	 * @param authCredentials 
+	 * @return <code>true</code> if the credentials are valid, <code>false</code> otherwise.
+	 */
 	public boolean authenticate(String authCredentials) {
 
-		if (null == authCredentials)
+		if (null == authCredentials) {
 			return false;
+		}
 		// header value format will be "Basic encodedstring" for Basic
 		// authentication. Example "Basic YWRtaW46YWRtaW4="
 		final String encodedUserPassword = authCredentials.replaceFirst("Basic"

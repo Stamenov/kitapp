@@ -60,7 +60,7 @@ public class ApiImagePoster {
 		try {
 		    bufferedImage = ImageIO.read(in);
 		} catch (IOException e) {
-			System.out.println("This shouldn't be possible: Failed to decode received image due to IOError.");
+			System.err.println("This shouldn't be possible: Failed to decode received image due to IOError.");
 			e.printStackTrace();
 			return Response.status(500).build();
 		}
@@ -70,7 +70,7 @@ public class ApiImagePoster {
 		try {
 			file = File.createTempFile("imgPoster", ".bmp", new File(DIR_TO_SAVE_IMAGES_TO));
 		} catch (IOException e1) {
-			System.out.println("IOError. Is the image path in ApiImagePoster.java set correctly? "
+			System.err.println("IOError. Is the image path in ApiImagePoster.java set correctly? "
 					+ "Exiting without saving the image.");
 			e1.printStackTrace();
 			return Response.status(500).build();
@@ -83,7 +83,7 @@ public class ApiImagePoster {
 		try {
 			out = new FileOutputStream(file);
 		} catch (FileNotFoundException e) {
-			System.out.println("File.createTempFile failed to create a file? Exiting without saving the image.");
+			System.err.println("File.createTempFile failed to create a file? Exiting without saving the image.");
 			e.printStackTrace();
 			return Response.status(500).build();
 		}
@@ -92,7 +92,7 @@ public class ApiImagePoster {
 		try {
 			ImageIO.write(bufferedImage, "png", out);
 		} catch (IOException e) {
-			System.out.println("Couldn't write file to specified directory? Exiting without saving the image.");
+			System.err.println("Couldn't write file to specified directory? Exiting without saving the image.");
 			e.printStackTrace();
 			return Response.status(500).build();
 		}

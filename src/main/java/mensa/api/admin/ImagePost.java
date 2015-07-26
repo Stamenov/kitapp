@@ -65,8 +65,7 @@ public class ImagePost {
 			
 			//delete if exists
 	        try {
-	            boolean success = Files.deleteIfExists(path);
-	            System.out.println("Delete status: " + success);
+	            Files.deleteIfExists(path);
 	        } catch (IOException | SecurityException e) {
 	            System.err.println(e);
 	        }

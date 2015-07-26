@@ -114,10 +114,10 @@ public class MealData {
 	}	
 	@Column(name = "active")
 	@JsonIgnore
-	public boolean getActive(){
+	public boolean getActive() {
 		return this.active;
 	}	
-	public void setActive(boolean active){
+	public void setActive(boolean active) {
 		this.active = active; 
 	}		
 
