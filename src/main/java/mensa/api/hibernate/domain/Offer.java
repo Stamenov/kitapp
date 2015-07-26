@@ -30,7 +30,7 @@ public class Offer {
 	
 	@Id @GeneratedValue
 	@JsonIgnore
-	private int getId() {
+	public int getId() {
 		return id;
 	};	
 	public void setId(int id) {

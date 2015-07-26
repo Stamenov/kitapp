@@ -1,3 +1,6 @@
+import static org.junit.Assert.assertEquals;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.core.Response;
@@ -22,7 +25,7 @@ public class GetPlanTest {
     private int testTimestamp;
     
 	@Before
-	private void before(){
+	public void before() {
 		testMealid = 1;
 		testOfferid = 1;
 		//timestamp for 27.07 00:00
@@ -34,15 +37,17 @@ public class GetPlanTest {
 	}
 	
 	@Test
-	public void testGetPlan(){
+	public void testGetPlan() {
+		String name = "test";
 		Meal testMeal1 = new Meal();
 		testMeal1.setMealid(testMealid);
-		testMeal1.setMealid(testOfferid);
+		testMeal1.setName(name);
 		session.save(testMeal1);
 		
 		Offer testOffer = new Offer();
 		testOffer.setMeal(testMeal1);
 		testOffer.setId(testOfferid);
+		testOffer.setTimestamp(testTimestamp);
 		
 		session.save(testOffer);
 		session.getTransaction().commit();
@@ -50,9 +55,10 @@ public class GetPlanTest {
 		ApiPlanGetter getPlan = new ApiPlanGetter();
 		
 		Response planResponse = getPlan.getPlanByTimestamps(testTimestamp, testTimestamp + 10);
-		
-		
-		
+		ArrayList<Offer> a = (ArrayList) planResponse.getEntity();
+		assertEquals(a.get(0).getMeal().getName(), name);
+		assertEquals(a.get(0).getMeal().getMealid(), testMealid);
+		assertEquals(a.get(0).getId(), testMealid);
 	}
 
 	@After

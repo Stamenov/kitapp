@@ -1,6 +1,7 @@
 package mensa.api.admin;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 
@@ -31,7 +32,6 @@ public class InactiveMealData {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getInactiveMealDatas() {
-		
 		ArrayList<ArrayList<Meal>> result = new ArrayList<ArrayList<Meal>>();
 
 		Session session = HibernateUtil.getSessionFactory().openSession();
@@ -41,10 +41,9 @@ public class InactiveMealData {
 		inactiveMealData.add(Restrictions.eq("active", Boolean.FALSE));
 
 		List<MealData> resultList = inactiveMealData.list();
-		session.getTransaction().commit();
-		session.close();
-		
-		Iterator<MealData> it = resultList.iterator();
+		HashSet<MealData> set = new HashSet<MealData>(resultList);
+
+		Iterator<MealData> it = set.iterator();
         
         ArrayList<Meal> currMeals;
 		while (it.hasNext()) {
