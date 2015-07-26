@@ -10,11 +10,16 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import org.codehaus.jackson.annotate.JsonProperty;
 import org.hibernate.Session;
 
 import mensa.api.hibernate.HibernateUtil;
 import mensa.api.hibernate.domain.Meal;
 
+/**
+ * Responsible for delivering the names of all known meals.
+ * @author Petar Vutov
+ */
 @Path("/names/")
 public class ApiNamesGetter {
 
@@ -39,13 +44,23 @@ public class ApiNamesGetter {
 		return Response.ok().entity(result).build();
 	}
 	
-	private class StringMealidPair {
+	private static final class StringMealidPair {
+		@JsonProperty("name")
 		private String name;
+		@JsonProperty("mealid")
 		private int mealid;
-		protected StringMealidPair(String name, int mealid) {
+		
+		private StringMealidPair(String name, int mealid) {
 			super();
 			this.name = name;
 			this.mealid = mealid;
+		}
+		
+		public String getName() {
+			return name;
+		}
+		public int getMealid() {
+			return mealid;
 		}
 	}
 }
