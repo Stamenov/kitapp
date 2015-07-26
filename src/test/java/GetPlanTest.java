@@ -26,7 +26,7 @@ public class GetPlanTest {
     private String mealName;
     
 	@Before
-	public void before(){
+	public void before() {
 		testMealid = 1;
 		testOfferid = 1;
 		//timestamp for 27.07 00:00
@@ -39,10 +39,9 @@ public class GetPlanTest {
 	}
 	
 	@Test
-	public void testGetPlan(){
+	public void testGetPlan() {
 		Meal testMeal1 = new Meal();
 		testMeal1.setMealid(testMealid);
-		testMeal1.setMealid(testOfferid);
 		testMeal1.setName(mealName);
 		session.save(testMeal1);
 		

@@ -40,25 +40,28 @@ public class ApiRatingPoster {
 			return Response.status(400).entity("bad token").build();
 		}
 		
-		return doRate(userid, args);
+		return doRate(userid, args.getMealid(), args.getValue());
 	}
-	
+
 	/**
 	 * The core of the rating method, split off so it fits in the test harness.
+	 * @param userid 
+	 * @param args 
+	 * @return 
 	 */
-	public Response doRate(String userid, Args args) {		
+	public Response doRate(String userid, int mealid, int value) {		
 		//  if !rating.between(1, 5), return:
-		if (!(args.getValue() >= 1 && args.getValue() <= 5)) {
+		if (!(value >= 1 && value <= 5)) {
 			return Response.status(400).build();
 		}
 		
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction();
 
-		Meal meal = (Meal) session.get(Meal.class, args.getMealid());
+		Meal meal = (Meal) session.get(Meal.class, mealid);
 		Rating rating = new Rating();
 		rating.setUserid(userid);
-		rating.setValue(args.value);
+		rating.setValue(value);
 		meal.rate(rating);
 		
 		session.merge(meal);
