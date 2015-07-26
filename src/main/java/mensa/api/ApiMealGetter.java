@@ -35,7 +35,8 @@ public class ApiMealGetter {
 		try {
 			userid = Checker.getUserid(args.getToken());
 		} catch (BadTokenException e) {
-			return Response.status(400).entity("bad token").build();
+			// This allows users without google accounts to browse meals.
+			userid = "0";
 		}
 	
 		Session session = HibernateUtil.getSessionFactory().openSession();

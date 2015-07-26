@@ -1,5 +1,7 @@
 package mensa.api;
 
+import java.util.Iterator;
+
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -14,7 +16,9 @@ import mensa.api.hibernate.domain.MealData;
 import mensa.api.hibernate.domain.User;
 
 import org.codehaus.jackson.annotate.JsonProperty;
+import org.hibernate.Criteria;
 import org.hibernate.Session;
+import org.hibernate.criterion.Restrictions;
 
 /**
  * Responsible for handling user requests for merging.
@@ -53,7 +57,24 @@ public class ApiMergePoster {
 			return Response.status(400).entity("These meals are already merged.").build();
 		}
 		
-		//TODO CHECK if meals are involved in pending merges
+		// Check if meals are involved in pending merges:
+		boolean mealsAreInvolvedInMergeRequest = false;
+		Criteria cr = session.createCriteria(MealData.class);
+		cr.add(Restrictions.eq("active", Boolean.FALSE));
+		Iterator<MealData> pendingMergesIterator = cr.list().iterator();
+		
+		while (pendingMergesIterator.hasNext()) {
+			MealData next = pendingMergesIterator.next();
+			if (next.getMeals().contains(meal1) || next.getMeals().contains(meal2)) {
+				mealsAreInvolvedInMergeRequest = true;
+			}
+		}
+		
+		// If either meal is involved in a merge request, quit without doing anything:
+		if (mealsAreInvolvedInMergeRequest) {
+			return Response.ok().build();			
+		}
+		
 		
 		MealData mergedMealData = MealData.merge(meal1.getData(), meal2.getData());
 		session.save(mergedMealData);
