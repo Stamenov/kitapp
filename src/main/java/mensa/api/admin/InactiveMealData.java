@@ -53,6 +53,8 @@ public class InactiveMealData {
 			}
 			result.add(currMeals);
 		}
+		
+		session.close();
 		return Response.ok(result).build();
 	}
 }

@@ -41,8 +41,9 @@ public class ApiMealGetter {
 	
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		Meal meal = (Meal) session.get(Meal.class, args.getMealid());
-		
-		meal.setCurrentUser(userid);		
+
+		session.close();
+		meal.setCurrentUser(userid);
 		return Response.ok().entity(meal).build();
 	}	
 	

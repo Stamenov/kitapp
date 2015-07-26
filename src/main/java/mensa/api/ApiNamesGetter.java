@@ -40,7 +40,8 @@ public class ApiNamesGetter {
 			next.getMealid();
 			result.add(new StringMealidPair(next.getName(), next.getMealid()));
 		}
-		
+
+		session.close();
 		return Response.ok().entity(result).build();
 	}
 	

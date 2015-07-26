@@ -73,6 +73,8 @@ public class ImagePost {
 			session.delete(imageProposal);
 			session.getTransaction().commit();
 		}
+		
+		session.close();
 		return Response.ok().build();
 	}
 	

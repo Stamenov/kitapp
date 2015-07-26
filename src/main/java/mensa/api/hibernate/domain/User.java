@@ -90,7 +90,8 @@ public class User {
 			session.save(user);			
 			session.getTransaction().commit();
 		}
-		
+
+		session.close();
 		return user.hasUsesLeft();
 	}
 	
@@ -107,6 +108,7 @@ public class User {
 		session.beginTransaction();
 		session.merge(user);
 		session.getTransaction().commit();
+		session.close();
 	}
 	
 }

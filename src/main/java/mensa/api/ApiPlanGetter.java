@@ -52,6 +52,7 @@ public class ApiPlanGetter {
 			result.add(next);
 		}
 
+		session.close();
 		return Response.ok().entity(result).build();
 	}
 }
