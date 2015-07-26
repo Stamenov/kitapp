@@ -27,7 +27,7 @@ public class Image {
 	 * Shortcut constructor.
 	 * @param userid id of the user who originally uploaded the image.
 	 * @param url Address where the image is hosted.
-	 * @param hashCode A hash representing the image.
+	 * @param hashCode A hash of the image.
 	 */
 	public Image(String userid, String url, int hashCode) {
 		this.userid = userid;
@@ -40,10 +40,8 @@ public class Image {
 		if (other != null) {
 			if (other.getClass() == Image.class) {
 				Image casted = (Image) other;
-				if (casted.userid == userid) {
-					if (casted.url == url) {
-						return true;
-					}
+				if (casted.hashCode == hashCode) {
+					return true;
 				}
 			}
 		}
