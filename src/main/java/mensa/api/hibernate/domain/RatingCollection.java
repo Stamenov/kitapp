@@ -91,18 +91,6 @@ public class RatingCollection {
 		updateAverage();
 	}
 	
-	/**
-	 * Remove the rating by the specified user.
-	 * @param userid The userid of the user whose rating should be deleted.
-	 */
-	public void remove(String userid) {
-		Rating old = ratings.remove(userid);
-		if (old != null) {
-			sum -= old.getValue();			
-			updateAverage();	
-		}	
-	}
-	
 	private void updateAverage() {
 		average = ((double) sum) / ratings.size();
 	}

@@ -161,14 +161,6 @@ public class MealData {
 	}	
 	
 	/**
-	 * Remove a specified user's rating.
-	 * @param userid The user whose rating should be removed.
-	 */
-	public void unrate(String userid) {
-		ratings.remove(userid);
-	}	
-	
-	/**
 	 * Before exposing a meal to the app, transform batch data to user-specific fragments of it where appropriate.
 	 * @param userid The user the data is for.
 	 */

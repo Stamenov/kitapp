@@ -59,13 +59,5 @@ public class Meal {
 	public void rate(Rating rating) {
 		data.rate(rating);
 	}
-	
-	/**
-	 * Remove a specified user's rating.
-	 * @param userid The user whose rating should be removed.
-	 */
-	public void unrate(String userid) {
-		data.unrate(userid);
-	}
 }
 
