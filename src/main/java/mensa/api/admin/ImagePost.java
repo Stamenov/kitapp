@@ -18,6 +18,7 @@ import java.nio.file.Files;
 import java.nio.file.FileSystems;
 
 
+
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.hibernate.Session;
 
@@ -35,7 +36,7 @@ public class ImagePost {
 	 */
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response finalizeImagePost(Args args) throws IOException {
+	public Response finalizeImagePost(Args args) {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction();
 		
@@ -67,7 +68,9 @@ public class ImagePost {
 	        try {
 	            Files.deleteIfExists(path);
 	        } catch (IOException | SecurityException e) {
-	            System.err.println(e);
+	        	System.err.println("Image file is not there or no access permission.");
+				e.printStackTrace();
+				return Response.status(500).build();
 	        }
 			session.beginTransaction();
 			session.delete(imageProposal);
