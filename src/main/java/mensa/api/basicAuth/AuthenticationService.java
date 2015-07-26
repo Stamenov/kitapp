@@ -6,8 +6,8 @@ import java.util.StringTokenizer;
 import org.apache.commons.codec.binary.Base64;
 
 /**
- * Responsible for authenticating the admin panel.
- * @author Martin Stamenov
+ * Decodes and checks if the username and password in the header are correct.
+ * @author http://javapapers.com/web-service/restful-services-http-basic-authentication/
  */
 public class AuthenticationService {
 	/**
