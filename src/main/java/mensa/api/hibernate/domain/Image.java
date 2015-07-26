@@ -48,7 +48,10 @@ public class Image {
 		
 		return false;
 	}
-	
+
+	/**
+	 * This method exists for the Override tag, and then the getter does the same thing but is needed by Hibernate.
+	 */
 	@Override
 	public  int hashCode() {
 		return hashCode;
@@ -78,4 +81,11 @@ public class Image {
 	public void setUrl(String url) {
 		this.url = url;
 	}
+	public int getHashCode() {
+		return hashCode;
+	}
+	public void setHashCode(int hashCode) {
+		this.hashCode = hashCode;
+	}
+	
 }
