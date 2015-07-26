@@ -46,6 +46,16 @@ public class ApiMergePoster {
 			return Response.status(429).entity("merge/image limit exceeded").build();			
 		}
 		
+		return doMerge(userid, args);
+	}
+	
+	/**
+	 * The core of the merge method, split off so it can fit in the test harness.
+	 * @param userid
+	 * @param args
+	 * @return 
+	 */
+	public Response doMerge(String userid, Args args) {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction();
 		

@@ -40,6 +40,13 @@ public class ApiRatingPoster {
 			return Response.status(400).entity("bad token").build();
 		}
 		
+		return doRate(userid, args);
+	}
+	
+	/**
+	 * The core of the rating method, split off so it fits in the test harness.
+	 */
+	public Response doRate(String userid, Args args) {		
 		//  if !rating.between(1, 5), return:
 		if (!(args.getValue() >= 1 && args.getValue() <= 5)) {
 			return Response.status(400).build();
