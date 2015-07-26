@@ -16,12 +16,16 @@ import org.codehaus.jackson.annotate.JsonProperty;
 import org.hibernate.Session;
 
 /**
- * Remover for the ratings
+ * Responsible for removing ratings.
  * @author Peter Vutov
- *
  */
 @Path("/ratingRemove/")
 public class RatingRemovePoster {
+	/**
+	 * Remove the Rating submitted by a given user.
+	 * @param args A user token and a mealid.
+	 * @return Response indicating success or failure. In case of success, the updated Meal is also returned.
+	 */
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)

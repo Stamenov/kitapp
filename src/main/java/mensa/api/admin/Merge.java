@@ -88,10 +88,10 @@ public class Merge {
 		@JsonProperty("approved")
 		private boolean approved;
 		
-		public int getMealDataId(){
+		public int getMealDataId() {
 			return mealDataId;
 		}
-		public boolean getApproved(){
+		public boolean getApproved() {
 			return approved;
 		}
 	}

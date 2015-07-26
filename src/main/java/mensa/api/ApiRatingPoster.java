@@ -17,18 +17,22 @@ import mensa.api.hibernate.domain.Rating;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.hibernate.Session;
 
+/**
+ * Responsible for adding ratings.
+ * @author Martin Stamenov
+ */
 @Path("/rating/")
 public class ApiRatingPoster {
 	
 	/**
-	 * Handles meal rating
-	 * @param args mealid, value, token
-	 * @return the meal
+	 * Rate a meal.
+	 * @param args Must contain a mealid, a value, a user token.
+	 * @return Response indicating success or failure. In the case of success, the updates meal is also returned.
 	 */
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response saveRating(Args args){
+	public Response saveRating(Args args) {
 		String userid;
 		try { 
 			userid = Checker.getUserid(args.getToken());	
@@ -36,7 +40,8 @@ public class ApiRatingPoster {
 			return Response.status(400).entity("bad token").build();
 		}
 		
-		if(!(args.getValue() >= 1 && args.getValue()<= 5)){
+		//  if !rating.between(1, 5), return:
+		if (!(args.getValue() >= 1 && args.getValue() <= 5)) {
 			return Response.status(400).build();
 		}
 		

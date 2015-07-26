@@ -15,7 +15,7 @@ import org.hibernate.Session;
 @Entity
 public class User {
 	@Transient
-	private static final int MAX_USES_PER_DAY = 10;
+	private static final int MAX_USES_PER_DAY = 50;
 	@Transient
 	private static final long DAY_IN_MILLIS = 80000000;
 	private String userid;
@@ -49,14 +49,22 @@ public class User {
 		this.accesstime = accesstime;
 	}
 		
+	/**
+	 * Check if the user is still below their quota for throttled actions.
+	 * @return <code>true</code> if the user is below their limit, <code>false</code> if they have exceeded it.
+	 */
 	private boolean hasUsesLeft() {
 		resetCountIfADayHasPassed();
 		return count < MAX_USES_PER_DAY;
 	}
 	
+	/**
+	 * If a day has passed since the user started using up their quota, renew their allowed uses.
+	 */
 	private void resetCountIfADayHasPassed() {
 		if (accesstime < (System.currentTimeMillis() - DAY_IN_MILLIS)) {
 			count = 0;
+			accesstime = System.currentTimeMillis();
 		}
 	}
 	
@@ -69,8 +77,10 @@ public class User {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		User user = (User) session.get(User.class, userid);
 		
+		/*
+		 * If the user doesn't exist, it must be created:
+		 */
 		if (user == null) {
-			System.out.println("safe");
 			user = new User();
 			user.setUserid(userid);
 			user.setAccesstime(System.currentTimeMillis());
@@ -91,6 +101,7 @@ public class User {
 	public static void reportSuccess(String userid) {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		User user = (User) session.get(User.class, userid);
+		
 		user.count++;
 		
 		session.beginTransaction();

@@ -30,7 +30,7 @@ public class ImagePost {
 	/**
 	 * Handle admin decision to publish or delete the image.
 	 * @param args A class containing the decision and the id of the image the decision relates to.
-	 * @return response object
+	 * @return An http Response indicating failure or success.
 	 * @throws IOException
 	 */
 	@POST

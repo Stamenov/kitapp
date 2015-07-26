@@ -33,41 +33,32 @@ public class Offer {
 	private int getId() {
 		return id;
 	};	
-
 	public void setId(int id) {
 		this.id = id;
-	}
-	
+	}	
 	public int getTimestamp() {
 		return timestamp;
 	}
-
 	public void setTimestamp(int timestamp) {
 		this.timestamp = timestamp;
 	}
-
 	public Line getLine() {
 		return line;
 	}
-
 	public void setLine(Line line) {
 		this.line = line;
 	}
-
 	@ManyToOne(cascade = {CascadeType.ALL})
 	public Meal getMeal() {
 		return meal;
 	}
-
 	public void setMeal(Meal meal) {
 		this.meal = meal;
 	}
-
 	@OneToOne(cascade = {CascadeType.ALL})
 	public Price getPrice() {
 		return price;
 	}
-
 	public void setPrice(Price price) {
 		this.price = price;
 	}

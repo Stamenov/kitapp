@@ -35,11 +35,9 @@ public class RatingCollection {
 	public int getId() {
 		return id;
 	};
-
 	public void setId(int id) {
 		this.id = id;
 	}
-
 	@OneToMany(cascade = CascadeType.ALL)
 	@JsonIgnore
 	public Map<String, Rating> getRatings() {
@@ -47,38 +45,40 @@ public class RatingCollection {
 	}
 	public void setRatings(Map<String, Rating> ratings) {
 		this.ratings = ratings;
-	}
-	
+	}	
 	@JsonIgnore
 	public int getSum() {
 		return sum;
 	}
 	public void setSum(int sum) {
 		this.sum = sum;
-	}
-	
+	}	
 	public double getAverage() {
 		return average;
 	}
 	public void setAverage(double average) {
 		this.average = average;
-	}
-	
+	}	
 	@Transient
 	public Rating getCurrentUserRating() {
 		return currentUserRating;
-	}
-	
+	}	
 	public void setCurrentUserRating(String currentUser) {
 		this.currentUserRating = ratings.get(currentUser);
 	}
 
-	
-	
+	/**
+	 * Add all ratings from the provided collection without modifying it.	
+	 * @param ratings A collection of ratings.
+	 */
 	public void addAll(RatingCollection ratings) {
 		this.ratings.putAll(ratings.getRatings());
 	}
 
+	/**
+	 * Add a specified rating.
+	 * @param rating 
+	 */
 	public void add(Rating rating) {
 		Rating old = this.ratings.put(rating.getUserid(), rating);
 		
@@ -92,7 +92,7 @@ public class RatingCollection {
 	
 	/**
 	 * Remove the rating by the specified user.
-	 * @param userid
+	 * @param userid The userid of the user whose rating should be deleted.
 	 */
 	public void remove(String userid) {
 		Rating old = ratings.remove(userid);

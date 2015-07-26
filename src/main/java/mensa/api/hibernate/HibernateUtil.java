@@ -6,7 +6,7 @@ import org.hibernate.cfg.Configuration;
 
 /**
  * Util class for hibernate (db) operations.
- * @author Petar Vutov
+ * @author Petar Vutov / Hibernate tuts
  */
 public final class HibernateUtil {
 

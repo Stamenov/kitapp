@@ -22,52 +22,34 @@ public class Price {
 		
 	}
 
-	public Price(double studentPrice, double visitorPrice, double workerPrice,
-			double childPrice) {
-		super();
-		this.studentPrice = studentPrice;
-		this.visitorPrice = visitorPrice;
-		this.workerPrice = workerPrice;
-		this.childPrice = childPrice;
-	}
-
 	@Id @GeneratedValue
 	private int getId() {
 		return id;
 	};	
-
 	public void setId(int id) {
 		this.id = id;
 	}
-
 	public double getStudentPrice() {
 		return studentPrice;
 	}
-
 	public void setStudentPrice(double studentPrice) {
 		this.studentPrice = studentPrice;
 	}
-
 	public double getWorkerPrice() {
 		return workerPrice;
 	}
-
 	public void setWorkerPrice(double workerPrice) {
 		this.workerPrice = workerPrice;
 	}
-
 	public double getChildPrice() {
 		return childPrice;
 	}
-
 	public void setChildPrice(double childPrice) {
 		this.childPrice = childPrice;
 	}
-
 	public double getVisitorPrice() {
 		return visitorPrice;
 	}
-
 	public void setVisitorPrice(double visitorPrice) {
 		this.visitorPrice = visitorPrice;
 	}

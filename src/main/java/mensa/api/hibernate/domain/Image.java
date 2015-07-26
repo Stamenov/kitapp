@@ -35,6 +35,33 @@ public class Image {
 		this.hashCode = hashCode;
 	}
 	
+	
+	@Id @GeneratedValue
+	public int getId() {
+		return id;
+	};	
+	public void setId(int id) {
+		this.id = id;
+	}
+	public String getUserid() {
+		return userid;
+	}
+	public void setUserid(String userid) {
+		this.userid = userid;
+	}
+	public String getUrl() {
+		return url;
+	}
+	public void setUrl(String url) {
+		this.url = url;
+	}
+	public int getHashCode() {
+		return hashCode;
+	}
+	public void setHashCode(int hashCode) {
+		this.hashCode = hashCode;
+	}
+	
 	@Override
 	public boolean equals(Object other) {
 		if (other != null) {
@@ -55,37 +82,6 @@ public class Image {
 	@Override
 	public  int hashCode() {
 		return hashCode;
-	}	
-
-	@Id @GeneratedValue
-	public int getId() {
-		return id;
-	};
-	
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public String getUserid() {
-		return userid;
-	}
-
-	public void setUserid(String userid) {
-		this.userid = userid;
-	}
-
-	public String getUrl() {
-		return url;
-	}
-
-	public void setUrl(String url) {
-		this.url = url;
-	}
-	public int getHashCode() {
-		return hashCode;
-	}
-	public void setHashCode(int hashCode) {
-		this.hashCode = hashCode;
 	}
 	
 }

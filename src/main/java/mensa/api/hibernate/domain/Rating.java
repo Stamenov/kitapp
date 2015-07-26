@@ -44,4 +44,30 @@ public class Rating {
 	public void setUserid(String userid) {
 		this.userid = userid;
 	}
+	
+
+	/**
+	 * Two Rating objects are equal if they were submitted by the same user.
+	 */
+	@Override
+	public boolean equals(Object other) {
+		if (other != null) {
+			if (other.getClass() == Rating.class) {
+				Rating casted = (Rating) other;
+				if (casted.hashCode() == hashCode()) {
+					return true;
+				}
+			}
+		}
+		
+		return false;
+	}
+	
+	/**
+	 * The hashCode of a Rating is the hashCode of the userid of whoever submitted it.
+	 */
+	@Override
+	public  int hashCode() {
+		return userid.hashCode();
+	}
 }

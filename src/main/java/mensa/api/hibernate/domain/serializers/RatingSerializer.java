@@ -12,11 +12,12 @@ import mensa.api.hibernate.domain.Rating;
 /**
  * A class responsible for adapting the domain model to what the app actually needs.
  * @author Petar Vutov
- *
  */
 public class RatingSerializer extends JsonSerializer<Rating> {
+	
     /**
      * Serializes only the value field.
+     * Thus, instead of generating a JSON object with many fields, we replace it with a single integer.
      */
     @Override
     public void serialize(final Rating rating, final JsonGenerator generator, final SerializerProvider provider) {

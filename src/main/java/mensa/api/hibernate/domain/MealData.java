@@ -90,13 +90,6 @@ public class MealData {
 	public void setImages(Set<Image> images) {
 		this.images = images;
 	}
-	/**
-	 * public add-er for image.
-	 * @param image
-	 */
-	public void addImage(Image image) {
-		this.images.add(image);
-	}	
 	@OneToOne(cascade = CascadeType.ALL)
 	public RatingCollection getRatings() {
 		return ratings;
@@ -104,42 +97,47 @@ public class MealData {
 	public void setRatings(RatingCollection ratings) {
 		this.ratings = ratings;
 	}
-	/**
-	 * public add-er for ratings
-	 * @param rating
-	 */
-	public void addRating(Rating rating) {
-		this.ratings.add(rating);
-	}
-	
 	@OneToOne(cascade = CascadeType.ALL)
 	public Tags getTags() {
 		return tags;
 	}
-
 	public void setTags(Tags tags) {
 		this.tags = tags;
 	}
-
 	@ManyToMany(cascade = CascadeType.ALL)
 	@JsonIgnore
 	public Set<Meal> getMeals() {
 		return meals;
 	}
-
 	public void setMeals(Set<Meal> meals) {
 		this.meals = meals;
-	}
-	
+	}	
 	@Column(name = "active")
 	@JsonIgnore
 	public boolean getActive(){
 		return this.active;
-	}
-	
+	}	
 	public void setActive(boolean active){
 		this.active = active; 
+	}		
+
+	/**
+	 * Add an image to this data.
+	 * @param image 
+	 */
+	public void addImage(Image image) {
+		this.images.add(image);
 	}	
+	
+	
+	/**
+	 * Add a rating to this data.
+	 * @param rating 
+	 */
+	public void addRating(Rating rating) {
+		this.ratings.add(rating);
+	}
+	
 
 	/**
 	 * Merge two meal data objects without changing them.

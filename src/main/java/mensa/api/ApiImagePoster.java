@@ -19,14 +19,16 @@ import mensa.api.OAuth.BadTokenException;
 import mensa.api.OAuth.Checker;
 import mensa.api.hibernate.HibernateUtil;
 import mensa.api.hibernate.domain.ImageProposal;
-import mensa.api.hibernate.domain.Meal;
 import mensa.api.hibernate.domain.User;
 
-import org.apache.catalina.tribes.util.Arrays;
 import org.apache.commons.codec.binary.Base64;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.hibernate.Session;
 
+/**
+ * Responsible for handling merge proposals.
+ * @author Petar Vutov
+ */
 @Path("/image/")
 public class ApiImagePoster {
 	private static final String DIR_TO_SAVE_IMAGES_TO = "/var/www/html/PSESoSe15Gruppe3-Daten/photos";
@@ -34,8 +36,9 @@ public class ApiImagePoster {
 	
 	
 	/**
-	 * Saves image in the db
-	 * @param args the img
+	 * Saves image in the db.
+	 * @param args The image, the mealid and a token identifying a user.
+	 * @return Response indicating success or error.
 	 */
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
