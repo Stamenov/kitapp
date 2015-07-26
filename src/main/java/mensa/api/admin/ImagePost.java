@@ -59,9 +59,6 @@ public class ImagePost {
 			session.getTransaction().commit();
 
 		} else {
-			String imgUrl = imageProposal.getUrl();
-			String imgName = imgUrl.substring(imgUrl.lastIndexOf('/') + 1, imgUrl.length());
-			
 			java.nio.file.Path path = FileSystems.getDefault().getPath(imageProposal.getPath());
 			
 			//delete if exists
