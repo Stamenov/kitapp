@@ -112,8 +112,7 @@ public class ApiImagePoster {
 		session.getTransaction().commit();
 		
 		User.reportSuccess(userid);
-
-		session.close();
+		
 		return Response.ok("success").build();
 	}
 	

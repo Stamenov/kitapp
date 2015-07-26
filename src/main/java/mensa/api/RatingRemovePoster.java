@@ -45,8 +45,7 @@ public class RatingRemovePoster {
 		
 		session.merge(meal);
         session.getTransaction().commit();
-
-		session.close();
+        
 		meal.setCurrentUser(userid);
         return Response.ok().entity(meal).build();
 	}

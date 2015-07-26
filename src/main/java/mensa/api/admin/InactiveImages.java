@@ -49,8 +49,7 @@ public class InactiveImages {
 			currImgWithName = new ImageWithMealName(currImgProposal.getUrl(), currImgProposal.getId(), meal.getName());
 			imgsWithNames.add(currImgWithName);
 		}
-
-		session.close();
+		
 		return Response.ok(imgsWithNames).build();
 	}
 	
