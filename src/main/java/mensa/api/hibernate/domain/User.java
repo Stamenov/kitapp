@@ -74,8 +74,12 @@ public class User {
 	 * @return <code>true</code> if the user is below their limit, <code>false</code> if they have exceeded it.
 	 */
 	public static boolean hasUsesLeft(String userid) {
-		Session session = HibernateUtil.getSessionFactory().openSession();
-		User user = (User) session.get(User.class, userid);
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		session.beginTransaction();
+		
+		User user = (User) session.get(User.class, userid);		
+
+		session.getTransaction().commit();
 		
 		/*
 		 * If the user doesn't exist, it must be created:
@@ -85,11 +89,12 @@ public class User {
 			user.setUserid(userid);
 			user.setAccesstime(System.currentTimeMillis());
 			user.setCount(0);
-			
-			session.beginTransaction();			
-			session.save(user);			
+
+			session.beginTransaction();
+			session.save(user);
 			session.getTransaction().commit();
 		}
+		
 		
 		return user.hasUsesLeft();
 	}
@@ -99,12 +104,12 @@ public class User {
 	 * @param userid The user who requested the operation.
 	 */
 	public static void reportSuccess(String userid) {
-		Session session = HibernateUtil.getSessionFactory().openSession();
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		session.beginTransaction();
 		User user = (User) session.get(User.class, userid);
 		
 		user.count++;
 		
-		session.beginTransaction();
 		session.merge(user);
 		session.getTransaction().commit();
 	}

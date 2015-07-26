@@ -34,7 +34,7 @@ public class InactiveMealData {
 		
 		ArrayList<ArrayList<Meal>> result = new ArrayList<ArrayList<Meal>>();
 
-		Session session = HibernateUtil.getSessionFactory().openSession();
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
 		
 		Criteria inactiveMealData = session.createCriteria(MealData.class);

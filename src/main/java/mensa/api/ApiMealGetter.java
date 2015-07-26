@@ -38,9 +38,11 @@ public class ApiMealGetter {
 			// This allows users without google accounts to browse meals.
 			userid = "0";
 		}
-	
-		Session session = HibernateUtil.getSessionFactory().openSession();
+
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		session.beginTransaction();
 		Meal meal = (Meal) session.get(Meal.class, args.getMealid());
+		session.getTransaction();
 		
 		meal.setCurrentUser(userid);		
 		return Response.ok().entity(meal).build();

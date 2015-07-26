@@ -45,7 +45,7 @@ public class ApiRatingPoster {
 			return Response.status(400).build();
 		}
 		
-		Session session = HibernateUtil.getSessionFactory().openSession();
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
 
 		Meal meal = (Meal) session.get(Meal.class, args.getMealid());

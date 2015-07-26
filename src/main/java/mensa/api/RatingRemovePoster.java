@@ -37,7 +37,7 @@ public class RatingRemovePoster {
 			return Response.status(400).entity("bad token").build();
 		}
 		
-		Session session = HibernateUtil.getSessionFactory().openSession();
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
 		
 		Meal meal = (Meal) session.get(Meal.class, args.getMealid());

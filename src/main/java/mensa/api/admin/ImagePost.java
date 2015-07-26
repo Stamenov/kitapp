@@ -37,7 +37,7 @@ public class ImagePost {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response finalizeImagePost(Args args) {
-		Session session = HibernateUtil.getSessionFactory().openSession();
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
 		
 		ImageProposal imageProposal = (ImageProposal) session.get(ImageProposal.class, args.getImageId());

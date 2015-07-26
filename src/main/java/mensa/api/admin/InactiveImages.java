@@ -31,7 +31,7 @@ public class InactiveImages {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getInactiveImages() {
 		
-		Session session = HibernateUtil.getSessionFactory().openSession();
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
 		
 		Criteria inactiveImage = session.createCriteria(ImageProposal.class);

@@ -103,7 +103,7 @@ public class ApiImagePoster {
 			slash = "/";
 		}
 
-		Session session = HibernateUtil.getSessionFactory().openSession();
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
 
 		ImageProposal imageProposal = new ImageProposal(userid, args.getMealId(), 

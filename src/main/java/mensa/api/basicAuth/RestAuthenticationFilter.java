@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServletResponse;
  * Applies the filter for the request over the /api/admin/* paths.
  * Handles the authorization header in requests.
  * @author http://javapapers.com/web-service/restful-services-http-basic-authentication/
- *
  */
 public class RestAuthenticationFilter implements javax.servlet.Filter {
 	public static final String AUTHENTICATION_HEADER = "Authorization";

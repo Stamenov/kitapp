@@ -94,7 +94,7 @@ public class Populate extends TimerTask implements ServletContextListener {
 			return;
 		}
 
-		Session session = HibernateUtil.getSessionFactory().openSession();
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		
 		for (Offer offer: (List<Offer>) session.createCriteria(Offer.class).list()) {
 			offer.setMeal(null);

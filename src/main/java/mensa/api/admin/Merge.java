@@ -34,7 +34,7 @@ public class Merge {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response finalizeMerge(Args args) {
 		
-		Session session = HibernateUtil.getSessionFactory().openSession();
+		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
 		session.beginTransaction();
 		
 		MealData mealData = (MealData) session.get(MealData.class, args.getMealDataId());
