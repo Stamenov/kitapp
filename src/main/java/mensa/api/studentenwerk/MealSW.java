@@ -2,6 +2,11 @@ package mensa.api.studentenwerk;
 
 import java.util.List;
 
+/**
+ * Represents a meal in Studentenwerk's API. 
+ * Used by com.google.gson.Gson to provide expected structure when parsing json.
+ * @author Petar Vutov
+ */
 public class MealSW {
 	private String meal;
 	private String dish;
@@ -12,16 +17,20 @@ public class MealSW {
 	private boolean cow;
 	private boolean cow_aw;
 	private boolean vegan;
-	private boolean veg;
-	//private String info; // not used
+	private boolean veg; 
 	private double price_1;
 	private double price_2;
 	private double price_3;
 	private double price_4;
-	//private int price_flag; // not used
 	private boolean nodata;
 	private String closing_start;
 	private String closing_end;
+	
+	/*
+	 * not used but in SW API:
+	 * private int price_flag; 
+	 * private String info;
+	 */
 	
 	public String getMeal() {
 		return meal;

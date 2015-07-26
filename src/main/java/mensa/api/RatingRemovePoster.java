@@ -25,7 +25,7 @@ public class RatingRemovePoster {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response removeRating(Args args){
+	public Response removeRating(Args args) {
 		String userid;
 		try { 
 			userid = Checker.getUserid(args.getToken());	

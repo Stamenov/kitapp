@@ -11,6 +11,11 @@ import mensa.api.hibernate.domain.Offer;
 import mensa.api.hibernate.domain.Price;
 import mensa.api.hibernate.domain.Tags;
 
+/**
+ * Represents all meals under the same timestamp in Studentenwerk's API.
+ * Used by com.google.gson.Gson to provide expected structure when parsing json.
+ * @author Petar Vutov
+ */
 public class Day {
 	private List<MealSW> l1;
 	private List<MealSW> l2;
@@ -23,20 +28,13 @@ public class Day {
 	private List<MealSW> heisstheke;
 	private List<MealSW> nmtisch;
 
+	/**
+	 * Convert the data into Offer classes that can be directly stored in the db.
+	 * @param timestamp The timestamp to use for these offers.
+	 * @return A list of Offers on this particular day.
+	 */
 	public List<Offer> getOffers(int timestamp) {
 		List<Offer> result = new ArrayList<Offer>();
-		
-		List<MealSW> allMeals = new ArrayList<MealSW>();
-		allMeals.addAll(l1);
-		allMeals.addAll(l2);
-		allMeals.addAll(l3);
-		allMeals.addAll(l45);
-		allMeals.addAll(schnitzelbar);
-		allMeals.addAll(update);
-		allMeals.addAll(abend);
-		allMeals.addAll(aktion);
-		allMeals.addAll(heisstheke);
-		allMeals.addAll(nmtisch);
 		
 		Iterator<MealSW> it = l1.iterator();
 		iterateAndExtractOffers(it, result, Line.l1, timestamp);
@@ -71,15 +69,23 @@ public class Day {
 		return result;
 	}
 	
+	/**
+	 * For a given line, iterate over all meals offered there and repack them into Offers.
+	 * @param it Iterator over the line.
+	 * @param result A list to append the created offers to.
+	 * @param line The name of the line we are iterating, so it can be added to the Offer objects.
+	 * @param timestamp The timestamp to be added to the Offer objects.
+	 */
 	private void iterateAndExtractOffers(Iterator<MealSW> it, List<Offer> result, Line line, int timestamp) {
+		
 		while (it.hasNext()) {
 			MealSW next = it.next();
 			
-			if (next.isNodata()) {
-				return;
-			}
-			
-			if (next.getClosing_end() != null || next.getClosing_start() != null) {
+			/*
+			 *  If there is no data or the data just tells us that the line is closed, 
+			 *  end parsing because there is nothing to parse:
+			 */
+			if (next.isNodata() || next.getClosing_end() != null || next.getClosing_start() != null) {
 				return;
 			}
 		
@@ -102,8 +108,8 @@ public class Day {
 			Price price = new Price();
 			price.setStudentPrice(next.getPrice_1());
 			price.setVisitorPrice(next.getPrice_2());
-			price.setWorkerPrice (next.getPrice_3());
-			price.setChildPrice  (next.getPrice_4());
+			price.setWorkerPrice(next.getPrice_3());
+			price.setChildPrice(next.getPrice_4());
 
 			Offer offer = new Offer();
 			offer.setMeal(meal);
