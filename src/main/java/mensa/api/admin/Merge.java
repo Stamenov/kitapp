@@ -34,7 +34,7 @@ public class Merge {
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response finalizeMerge(Args args) {
 		
-		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		Session session = HibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction();
 		
 		MealData mealData = (MealData) session.get(MealData.class, args.getMealDataId());
@@ -54,7 +54,7 @@ public class Merge {
 				meal.setData(mealData);
 				session.update(meal);
 			}
-			session.getTransaction().commit();			
+			session.getTransaction().commit();	
 
 			session.beginTransaction();
 
@@ -65,7 +65,7 @@ public class Merge {
 				session.delete(data);	
 			}
 			session.getTransaction().commit();
-			
+			session.close();			
 				
 		} else {
 			Set<Meal> emptySet = new HashSet<Meal>();
@@ -77,7 +77,8 @@ public class Merge {
 		    session.delete(mealData);
 			session.getTransaction().commit();
 		}
-		
+
+		session.close();
 		return Response.ok().build();
 
 	}

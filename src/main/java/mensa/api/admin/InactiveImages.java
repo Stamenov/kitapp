@@ -31,12 +31,15 @@ public class InactiveImages {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response getInactiveImages() {
 		
-		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		Session session = HibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction();
 		
 		Criteria inactiveImage = session.createCriteria(ImageProposal.class);
 
 		List<ImageProposal> imageList = inactiveImage.list();
+		session.getTransaction().commit();
+		session.close();
+		
 		Iterator<ImageProposal> it = imageList.iterator();
 		
 		ArrayList<ImageWithMealName> imgsWithNames = new ArrayList<ImageWithMealName>();

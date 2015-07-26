@@ -39,10 +39,11 @@ public class ApiMealGetter {
 			userid = "0";
 		}
 
-		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		Session session = HibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction();
 		Meal meal = (Meal) session.get(Meal.class, args.getMealid());
-		session.getTransaction();
+		session.getTransaction().commit();
+		session.close();
 		
 		meal.setCurrentUser(userid);		
 		return Response.ok().entity(meal).build();

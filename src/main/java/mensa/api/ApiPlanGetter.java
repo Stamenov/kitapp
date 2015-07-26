@@ -38,7 +38,7 @@ public class ApiPlanGetter {
 			                            @PathParam("timestampTo") int timestampTo) {
 		List<Offer> result = new ArrayList<Offer>();
 
-		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		Session session = HibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction();
 		
 		Criteria offerCriteria = session.createCriteria(Offer.class);
@@ -46,6 +46,7 @@ public class ApiPlanGetter {
 
 		List<Offer> resultList = offerCriteria.list();
 		session.getTransaction().commit();
+		session.close();
 
 		Iterator<Offer> it = resultList.iterator();
         

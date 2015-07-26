@@ -103,13 +103,14 @@ public class ApiImagePoster {
 			slash = "/";
 		}
 
-		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		Session session = HibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction();
 
 		ImageProposal imageProposal = new ImageProposal(userid, args.getMealId(), 
 				DIR_TO_SAVE_TO_DB + slash + file.getName(), path, decodedByte);
 		session.save(imageProposal);
 		session.getTransaction().commit();
+		session.close();
 		
 		User.reportSuccess(userid);
 		

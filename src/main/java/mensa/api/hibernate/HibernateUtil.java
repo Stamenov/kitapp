@@ -6,7 +6,7 @@ import org.hibernate.cfg.Configuration;
 
 /**
  * Util class for hibernate (db) operations.
- * @author Petar Vutov / Hibernate tuts
+ * @author Petar Vutov
  */
 public final class HibernateUtil {
 
@@ -40,7 +40,7 @@ public final class HibernateUtil {
             // Make sure you log the exception, as it might be swallowed
             System.err.println("Initial SessionFactory creation failed." + e);
             throw new ExceptionInInitializerError(e);
-        }
+        }        
     }
 	
 	/**

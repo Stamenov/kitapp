@@ -32,10 +32,11 @@ public class ApiNamesGetter {
 	public Response getNames() {
 		List<StringMealidPair> result = new ArrayList<StringMealidPair>();
 
-		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		Session session = HibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction();
 		Iterator<Meal> it = session.createCriteria(Meal.class).list().iterator();
 		session.getTransaction().commit();
+		session.close();
 
 		while (it.hasNext()) {
 			Meal next = it.next();

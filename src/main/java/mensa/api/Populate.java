@@ -94,14 +94,26 @@ public class Populate extends TimerTask implements ServletContextListener {
 			return;
 		}
 
-		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		Session session = HibernateUtil.getSessionFactory().openSession();
+		session.beginTransaction();
+		List<Offer> offersInDB = (List<Offer>) session.createCriteria(Offer.class).list();
+		session.getTransaction().commit();
+		session.close();
 		
-		for (Offer offer: (List<Offer>) session.createCriteria(Offer.class).list()) {
+		for (Offer offer: offersInDB) {
 			offer.setMeal(null);
+			
+			session = HibernateUtil.getSessionFactory().openSession();
+			session.beginTransaction();
+			
 			session.delete(offer);
+			
+			session.getTransaction().commit();
+			session.close();
 		}
 		
 		for (Offer offer: offers) {
+			session = HibernateUtil.getSessionFactory().openSession();
 			session.beginTransaction();
 			List<Meal> mealsInDB = session.createCriteria(Meal.class)
 			.add(Restrictions.like("name", offer.getMeal().getName())).list();
@@ -116,6 +128,7 @@ public class Populate extends TimerTask implements ServletContextListener {
 			session.save(offer);
 			
 			session.getTransaction().commit();
+			session.close();
 		}
 	}
 	

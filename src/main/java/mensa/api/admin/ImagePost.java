@@ -37,7 +37,7 @@ public class ImagePost {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	public Response finalizeImagePost(Args args) {
-		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		Session session = HibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction();
 		
 		ImageProposal imageProposal = (ImageProposal) session.get(ImageProposal.class, args.getImageId());
@@ -70,12 +70,15 @@ public class ImagePost {
 	        } catch (IOException | SecurityException e) {
 	        	System.err.println("Image file is not there or no access permission.");
 				e.printStackTrace();
+				session.close();
 				return Response.status(500).build();
 	        }
 			session.beginTransaction();
 			session.delete(imageProposal);
 			session.getTransaction().commit();
 		}
+		
+		session.close();
 		return Response.ok().build();
 	}
 	

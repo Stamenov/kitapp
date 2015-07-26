@@ -34,13 +34,16 @@ public class InactiveMealData {
 		
 		ArrayList<ArrayList<Meal>> result = new ArrayList<ArrayList<Meal>>();
 
-		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		Session session = HibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction();
 		
 		Criteria inactiveMealData = session.createCriteria(MealData.class);
 		inactiveMealData.add(Restrictions.eq("active", Boolean.FALSE));
 
 		List<MealData> resultList = inactiveMealData.list();
+		session.getTransaction().commit();
+		session.close();
+		
 		Iterator<MealData> it = resultList.iterator();
         
         ArrayList<Meal> currMeals;

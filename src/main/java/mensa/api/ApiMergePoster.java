@@ -46,7 +46,7 @@ public class ApiMergePoster {
 			return Response.status(429).entity("merge/image limit exceeded").build();			
 		}
 		
-		Session session = HibernateUtil.getSessionFactory().getCurrentSession();
+		Session session = HibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction();
 		
 		Meal meal1 = (Meal) session.get(Meal.class, args.getMealid1());
@@ -79,6 +79,7 @@ public class ApiMergePoster {
 		MealData mergedMealData = MealData.merge(meal1.getData(), meal2.getData());
 		session.save(mergedMealData);
 		session.getTransaction().commit();	
+		session.close();
 		
 		User.reportSuccess(userid);	
 
