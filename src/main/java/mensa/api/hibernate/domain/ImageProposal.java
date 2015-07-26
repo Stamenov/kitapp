@@ -16,6 +16,7 @@ public class ImageProposal {
 	private int id;
 	private String userid;
 	private String url;
+	private String path;
 	private int mealid;
 	private int hashCode;
 
@@ -31,12 +32,14 @@ public class ImageProposal {
 	 * @param userid The user who uploaded this image.
 	 * @param mealid The id of the meal the image is meant for.
 	 * @param url The url the image can be read at.
+	 * @param path The path on the filesystem where the image is stored.
 	 * @param image The byte[] representation of the image, to be used in calculating its hash.
 	 */
-	public ImageProposal(String userid, int mealid, String url, byte[] image) {
+	public ImageProposal(String userid, int mealid, String url, String path, byte[] image) {
 		this.userid = userid;
 		this.mealid = mealid;
 		this.url = url;
+		this.path = path;
 		hashCode = Arrays.hashCode(image);
 	}
 	
@@ -70,5 +73,11 @@ public class ImageProposal {
 	}
 	public void setHashCode(int hashCode) {
 		this.hashCode = hashCode;
+	}
+	public String getPath() {
+		return path;
+	}
+	public void setPath(String path) {
+		this.path = path;
 	}
 }

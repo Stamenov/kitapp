@@ -1,8 +1,5 @@
 package mensa.api;
 
-import java.util.HashSet;
-import java.util.Set;
-
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -13,7 +10,6 @@ import javax.ws.rs.core.Response;
 import mensa.api.OAuth.BadTokenException;
 import mensa.api.OAuth.Checker;
 import mensa.api.hibernate.HibernateUtil;
-import mensa.api.hibernate.domain.Image;
 import mensa.api.hibernate.domain.Meal;
 
 import org.codehaus.jackson.annotate.JsonProperty;

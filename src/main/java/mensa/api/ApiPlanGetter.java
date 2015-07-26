@@ -42,7 +42,7 @@ public class ApiPlanGetter {
 
 		Iterator<Offer> it = resultList.iterator();
         
-		while(it.hasNext()) {
+		while (it.hasNext()) {
 			Offer next = it.next();
 			result.add(next);
 		}

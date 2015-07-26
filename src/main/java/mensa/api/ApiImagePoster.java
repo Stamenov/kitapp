@@ -29,8 +29,8 @@ import org.hibernate.Session;
 
 @Path("/image/")
 public class ApiImagePoster {
-	private final static String DIR_TO_SAVE_IMAGES_TO = "/var/www/html/PSESoSe15Gruppe3-Daten/photos";
-	private final static String DIR_TO_SAVE_TO_DB = "https://i43pc164.ipd.kit.edu/PSESoSe15Gruppe3-Daten/photos/";
+	private static final String DIR_TO_SAVE_IMAGES_TO = "/var/www/html/PSESoSe15Gruppe3-Daten/photos";
+	private static final String DIR_TO_SAVE_TO_DB = "https://i43pc164.ipd.kit.edu/PSESoSe15Gruppe3-Daten/photos/";
 	
 	
 	/**
@@ -72,6 +72,8 @@ public class ApiImagePoster {
 			e1.printStackTrace();
 			return Response.status(500).build();
 		}
+		
+		String path = file.getAbsolutePath();
 
 		
 		FileOutputStream out = null;
@@ -102,7 +104,7 @@ public class ApiImagePoster {
 		session.beginTransaction();
 
 		ImageProposal imageProposal = new ImageProposal(userid, args.getMealId(), 
-				DIR_TO_SAVE_TO_DB + slash + file.getName(), decodedByte);
+				DIR_TO_SAVE_TO_DB + slash + file.getName(), path, decodedByte);
 		session.save(imageProposal);
 		session.getTransaction().commit();
 		

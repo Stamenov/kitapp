@@ -61,8 +61,7 @@ public class ImagePost {
 			String imgUrl = imageProposal.getUrl();
 			String imgName = imgUrl.substring(imgUrl.lastIndexOf('/') + 1, imgUrl.length());
 			
-			java.nio.file.Path path = 
-					FileSystems.getDefault().getPath("/var/www/html/PSESoSe15Gruppe3-Daten/photos", imgName);
+			java.nio.file.Path path = FileSystems.getDefault().getPath(imageProposal.getPath());
 			
 			//delete if exists
 	        try {
