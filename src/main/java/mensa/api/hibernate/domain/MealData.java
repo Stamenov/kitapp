@@ -6,6 +6,7 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
@@ -83,7 +84,7 @@ public class MealData {
 	public void setId(int id) {
 		this.id = id;
 	}	
-	@OneToMany(cascade = CascadeType.ALL)
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	public Set<Image> getImages() {
 		return images;
 	}
@@ -104,7 +105,7 @@ public class MealData {
 	public void setTags(Tags tags) {
 		this.tags = tags;
 	}
-	@ManyToMany(cascade = CascadeType.ALL)
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JsonIgnore
 	public Set<Meal> getMeals() {
 		return meals;

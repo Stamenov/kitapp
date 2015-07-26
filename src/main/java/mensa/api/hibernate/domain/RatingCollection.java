@@ -5,6 +5,7 @@ import java.util.Map;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
@@ -38,7 +39,7 @@ public class RatingCollection {
 	public void setId(int id) {
 		this.id = id;
 	}
-	@OneToMany(cascade = CascadeType.ALL)
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JsonIgnore
 	public Map<String, Rating> getRatings() {
 		return ratings;
