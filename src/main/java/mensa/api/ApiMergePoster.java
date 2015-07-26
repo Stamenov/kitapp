@@ -54,7 +54,6 @@ public class ApiMergePoster {
 		
 		if (meal1.getData() == meal2.getData()) {
 			System.out.println("Received merge request of meals that are already merged or equal, exiting.");
-			session.close();
 			return Response.status(400).entity("These meals are already merged.").build();
 		}
 		
@@ -73,7 +72,6 @@ public class ApiMergePoster {
 		
 		// If either meal is involved in a merge request, quit without doing anything:
 		if (mealsAreInvolvedInMergeRequest) {
-			session.close();
 			return Response.ok().build();			
 		}
 		
@@ -84,7 +82,6 @@ public class ApiMergePoster {
 		
 		User.reportSuccess(userid);	
 
-		session.close();
 		return Response.ok().build();
 	}
 	

@@ -117,8 +117,6 @@ public class Populate extends TimerTask implements ServletContextListener {
 			
 			session.getTransaction().commit();
 		}
-		
-		session.close();
 	}
 	
 	/**

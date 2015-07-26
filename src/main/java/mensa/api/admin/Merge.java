@@ -77,8 +77,7 @@ public class Merge {
 		    session.delete(mealData);
 			session.getTransaction().commit();
 		}
-
-		session.close();
+		
 		return Response.ok().build();
 
 	}
