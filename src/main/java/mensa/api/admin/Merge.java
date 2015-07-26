@@ -64,8 +64,7 @@ public class Merge {
 				session.update(data);
 				session.delete(data);	
 			}
-			session.getTransaction().commit();
-			session.close();			
+			session.getTransaction().commit();		
 				
 		} else {
 			Set<Meal> emptySet = new HashSet<Meal>();
