@@ -1,12 +1,6 @@
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
-import java.util.ArrayList;
-
-import javax.ws.rs.core.Response;
-
-import mensa.api.ApiPlanGetter;
 import mensa.api.ApiRatingPoster;
 import mensa.api.hibernate.HibernateUtil;
 import mensa.api.hibernate.domain.Meal;

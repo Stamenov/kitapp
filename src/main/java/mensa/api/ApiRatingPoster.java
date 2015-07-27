@@ -44,9 +44,10 @@ public class ApiRatingPoster {
 	}
 
 	/**
-	 * The core of the rating method, split off so it fits in the test harness.
+	 * Split off for testing.
 	 * @param userid 
-	 * @param args 
+	 * @param mealid 
+	 * @param value 
 	 * @return 
 	 */
 	public Response doRate(String userid, int mealid, int value) {		
