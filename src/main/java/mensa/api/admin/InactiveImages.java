@@ -52,7 +52,16 @@ public class InactiveImages {
 		ImageProposal currImgProposal;
 		while (it.hasNext()) {
 			currImgProposal = it.next();
+			
+			session = HibernateUtil.getSessionFactory().openSession();
+			session.beginTransaction();
+			
 			meal = (Meal) session.get(Meal.class, currImgProposal.getMealid());
+			
+
+			session.getTransaction().commit();
+			session.close();
+			
 			currImgWithName = new ImageWithMealName(currImgProposal.getUrl(), currImgProposal.getId(), meal.getName());
 			imgsWithNames.add(currImgWithName);
 		}

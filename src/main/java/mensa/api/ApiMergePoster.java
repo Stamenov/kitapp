@@ -40,11 +40,7 @@ public class ApiMergePoster {
 			userid = Checker.getUserid(args.getToken());	
 		} catch (BadTokenException e) {
 			return Response.status(400).entity("bad token").build();
-		}
-		
-		if (!User.hasUsesLeft(userid)) {
-			return Response.status(429).entity("merge/image limit exceeded").build();			
-		}
+		}		
 		
 		return doMerge(userid, args.getMealid1(), args.getMealid2());
 	}
@@ -57,6 +53,11 @@ public class ApiMergePoster {
 	 * @return
 	 */
 	public Response doMerge(String userid, int mealid1, int mealid2) {
+
+		if (!User.hasUsesLeft(userid)) {
+			return Response.status(429).entity("merge/image limit exceeded").build();			
+		}
+		
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction();
 		
