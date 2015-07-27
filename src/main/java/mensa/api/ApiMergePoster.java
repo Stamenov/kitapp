@@ -48,12 +48,13 @@ public class ApiMergePoster {
 		
 		return doMerge(userid, args.getMealid1(), args.getMealid2());
 	}
-	
+
 	/**
-	 * The core of the merge method, split off so it can fit in the test harness.
+	 * Split off for testing.
 	 * @param userid
-	 * @param args
-	 * @return 
+	 * @param mealid1
+	 * @param mealid2
+	 * @return
 	 */
 	public Response doMerge(String userid, int mealid1, int mealid2) {
 		Session session = HibernateUtil.getSessionFactory().openSession();
