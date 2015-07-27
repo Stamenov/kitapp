@@ -46,7 +46,7 @@ public class ApiMergePoster {
 			return Response.status(429).entity("merge/image limit exceeded").build();			
 		}
 		
-		return doMerge(userid, args);
+		return doMerge(userid, args.getMealid1(), args.getMealid2());
 	}
 	
 	/**
@@ -55,12 +55,12 @@ public class ApiMergePoster {
 	 * @param args
 	 * @return 
 	 */
-	public Response doMerge(String userid, Args args) {
+	public Response doMerge(String userid, int mealid1, int mealid2) {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction();
 		
-		Meal meal1 = (Meal) session.get(Meal.class, args.getMealid1());
-		Meal meal2 = (Meal) session.get(Meal.class, args.getMealid2());
+		Meal meal1 = (Meal) session.get(Meal.class, mealid1);
+		Meal meal2 = (Meal) session.get(Meal.class, mealid2);
 		
 		if (meal1.getData() == meal2.getData()) {
 			System.out.println("Received merge request of meals that are already merged or equal, exiting.");
