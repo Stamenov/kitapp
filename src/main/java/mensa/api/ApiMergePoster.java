@@ -40,22 +40,24 @@ public class ApiMergePoster {
 			userid = Checker.getUserid(args.getToken());	
 		} catch (BadTokenException e) {
 			return Response.status(400).entity("bad token").build();
-		}
+		}		
 		
+		return doMerge(userid, args.getMealid1(), args.getMealid2());
+	}
+
+	/**
+	 * Split off for testing.
+	 * @param userid
+	 * @param mealid1
+	 * @param mealid2
+	 * @return
+	 */
+	public Response doMerge(String userid, int mealid1, int mealid2) {
+
 		if (!User.hasUsesLeft(userid)) {
 			return Response.status(429).entity("merge/image limit exceeded").build();			
 		}
 		
-		return doMerge(userid, args.getMealid1(), args.getMealid2());
-	}
-	
-	/**
-	 * The core of the merge method, split off so it can fit in the test harness.
-	 * @param userid
-	 * @param args
-	 * @return 
-	 */
-	public Response doMerge(String userid, int mealid1, int mealid2) {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction();
 		

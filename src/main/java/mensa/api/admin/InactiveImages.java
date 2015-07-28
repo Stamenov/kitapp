@@ -1,6 +1,7 @@
 package mensa.api.admin;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 
@@ -13,6 +14,7 @@ import javax.ws.rs.core.Response;
 import mensa.api.hibernate.HibernateUtil;
 import mensa.api.hibernate.domain.ImageProposal;
 import mensa.api.hibernate.domain.Meal;
+import mensa.api.hibernate.domain.MealData;
 
 import org.hibernate.Criteria;
 import org.hibernate.Session;
@@ -40,7 +42,9 @@ public class InactiveImages {
 		session.getTransaction().commit();
 		session.close();
 		
-		Iterator<ImageProposal> it = imageList.iterator();
+		HashSet<ImageProposal> set = new HashSet<ImageProposal>(imageList);
+		
+		Iterator<ImageProposal> it = set.iterator();
 		
 		ArrayList<ImageWithMealName> imgsWithNames = new ArrayList<ImageWithMealName>();
 		Meal meal;
@@ -48,7 +52,16 @@ public class InactiveImages {
 		ImageProposal currImgProposal;
 		while (it.hasNext()) {
 			currImgProposal = it.next();
+			
+			session = HibernateUtil.getSessionFactory().openSession();
+			session.beginTransaction();
+			
 			meal = (Meal) session.get(Meal.class, currImgProposal.getMealid());
+			
+
+			session.getTransaction().commit();
+			session.close();
+			
 			currImgWithName = new ImageWithMealName(currImgProposal.getUrl(), currImgProposal.getId(), meal.getName());
 			imgsWithNames.add(currImgWithName);
 		}
