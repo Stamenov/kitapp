@@ -4,12 +4,17 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
+import mensa.api.hibernate.domain.serializers.ImageSerializer;
+
+import org.codehaus.jackson.map.annotate.JsonSerialize;
+
 /**
  * Images are saved somewhere on a filesystem that is accessible from the internet.
  * This class helps store the internet urls in the database.
  * @author Petar Vutov
  */
 @Entity
+@JsonSerialize(using = ImageSerializer.class)
 public class Image {
 	private int id;
 	private String userid;
