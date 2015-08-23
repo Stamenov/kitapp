@@ -20,22 +20,19 @@ public class ApiRatingPosterFailTest {
 
 	private SessionFactory sessionFactory;
     private Session session = null;
-    private int testOfferid;
+    private int offerid;
+    private int mealid;
     private int testTimestamp;
-    private String mealName;
+    private String mealName = "mealForOffer";
     
 	@Before
 	public void before() {
 		testTimestamp = (int) new Date().getTime();
-		mealName = "mealForOffer";
-		
+
 		sessionFactory = HibernateUtil.getSessionFactory();
 		session = sessionFactory.openSession();
-	}	
-
-	
-	@Test
-	public void invalidRatingTest() {
+		
+		// data
 		MealData testData = new MealData();
 		testData.setRatings(new RatingCollection());
 		
@@ -49,7 +46,7 @@ public class ApiRatingPosterFailTest {
 		
 		Offer testOffer = new Offer();
 		testOffer.setMeal(testMeal);
-		testOffer.setId(testOfferid);
+		testOffer.setId(offerid);
 		testOffer.setTimestamp(testTimestamp);
 		testOffer.setId(1);
 
@@ -57,13 +54,19 @@ public class ApiRatingPosterFailTest {
 		session.save(testOffer);
 		session.getTransaction().commit();
 		
-		testOfferid = testOffer.getId();
+		offerid = testOffer.getId();
+		mealid = testMeal.getMealid();
+	}	
+
+	
+	@Test
+	public void invalidRatingTest() {
 
 		int ratingValue = 6;
-		new ApiRatingPoster().doRate("1", testMeal.getMealid(), ratingValue);
+		new ApiRatingPoster().doRate("1", mealid, ratingValue);
 		
 		session.beginTransaction();
-		Meal meal = session.get(Meal.class, testMeal.getMealid());
+		Meal meal = session.get(Meal.class, mealid);
 		session.getTransaction().commit();
 		meal.setCurrentUser("1");
 		assertNull(meal.getData().getRatings().getCurrentUserRating());
@@ -73,7 +76,7 @@ public class ApiRatingPosterFailTest {
 	@After
     public void after() {
 		session.beginTransaction();
-		Offer offer = session.get(Offer.class, testOfferid);
+		Offer offer = session.get(Offer.class, offerid);
 		session.delete(offer);
 		session.getTransaction().commit();
 		session.close();

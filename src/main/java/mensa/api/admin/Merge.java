@@ -32,14 +32,25 @@ public class Merge {
 	 */
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response finalizeMerge(Args args) {
+	public Response finalizeMerge(Args args) {		
+		return doFinalize(args.getMealDataId(), args.getApproved());
+
+	}
+	
+	/**
+	 * Split off for testing.
+	 * @param mealDataId 
+	 * @param approved 
+	 * @return 
+	 */
+	public Response doFinalize(int mealDataId, boolean approved) {
 		
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction();
 		
-		MealData mealData = (MealData) session.get(MealData.class, args.getMealDataId());
+		MealData mealData = (MealData) session.get(MealData.class, mealDataId);
 
-		if (args.getApproved()) {
+		if (approved) {
 			mealData.setActive(true);
 			session.update(mealData);
 			session.getTransaction().commit();
@@ -79,7 +90,6 @@ public class Merge {
 
 		session.close();
 		return Response.ok().build();
-
 	}
 	
 	private static class Args {

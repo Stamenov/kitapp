@@ -76,6 +76,7 @@ public class ImagePost {
 		}
 		
 		session.close();
+		
 		return Response.ok().build();
 	}
 	

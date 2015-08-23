@@ -32,10 +32,8 @@ public class ApiPlanGetterBasicTest {
 		
 		sessionFactory = HibernateUtil.getSessionFactory();
 		session = sessionFactory.openSession();
-	}
-	
-	@Test
-	public void basicTest() {
+		
+		// data
 		Meal testMeal1 = new Meal();
 		testMeal1.setName(mealName);
 		
@@ -51,6 +49,10 @@ public class ApiPlanGetterBasicTest {
 		session.beginTransaction();
 		session.save(testOffer);
 		session.getTransaction().commit();
+	}
+	
+	@Test
+	public void basicTest() {
 		
 		ApiPlanGetter getPlan = new ApiPlanGetter();
 		

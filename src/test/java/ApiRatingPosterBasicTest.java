@@ -24,19 +24,17 @@ public class ApiRatingPosterBasicTest {
     private Session session = null;
     private int testTimestamp;
     private int offerid;
-    private String mealName;
+    private int mealid;
+    private String mealName = "mealForOffer";;
     
 	@Before
 	public void before() {
 		testTimestamp = (int) new Date().getTime();
-		mealName = "mealForOffer";
 		
 		sessionFactory = HibernateUtil.getSessionFactory();
 		session = sessionFactory.openSession();
-	}
-	
-	@Test
-	public void basicTest() {
+		
+		// data
 		MealData testData = new MealData();
 		testData.setRatings(new RatingCollection());
 		
@@ -56,15 +54,20 @@ public class ApiRatingPosterBasicTest {
 		session.save(testOffer);
 		session.getTransaction().commit();
 		offerid = testOffer.getId();
+		mealid = testMeal.getMealid();
+	}
+	
+	@Test
+	public void basicTest() {
 
 		int ratingValue = 4;
-		Meal response = (Meal) new ApiRatingPoster().doRate("1", testMeal.getMealid(), ratingValue).getEntity();
+		Meal response = (Meal) new ApiRatingPoster().doRate("1", mealid, ratingValue).getEntity();
 		
 		session.close();
 		
 		session = sessionFactory.openSession();				
 		session.beginTransaction();
-		Meal meal = session.get(Meal.class, testMeal.getMealid());
+		Meal meal = session.get(Meal.class, mealid);
 		session.getTransaction().commit();
 		
 		assertEquals(meal.getMealid(), response.getMealid());
@@ -78,7 +81,7 @@ public class ApiRatingPosterBasicTest {
 		assertEquals(r.getCurrentUserRating().getValue(), ratingValue);
 		
 		// test if rating updates correctly:
-		response = (Meal) new ApiRatingPoster().doRate("1", testMeal.getMealid(), ratingValue - 1).getEntity();
+		response = (Meal) new ApiRatingPoster().doRate("1", mealid, ratingValue - 1).getEntity();
 		assertEquals(response.getData().getRatings().getCurrentUserRating().getValue(), ratingValue - 1);
 		}
 

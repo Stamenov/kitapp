@@ -22,6 +22,9 @@ public class ApiNamesGetterBasicTest {
 	private SessionFactory sessionFactory;
     private Session session = null;
     
+    private String mealName = "gdhsgh";
+	private String mealName2 = "fhgsh";
+    
     private int mealid = 0;
     private int mealid2 = 0;
 
@@ -29,13 +32,8 @@ public class ApiNamesGetterBasicTest {
 	public void before() {		
 		sessionFactory = HibernateUtil.getSessionFactory();
 		session = sessionFactory.openSession();
-	}
-
-	@Test
-	public void basicTest() {
-		String mealName = "gdhsgh";
-		String mealName2 = "fhgsh";
 		
+		// data		
 		MealData testData = new MealData();
 		testData.setRatings(new RatingCollection());
 		
@@ -59,6 +57,10 @@ public class ApiNamesGetterBasicTest {
 		session.save(testMeal2);
 		session.getTransaction().commit();
 		mealid2 = testMeal2.getMealid();
+	}
+
+	@Test
+	public void basicTest() {
 		
 		List<StringMealidPair> pairs = (List<StringMealidPair>) new ApiNamesGetter().getNames().getEntity();
 		

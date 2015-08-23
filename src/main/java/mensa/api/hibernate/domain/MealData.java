@@ -39,7 +39,7 @@ public class MealData {
 	 * Shortcut constructor
 	 * @param meal The meal this data will be used by.
 	 * @param tags The tags of the meal.
-	 * @param active True if this is a merge proposal, false if not.
+	 * @param active True if this is a real meal, false if it is a merge proposal.
 	 */
 	public MealData(Meal meal, Tags tags, boolean active) {
 		meals = new HashSet<Meal>();

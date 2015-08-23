@@ -18,18 +18,14 @@ public class ApiMealGetterBasicTest {
 	private SessionFactory sessionFactory;
     private Session session = null;
     private int mealid;
-    private String mealName;
+    private String mealName = "mea;jkl";
     
 	@Before
-	public void before() {
-		mealName = "mea;jkl";
-		
+	public void before() {		
 		sessionFactory = HibernateUtil.getSessionFactory();
 		session = sessionFactory.openSession();
-	}
-	
-	@Test
-	public void basicTest() {
+		
+		// data
 		MealData testData = new MealData();
 		testData.setRatings(new RatingCollection());
 		
@@ -42,12 +38,16 @@ public class ApiMealGetterBasicTest {
 		session.getTransaction().commit();
 		
 		mealid = testMeal.getMealid();
+	}
+	
+	@Test
+	public void basicTest() {
 		
 		session.beginTransaction();
 		Meal meal = (Meal) new ApiMealGetter().doGet(mealid, "fgsfg").getEntity();
 		session.getTransaction().commit();
 
-		assertEquals(meal.getName(), testMeal.getName());
+		assertEquals(meal.getName(), mealName);
 		assertEquals(meal.getMealid(), mealid);
 	}
 

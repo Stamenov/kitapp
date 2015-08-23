@@ -60,7 +60,6 @@ public class InactiveImages {
 			
 
 			session.getTransaction().commit();
-			session.close();
 			
 			currImgWithName = new ImageWithMealName(currImgProposal.getUrl(), currImgProposal.getId(), meal.getName());
 			imgsWithNames.add(currImgWithName);
