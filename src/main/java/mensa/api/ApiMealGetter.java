@@ -38,16 +38,27 @@ public class ApiMealGetter {
 			// This allows users without google accounts to browse meals.
 			userid = "0";
 		}
+		
+		return doGet(args.getMealid(), userid);
+	}
+	
+	/**
+	 * Split off for testing.
+	 * @param mealid 
+	 * @param userid 
+	 * @return 
+	 */
+	public Response doGet(int mealid, String userid) {
 
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction();
-		Meal meal = (Meal) session.get(Meal.class, args.getMealid());
+		Meal meal = (Meal) session.get(Meal.class, mealid);
 		session.getTransaction().commit();
 		session.close();
 		
 		meal.setCurrentUser(userid);		
 		return Response.ok().entity(meal).build();
-	}	
+	}
 	
 	private static class Args {
 		@JsonProperty("token")

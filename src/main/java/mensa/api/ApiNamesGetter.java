@@ -47,7 +47,11 @@ public class ApiNamesGetter {
 		return Response.ok().entity(result).build();
 	}
 	
-	private static final class StringMealidPair {
+	/**
+	 * Basically a struct for holding mealid:mealname pairs to be passed to Jackson.
+	 * @author Martin Stamenov
+	 */
+	public static final class StringMealidPair {
 		@JsonProperty("name")
 		private String name;
 		@JsonProperty("mealid")

@@ -76,7 +76,11 @@ public class ApiRatingPosterBasicTest {
 		
 		assertNotNull(r.getCurrentUserRating());
 		assertEquals(r.getCurrentUserRating().getValue(), ratingValue);
-	}
+		
+		// test if rating updates correctly:
+		response = (Meal) new ApiRatingPoster().doRate("1", testMeal.getMealid(), ratingValue - 1).getEntity();
+		assertEquals(response.getData().getRatings().getCurrentUserRating().getValue(), ratingValue - 1);
+		}
 
 	@After
     public void after() {

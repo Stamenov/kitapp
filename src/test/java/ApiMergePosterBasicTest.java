@@ -89,6 +89,11 @@ public class ApiMergePosterBasicTest {
 		//one inactive should be there
 		assertEquals(1, set.size());
 		
+    	mergeMeals.doMerge(testUser.getUserid(), mealid1, mealid2);
+    	
+		//still should be only one: 
+		assertEquals(1, set.size());
+		
 		mergeResult = resultList.get(0);
 		
 		//meals in the inactive mealdata same meals as set
