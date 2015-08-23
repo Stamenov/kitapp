@@ -14,7 +14,6 @@ import javax.ws.rs.core.Response;
 import mensa.api.hibernate.HibernateUtil;
 import mensa.api.hibernate.domain.ImageProposal;
 import mensa.api.hibernate.domain.Meal;
-import mensa.api.hibernate.domain.MealData;
 
 import org.hibernate.Criteria;
 import org.hibernate.Session;
@@ -68,7 +67,11 @@ public class InactiveImages {
 		return Response.ok(imgsWithNames).build();
 	}
 	
-	private class ImageWithMealName {
+	/**
+	 * Struct for holding information to bes passed to Jackson.
+	 * @author Martin Stamenov
+	 */
+	public class ImageWithMealName {
 		private String url;
 		private int imageid;
 		private String mealName;

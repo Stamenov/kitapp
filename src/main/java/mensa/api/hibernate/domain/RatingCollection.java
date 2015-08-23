@@ -19,7 +19,7 @@ import org.codehaus.jackson.annotate.JsonIgnore;
 @Entity
 public class RatingCollection {
 	private int id;
-	private Map<String, Rating> ratings = new HashMap<String, Rating>();;
+	private Map<String, Rating> ratings = new HashMap<String, Rating>();
 	private int sum;
 	private double average;	
 	private Rating currentUserRating;
@@ -73,7 +73,9 @@ public class RatingCollection {
 	 * @param ratings A collection of ratings.
 	 */
 	public void addAll(RatingCollection ratings) {
-		this.ratings.putAll(ratings.getRatings());
+		for (String s : ratings.getRatings().keySet()) {
+			add(ratings.getRatings().get(s));
+		}
 	}
 
 	/**

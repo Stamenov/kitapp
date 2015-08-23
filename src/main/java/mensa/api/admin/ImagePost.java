@@ -36,13 +36,24 @@ public class ImagePost {
 	 */
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
-	public Response finalizeImagePost(Args args) {
+	public Response finalizeImagePost(Args args) {		
+		return doFinalize(args.getImageId(), args.getApproved());
+	}
+	
+	/**
+	 * Split off for testing.
+	 * @param imageId 
+	 * @param approved 
+	 * @return 
+	 */
+	public Response doFinalize(int imageId, boolean approved) {
+
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction();
 		
-		ImageProposal imageProposal = (ImageProposal) session.get(ImageProposal.class, args.getImageId());
+		ImageProposal imageProposal = (ImageProposal) session.get(ImageProposal.class, imageId);
 		
-		if (args.getApproved()) {
+		if (approved) {
 	
 			Image image = new Image(imageProposal.getUserid(), imageProposal.getUrl(), imageProposal.getHashCode());
 			session.save(image);
@@ -70,9 +81,10 @@ public class ImagePost {
 				session.close();
 				return Response.status(500).build();
 	        }
+	        
 			session.beginTransaction();
 			session.delete(imageProposal);
-			session.getTransaction().commit();
+			session.getTransaction().commit();			
 		}
 		
 		session.close();
