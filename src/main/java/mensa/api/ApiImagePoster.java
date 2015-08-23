@@ -31,8 +31,7 @@ import org.hibernate.Session;
  */
 @Path("/image/")
 public class ApiImagePoster {
-//	private static final String DIR_TO_SAVE_IMAGES_TO = "/var/www/html/PSESoSe15Gruppe3-Daten/photos";
-	private static final String DIR_TO_SAVE_IMAGES_TO = "C:\\Users\\root\\Desktop\\New folder";
+	private static final String DIR_TO_SAVE_IMAGES_TO = "/var/www/html/PSESoSe15Gruppe3-Daten/photos";
 	private static final String DIR_TO_SAVE_TO_DB = "https://i43pc164.ipd.kit.edu/PSESoSe15Gruppe3-Daten/photos/";
 	
 	/**
