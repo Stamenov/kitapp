@@ -1,8 +1,6 @@
 
 import static org.junit.Assert.assertNull;
 
-import java.math.BigInteger;
-
 import mensa.api.OAuth.BadTokenException;
 import mensa.api.OAuth.Checker;
 
@@ -19,19 +17,19 @@ public class CheckerTest {
 		assertNull(payload);
 	}
 	
-	@Test(expected=BadTokenException.class)
+	@Test(expected = BadTokenException.class)
 	public void emptyTokenTest() throws BadTokenException {
 		Checker checker = new Checker();
 		checker.getUserid("");
 	}
 	
-	@Test(expected=BadTokenException.class)
+	@Test(expected = BadTokenException.class)
 	public void fakeTokenTest() throws BadTokenException {
 		Checker checker = new Checker();
 		checker.getUserid("gshfdhdfjhhjghm");
 	}
 	
-	@Test(expected=BadTokenException.class)
+	@Test(expected = BadTokenException.class)
 	public void testChecker3() throws BadTokenException {
 		Checker checker = new Checker();
 		// legit expired token
