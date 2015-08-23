@@ -13,20 +13,20 @@ import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken.Payload;
 
 public class CheckerTest {
 	@Test
-	public void testCheckerBasic() {
+	public void basicTest() {
 		Checker checker = new Checker();
 		Payload payload = checker.check("5524346tafdghsdfh");
 		assertNull(payload);
 	}
 	
 	@Test(expected=BadTokenException.class)
-	public void testChecker() throws BadTokenException {
+	public void emptyTokenTest() throws BadTokenException {
 		Checker checker = new Checker();
 		checker.getUserid("");
 	}
 	
 	@Test(expected=BadTokenException.class)
-	public void testChecker2() throws BadTokenException {
+	public void fakeTokenTest() throws BadTokenException {
 		Checker checker = new Checker();
 		checker.getUserid("gshfdhdfjhhjghm");
 	}

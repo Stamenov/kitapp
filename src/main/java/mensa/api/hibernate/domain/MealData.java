@@ -84,7 +84,7 @@ public class MealData {
 	public void setId(int id) {
 		this.id = id;
 	}	
-	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	public Set<Image> getImages() {
 		return images;
 	}

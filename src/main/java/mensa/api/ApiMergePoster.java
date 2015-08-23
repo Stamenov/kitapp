@@ -47,10 +47,10 @@ public class ApiMergePoster {
 
 	/**
 	 * Split off for testing.
-	 * @param userid
-	 * @param mealid1
-	 * @param mealid2
-	 * @return
+	 * @param userid 
+	 * @param mealid1 
+	 * @param mealid2 
+	 * @return 
 	 */
 	public Response doMerge(String userid, int mealid1, int mealid2) {
 

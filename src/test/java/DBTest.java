@@ -14,13 +14,10 @@ public class DBTest {
 	
     private SessionFactory sessionFactory;
     private Session session = null;
-
-	int testMealId;
 	String testMealName;
     
 	@Before
-	public void before(){
-		testMealId = 1;
+	public void before() {
 		testMealName = "testName";
 		
 		sessionFactory = HibernateUtil.getSessionFactory();
@@ -33,20 +30,18 @@ public class DBTest {
 	public void testDatabaseConnection() {
 
 		Meal testMeal = new Meal();
-		testMeal.setMealid(testMealId);
 		testMeal.setName(testMealName);
 		
 		session.save(testMeal);
 		session.getTransaction().commit();
 		
-		Meal mealFromDb = (Meal) session.get(Meal.class, testMealId);
+		Meal mealFromDb = (Meal) session.get(Meal.class, testMeal.getMealid());
 	    assertNotNull(mealFromDb);
-	    assertEquals(testMealId, mealFromDb.getMealid());
 
 	}
     @After
     public void after() {
-     sessionFactory.getCurrentSession().close();
+    	session.close();
     }
 
 	

@@ -2,6 +2,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import javax.ws.rs.core.Response;
 
@@ -16,41 +17,38 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-public class GetPlanTest {
+public class ApiPlanGetterBasicTest {
 
 	private SessionFactory sessionFactory;
     private Session session = null;
-    private int testMealid;
-    private int testOfferid;
     private int testTimestamp;
     private String mealName;
+    private Offer testOffer = null;
     
 	@Before
 	public void before() {
-		testMealid = 1;
-		testOfferid = 1;
-		//timestamp for 27.07 00:00
-		testTimestamp = 1437955200;
+		testTimestamp = (int) new Date().getTime();
 		mealName = "mealForOffer";
 		
 		sessionFactory = HibernateUtil.getSessionFactory();
 		session = sessionFactory.openSession();
-		session.beginTransaction();
 	}
 	
 	@Test
-	public void testGetPlan() {
+	public void basicTest() {
 		Meal testMeal1 = new Meal();
-		testMeal1.setMealid(testMealid);
 		testMeal1.setName(mealName);
-		session.save(testMeal1);
 		
-		Offer testOffer = new Offer();
+		session.beginTransaction();
+		session.save(testMeal1);
+		session.getTransaction().commit();
+		
+		testOffer = new Offer();
 		testOffer.setMeal(testMeal1);
-		testOffer.setId(testOfferid);
 		testOffer.setTimestamp(testTimestamp);
 		testOffer.setId(1);
-		
+
+		session.beginTransaction();
 		session.save(testOffer);
 		session.getTransaction().commit();
 		
@@ -66,6 +64,11 @@ public class GetPlanTest {
 
 	@After
     public void after() {
-     sessionFactory.getCurrentSession().close();
+		session.beginTransaction();
+		if (testOffer != null) {
+			session.delete(testOffer);
+		}
+		session.getTransaction().commit();
+		session.close();
     }
 }
