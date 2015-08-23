@@ -34,7 +34,6 @@ public class ApiImagePoster {
 	private static final String DIR_TO_SAVE_IMAGES_TO = "/var/www/html/PSESoSe15Gruppe3-Daten/photos";
 	private static final String DIR_TO_SAVE_TO_DB = "https://i43pc164.ipd.kit.edu/PSESoSe15Gruppe3-Daten/photos/";
 	
-	
 	/**
 	 * Saves image in the db.
 	 * @param args The image, the mealid and a token identifying a user.
@@ -49,13 +48,24 @@ public class ApiImagePoster {
 		} catch (BadTokenException e) {
 			return Response.status(400).entity("bad token").build();
 		}
-
+		
+		return doImage(userid, args.getImage(), args.getMealId());
+	}
+	
+	/**
+	 * Split off for testing.
+	 * @param userid 
+	 * @param image 
+	 * @param mealid 
+	 * @return 
+	 */
+	public Response doImage(String userid, String image, int mealid) {
 		if (!User.hasUsesLeft(userid)) {
 			return Response.status(429).entity("merge/image limit exceeded").build();			
 		}
 
 		BufferedImage bufferedImage;
-	    byte[] decodedByte = Base64.decodeBase64(args.getImage());
+	    byte[] decodedByte = Base64.decodeBase64(image);
 	    InputStream in = new ByteArrayInputStream(decodedByte);
 		try {
 		    bufferedImage = ImageIO.read(in);
@@ -106,7 +116,7 @@ public class ApiImagePoster {
 		Session session = HibernateUtil.getSessionFactory().openSession();
 		session.beginTransaction();
 
-		ImageProposal imageProposal = new ImageProposal(userid, args.getMealId(), 
+		ImageProposal imageProposal = new ImageProposal(userid, mealid, 
 				DIR_TO_SAVE_TO_DB + slash + file.getName(), path, decodedByte);
 		session.save(imageProposal);
 		session.getTransaction().commit();
